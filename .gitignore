@@ -31,4 +31,20 @@ terraform.tfstate*
 data/geth/*/geth
 !data/geth/.gitkeep
 
+data/consul/agent/*
+!data/consul/bootstrap/.gitkeep
+data/consul/agent/*
+!data/consul/leader/.gitkeep
+data/consul/agent/*
+!data/consul/agent/.gitkeep
+
+data/db/*
+!data/db/.gitkeep
+
+data/rabbitmq/*
+!data/rabbitmq/.gitkeep
+
+data/vault/*
+!data/vault/.gitkeep
+
 .env

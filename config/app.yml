@@ -9,6 +9,8 @@ ssl:
 image:
   barong: gcr.io/zsmartex/barong:2.3.39
   peatio: gcr.io/zsmartex/peatio:2.3.43
+  postmaster: gcr.io/zsmartex/postmaster:2.0.0
+  z-maker: gcr.io/zsmartex/z-maker:1.0.0
 storage:
   provider: "Google"
   bucketName: "zsmart"
