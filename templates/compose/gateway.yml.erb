@@ -1,0 +1,37 @@
+version: '3.6'
+
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.9.0
+    networks:
+      - gateway-net
+      - proxy-net
+    configs:
+      - source: gateway_config
+        target: /etc/envoy/envoy.yaml
+    ports:
+      - '8099:8099'
+      - '9099:9099'
+    command: /usr/local/bin/envoy --v2-config-only -l info -c /etc/envoy/envoy.yaml
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: "PathPrefix:/api/, /admin, /admin-assets/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+        traefik.default.port: 8099
+        traefik.default.protocol: 'http'
+        traefik.wss.frontend.rule: "Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+        traefik.wss.protocol: 'ws'
+        traefik.docker.network: proxy-net
+        traefik.wss.port: 8099
+
+configs:
+  gateway_config:
+    file: ../config/gateway/envoy.yaml
+
+networks:
+  gateway-net:
+    driver: overlay
+    attachable: true
+    name: gateway-net
+  proxy-net:
+    external: true

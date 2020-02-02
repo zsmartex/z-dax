@@ -1,0 +1,31 @@
+app:
+  name: "ZDax"
+  manager_ip: "192.168.1.13"
+  domain: "test.local"
+  subdomain: "www"
+ssl:
+  enabled: false
+  email: "business@zsmart.tech"
+image:
+  barong: gcr.io/zsmartex/barong:2.3.39
+  peatio: gcr.io/zsmartex/peatio:2.3.43
+storage:
+  provider: "Google"
+  bucketName: "zsmart"
+  accessKey: "GOOGTQRI3JKKSPRV4XBKNPKZ"
+  secretKey: "xoaBinmXXTV+E6J/dceV+60yY62kOHW/EKDZYdad"
+terraform:
+  credentials: "~/safe/zdax.json"
+  project: "example-zdax"
+  region: "europe-west4"
+  zone: "europe-west4-a"
+  instance_name: "zdax-cloud"
+  machine_type: "n1-standard-4"
+  image: "debian-cloud/debian-9"
+twilio:
+  phone_number: "+18577635282"
+  account_sid: "AC9842e4cc2cfd0f21f93c7475f6d4723b"
+  auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
+sendgrid_api_key: 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
+vault_url: http://vault:8200
+vault_root_key: s.FybgZaKiT65GUYFQkXhp6b1C

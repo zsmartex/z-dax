@@ -1,0 +1,93 @@
+version: '3.6'
+
+services:
+  peatio:
+    image: "<%= @config['image']['peatio'] %>"
+    networks:
+      - autoscale-net
+      - backend-net
+      - gateway-net
+    env_file:
+      - ../config/peatio.env
+    volumes:
+      - peatio_seed:/root/project/config/seed
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '15'
+        swarm.autoscaler.minimum: '3'
+    command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
+
+  barong:
+    image: "<%= @config['image']['barong'] %>"
+    networks:
+      - autoscale-net
+      - backend-net
+      - gateway-net
+    env_file:
+      - ../config/barong.env
+    secrets:
+      - barong.key
+    volumes:
+      - barong_seed:/root/project/config/seed
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '15'
+        swarm.autoscaler.minimum: '3'
+
+  frontend:
+    image: pagespeed/nginx-pagespeed
+    networks:
+      - proxy-net
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/nginx.conf
+    volumes:
+      - frontend_data:/var/www/html
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['domain'] %>, <%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+        traefik.docker.network: proxy-net
+        traefik.port: 80
+
+volumes:
+  peatio_seed:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
+      device: "<%= @config['app']['manager_ip'] %>:/config/peatio/seed"
+
+  barong_seed:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
+      device: "<%= @config['app']['manager_ip'] %>:/config/barong/seed"
+
+  frontend_data:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
+      device: "<%= @config['app']['manager_ip'] %>:/data/frontend"
+
+configs:
+  nginx_config:
+    file: ../config/nginx/config.conf
+
+secrets:
+  barong.key:
+    file: ../config/secrets/barong.key
+
+networks:
+  autoscale-net:
+    external: true
+  backend-net:
+    external: true
+  gateway-net:
+    external: true
+  proxy-net:
+    external: true

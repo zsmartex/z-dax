@@ -1,0 +1,103 @@
+languages:
+- code: EN
+  name: English
+- code: RU
+  name: Russian
+
+keychain:
+  barong:
+    algorithm: RS256
+    value: "<%= @jwt_public_key %>"
+  peatio:
+    algorithm: RS256
+    value: "<%= @jwt_public_key %>"
+
+exchanges:
+  barong_system:
+    name: barong.events.system
+    signer: barong
+  barong_model:
+    name: barong.events.model
+    signer: barong
+  peatio:
+    name: peatio.events.model
+    signer: peatio
+
+events:
+- name: Email Confirmation
+  key: user.email.confirmation.token
+  exchange: barong_system
+  templates:
+    EN:
+      subject: Registration Confirmation
+      template_path: templates/en/email_confirmation.tpl
+    RU:
+      subject: Подтверждение Регистрации
+      template_path: templates/ru/email_confirmation.tpl
+
+- name: Password Reset
+  key: user.password.reset.token
+  exchange: barong_system
+  templates:
+    EN:
+      subject: Password Reset
+      template_path: templates/en/password_reset.tpl
+    RU:
+      subject: Сброс Пароля
+      template_path: templates/ru/password_reset.tpl
+
+- name: Label Created
+  key: label.created
+  exchange: barong_model
+  expression: |
+    record.key in ["phone", "profile", "document"] &&
+    record.value in ["verified", "rejected"]
+  templates:
+    EN:
+      subject: Account Details Updated
+      template_path: templates/en/label_created.tpl
+
+- name: Label Updated
+  key: label.updated
+  exchange: barong_model
+  expression: |
+    record.key in ["phone", "profile", "document"] &&
+    record.value in ["verified", "rejected"]
+  templates:
+    EN:
+      subject: Account Details Updated
+      template_path: templates/en/label_created.tpl
+
+- name: Deposit Accepted
+  key: deposit.updated
+  exchange: peatio
+  expression: changes.state == "submitted" && record.state == "accepted"
+  templates:
+    EN:
+      subject: Deposit Accepted
+      template_path: templates/en/deposit_accepted.tpl
+
+- name: Session Create
+  key: session.create
+  exchange: barong_system
+  templates:
+    EN:
+      subject: New Login
+      template_path: templates/en/session_create.tpl
+
+- name: Withdrawal Succeed
+  key: withdraw.updated
+  exchange: peatio
+  expression: changes.state in ["errored", "confirming"] && record.state == "succeed"
+  templates:
+    EN:
+      subject: Withdrawal Succeed
+      template_path: templates/en/withdraw_succeed.tpl
+
+- name: New Beneficiary
+  key: beneficiary.created
+  exchange: peatio
+  templates:
+    EN:
+      subject: New Beneficiary
+      template_path: templates/en/new_beneficiary.tpl

@@ -1,0 +1,20 @@
+{
+  "ui": true,
+  "backend": {
+    "consul": {
+      "address": "consul-bootstrap:8500",
+      "scheme" : "http",
+      "path": "vault/"
+    }
+  },
+  "listener": {
+    "tcp": {
+      "address": "0.0.0.0:8200",
+      "tls_disable": 1
+    }
+  },
+  "disable_mlock": true,
+  "default_lease_ttl": "168h",
+  "max_lease_ttl": "720h",
+  "log_level": "debug"
+}

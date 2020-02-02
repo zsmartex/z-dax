@@ -1,0 +1,54 @@
+version: '3.6'
+
+services:
+  traefik:
+    image: traefik:1.7.6
+    networks:
+      - consul-net
+      - proxy-net
+    ports:
+      - "80:80"
+      - "443:443"
+    configs:
+      - source: traefik_config
+        target: /etc/traefik/traefik.toml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+        preferences:
+          - spread: node.id
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: monitor.<%= @config['app']['domain'] %>'
+        traefik.docker.network: proxy-net
+        traefik.port: 8080
+
+  visualizer:
+    image: dockersamples/visualizer
+    networks:
+      - proxy-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: visualizer.<%= @config['app']['domain'] %>'
+        traefik.docker.network: proxy-net
+        traefik.port: 8080
+
+configs:
+  traefik_config:
+    file: ../config/traefik/config.toml
+
+networks:
+  proxy-net:
+    driver: overlay
+    name: proxy-net
+    attachable: true
+  consul-net:
+    external: true

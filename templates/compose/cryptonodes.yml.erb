@@ -1,0 +1,23 @@
+version: '3.6'
+
+services:
+  geth:
+    image: ethereum/client-go:stable
+    restart: always
+    command: |
+      --syncmode=full
+      --goerli
+      --rpc
+      --ipcdisable
+      --rpcaddr=0.0.0.0
+      --rpcport=8545
+      --port=30303
+      --cache=1024
+      --rpcapi="db,personal,eth,net,web3"
+      --rpccorsdomain="*"
+      --rpcvhosts="*"
+    volumes:
+      - ../data/geth:/root/.ethereum/
+    expose:
+      - "8545"
+      - "30303"

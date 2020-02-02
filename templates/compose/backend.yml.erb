@@ -1,0 +1,92 @@
+version: '3.6'
+
+services:
+  db:
+    image: mysql:5.7
+    networks:
+      - backend-net
+    ports:
+      - "3306:3306"
+    configs:
+      - source: mysql_config
+        target: /etc/mysql/conf.d/innodb.cnf
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: djtdjtdjtdjt
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    networks:
+      - backend-net
+      - proxy-net
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: djtdjtdjtdjt
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: pma.<%= @config['app']['domain'] %>'
+        traefik.docker.network: 'proxy-net'
+        traefik.port: 80
+
+  redis:
+    image: redis:4.0.10
+    networks:
+      - backend-net
+    volumes:
+      - redis_data:/data
+
+  rabbitmq:
+    image: rabbitmq:3.7.6-management
+    networks:
+      - backend-net
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  vault:
+    image: vault
+    networks:
+      - backend-net
+      - consul-net
+    environment:
+      SKIP_SETCAP: 1
+      VAULT_ADDR: http://vault:8200
+      VAULT_API_ADDR: http://vault:8200
+    ports:
+      - "8200:8200"
+    configs:
+      - source: vault_config
+        target: /vault/config/local.json
+    entrypoint: vault server -config=/vault/config/local.json
+
+volumes:
+  db_data:
+  rabbitmq_data:
+  redis_data:
+
+configs:
+  mysql_config:
+    file: ../config/mysql/innodb.cnf
+  vault_config:
+    file: ../config/vault/config.json
+
+networks:
+  backend-net:
+    driver: overlay
+    name: backend-net
+    attachable: true
+  proxy-net:
+    external: true
+  consul-net:
+    external: true

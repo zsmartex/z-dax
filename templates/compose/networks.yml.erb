@@ -1,0 +1,164 @@
+version: '3.6'
+
+services:
+  autoscaler:
+    image: jcwimer/docker-swarm-autoscaler:0.1.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - PROMETHEUS_URL=http://prometheus:9090
+    networks:
+      - autoscale-net
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+        reservations:
+          cpus: '0.10'
+          memory: 64M
+
+  cadvisor:
+    image: google/cadvisor:${CADVISOR_VERSION:-v0.25.0}
+    networks:
+      - autoscale-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+        reservations:
+          cpus: '0.10'
+          memory: 64M
+
+  prometheus:
+    image: prom/prometheus:v2.12.0
+    networks:
+      - autoscale-net
+    command: ["--storage.tsdb.retention.size=1GB", "--config.file=/etc/prometheus/prometheus.yml", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--web.enable-lifecycle"]
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.50'
+          memory: 128M
+
+  consul-bootstrap:
+    image: consul:latest
+    networks:
+      - consul-net
+    ports:
+      - 8500:8500
+    configs:
+      - source: consul_leader_config
+        target: /consul/config/config.json
+    volumes:
+      - consul_bootstrap_data:/consul/data
+    deploy:
+      replicas: 1
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: consul.<%= @config['app']['domain'] %>'
+        traefik.backend: 'consul-bootstrap'
+        traefik.docker.network: consul-net
+        traefik.port: 8500
+    command: agent -server -config-file=/consul/config/config.json -ui -disable-host-node-id=true
+
+  consul-leader:
+    image: consul:latest
+    networks:
+      - consul-net
+    configs:
+      - source: consul_leader_config
+        target: /consul/config/config.json
+    volumes:
+      - consul_leader_data:/consul/data
+    deploy:
+      replicas: 2
+      placement:
+        preferences:
+          - spread: node.id
+    command: agent -server -bootstrap -config-file=/consul/config/config.json -retry-join="consul-bootstrap" -disable-host-node-id=true
+
+  consul-agent:
+    image: consul:latest
+    networks:
+      - consul-net
+    configs:
+      - source: consul_agent_config
+        target: /consul/config/config.json
+    volumes:
+      - consul_agent_data:/consul/data
+    deploy:
+      replicas: 3
+      placement:
+        preferences:
+          - spread: node.id
+    command: agent -config-file=/consul/config/config.json -retry-join="consul-bootstrap" -disable-host-node-id=true
+
+volumes:
+  consul_bootstrap_data:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>"
+      device: "<%= @config['app']['manager_ip'] %>:/data/consul/bootstrap"
+  consul_leader_data:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>"
+      device: "<%= @config['app']['manager_ip'] %>:/data/consul/leader"
+  consul_agent_data:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>"
+      device: "<%= @config['app']['manager_ip'] %>:/data/consul/agent"
+
+configs:
+  prometheus_config:
+    file: "../config/prometheus/config.yml"
+  consul_bootstrap_config:
+    file: "../config/consul/bootstrap/config.json"
+  consul_leader_config:
+    file: "../config/consul/leader/config.json"
+  consul_agent_config:
+    file: ../config/consul/agent/config.json
+
+networks:
+  autoscale-net:
+    driver: overlay
+    attachable: true
+    name: autoscale-net
+    driver_opts:
+      encrypted: "true"
+  consul-net:
+    driver: overlay
+    attachable: true
+    name: consul-net
+    driver_opts:
+      encrypted: "true"
