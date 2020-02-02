@@ -1,0 +1,11 @@
+version: "3.6"
+
+services:
+  z-control:
+    image: "<%= @utils['image']['z-control'] %>"
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
