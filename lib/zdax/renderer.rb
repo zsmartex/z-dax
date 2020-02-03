@@ -54,5 +54,9 @@ module ZDax
     def config
       YAML.load_file('./config/app.yml')
     end
+
+    def utils
+      YAML.load_file('./config/utils.yml')
+    end
   end
 end
