@@ -1,6 +1,6 @@
 namespace :image do
   def config_image
-    @config['image']
+    @config['image'].merge(@utils['image'])
   end
 
   desc 'build app image'
