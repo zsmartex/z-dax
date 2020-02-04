@@ -23,6 +23,7 @@ module ZDax
       puts "Rendering #{out_file}"
 
       @config ||= config
+      @utils ||= utils
       @barong_key ||= OpenSSL::PKey::RSA.new(File.read(JWT_KEY), '')
       @jwt_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
       @jwt_public_key  ||= Base64.urlsafe_encode64(@barong_key.public_key.to_pem)

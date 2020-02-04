@@ -37,7 +37,7 @@ services:
       labels:
         traefik.enable: 'true'
         traefik.frontend.rule: 'Host: pma.<%= @config['app']['domain'] %>'
-        traefik.docker.network: 'proxy-net'
+        traefik.docker.network: proxy-net
         traefik.port: 80
 
   redis:
