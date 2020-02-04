@@ -74,7 +74,7 @@ volumes:
     driver_opts:
       type: "nfs4"
       o: "addr=<%= @config['app']['manager_ip'] %>,rw"
-      device: "<%= @config['app']['manager_ip'] %>:/data/mysql"
+      device: "<%= @config['app']['manager_ip'] %>:/data/db"
 
   rabbitmq_data:
     driver: "local"
