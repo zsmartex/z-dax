@@ -58,21 +58,21 @@ volumes:
     driver_opts:
       type: "nfs4"
       o: "addr=<%= @config['app']['manager_ip'] %>,ro"
-      device: "<%= @config['app']['manager_ip'] %>:/config/peatio/seed"
+      device: ":/config/peatio/seed"
 
   barong_seed:
     driver: "local"
     driver_opts:
       type: "nfs4"
       o: "addr=<%= @config['app']['manager_ip'] %>,ro"
-      device: "<%= @config['app']['manager_ip'] %>:/config/barong/seed"
+      device: ":/config/barong/seed"
 
   frontend_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
       o: "addr=<%= @config['app']['manager_ip'] %>,ro"
-      device: "<%= @config['app']['manager_ip'] %>:/data/frontend"
+      device: ":/data/frontend"
 
 configs:
   nginx_config:
