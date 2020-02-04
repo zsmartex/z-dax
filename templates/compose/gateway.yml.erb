@@ -9,9 +9,6 @@ services:
     configs:
       - source: gateway_config
         target: /etc/envoy/envoy.yaml
-    ports:
-      - '8099:8099'
-      - '9099:9099'
     command: /usr/local/bin/envoy --v2-config-only -l info -c /etc/envoy/envoy.yaml
     deploy:
       labels:
