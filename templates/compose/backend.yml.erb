@@ -73,22 +73,22 @@ volumes:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw"
-      device: "<%= @config['app']['manager_ip'] %>:/data/db"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/db"
 
   rabbitmq_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw"
-      device: "<%= @config['app']['manager_ip'] %>:/data/rabbitmq"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/rabbitmq"
 
   redis_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw"
-      device: "<%= @config['app']['manager_ip'] %>:/data/redis"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/redis"
 
 
 configs:

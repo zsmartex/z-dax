@@ -124,20 +124,20 @@ volumes:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>"
-      device: "<%= @config['app']['manager_ip'] %>:/data/consul/bootstrap"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/consul/bootstrap"
   consul_leader_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>"
-      device: "<%= @config['app']['manager_ip'] %>:/data/consul/leader"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/consul/leader"
   consul_agent_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>"
-      device: "<%= @config['app']['manager_ip'] %>:/data/consul/agent"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/consul/agent"
 
 configs:
   prometheus_config:
