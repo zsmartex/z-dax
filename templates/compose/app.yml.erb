@@ -71,7 +71,7 @@ volumes:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,ro"
       device: ":/data/frontend"
 
 configs:
