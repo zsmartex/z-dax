@@ -47,6 +47,9 @@ data/rabbitmq/*
 data/vault/*
 !data/vault/.gitkeep
 
+data/frontend/*
+!data/frontend/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
 
