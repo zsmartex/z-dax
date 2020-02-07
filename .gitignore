@@ -1,3 +1,5 @@
+.bundle
+
 config/gateway/mapping.yaml
 config/peatio/management_api_v1.yml
 config/barong/management_api_v1.yml
@@ -46,6 +48,9 @@ data/rabbitmq/*
 
 data/vault/*
 !data/vault/.gitkeep
+
+data/frontend/*
+!data/frontend/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

@@ -30,4 +30,4 @@ twilio:
   auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
 sendgrid_api_key: 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
 vault_url: http://vault:8200
-vault_root_key: s.FybgZaKiT65GUYFQkXhp6b1C
+vault_root_key: s.rBYJ0AUmxH7NeqanWoZ9IWPW
