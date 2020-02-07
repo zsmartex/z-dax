@@ -124,19 +124,19 @@ volumes:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/consul/bootstrap"
   consul_leader_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/consul/leader"
   consul_agent_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/consul/agent"
 
 configs:
