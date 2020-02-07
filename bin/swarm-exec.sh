@@ -47,7 +47,7 @@ function swarm_exec() {
     docker service create \
       --name ${SWARMEXEC_NAME} \
       --env-file config/${SWARMEXEC_NAME_R}.env \
-      --mount type=volume,source=${SWARMEXEC_NAME_R}_seed,target=/home/app/config/seed \
+      --mount type=volume,source=app_${SWARMEXEC_NAME_R}_seed,target=/home/app/config/seed \
       --network backend-net \
       --detach=true \
       --restart-condition none \
@@ -60,7 +60,7 @@ function swarm_exec() {
     docker service create \
       --name ${SWARMEXEC_NAME} \
       --env-file config/${SWARMEXEC_NAME_R}.env \
-      --mount type=volume,source=${SWARMEXEC_NAME_R}_seed,target=/home/app/config/seed \
+      --mount type=volume,source=app_${SWARMEXEC_NAME_R}_seed,target=/home/app/config/seed \
       --secret source=app_barong.key,target=/run/secrets/barong.key \
       --network backend-net \
       --detach=true \

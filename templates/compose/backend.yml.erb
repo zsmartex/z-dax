@@ -44,21 +44,36 @@ services:
     image: redis:4.0.10
     networks:
       - backend-net
+      - proxy-net
     volumes:
       - redis_data:/data
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: redis.<%= @config['app']['domain'] %>'
+        traefik.docker.network: proxy-net
+        traefik.port: 6379
 
   rabbitmq:
     image: rabbitmq:3.7.6-management
     networks:
       - backend-net
+      - proxy-net
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: rabbitmq.<%= @config['app']['domain'] %>'
+        traefik.docker.network: proxy-net
+        traefik.port: 5672
 
   vault:
     image: vault
     networks:
       - backend-net
       - consul-net
+      - proxy-net
     environment:
       SKIP_SETCAP: 1
       VAULT_ADDR: http://vault:8200
@@ -67,6 +82,12 @@ services:
       - source: vault_config
         target: /vault/config/local.json
     entrypoint: vault server -config=/vault/config/local.json
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: 'Host: vault.<%= @config['app']['domain'] %>'
+        traefik.docker.network: proxy-net
+        traefik.port: 8200
 
 volumes:
   db_data:

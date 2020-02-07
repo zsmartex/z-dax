@@ -122,52 +122,17 @@ namespace :service do
 
   desc '[Optional] Run peatio daemons (ranger, peatio daemons)'
   task :daemons, [:command] do |task, args|
-    @daemons = %w[ranger market_ticker withdraw_audit blockchain global_state deposit_collection deposit_collection_fees deposit_coin_address pusher_market pusher_member matching slave_book order_processor trade_executor withdraw_coin k]
-
     args.with_defaults(:command => 'start')
 
     def start
-      puts '----- Starting peatio daemons -----'
-      sh "docker-compose up -d --build #{@daemons.join(' ')}"
+      Rake::Task["service:app"].invoke('start') unless is_service_running?('app_peatio')
+      puts '----- Starting Daemons -----'
+      sh 'docker stack deploy -c compose/daemons.yml daemons --with-registry-auth'
     end
 
     def stop
-      puts '----- Stopping peatio daemons -----'
-      sh "docker-compose rm -fs #{@daemons.join(' ')}"
-    end
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
-  desc 'Run the frontend application'
-  task :frontend, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting the frontend -----'
-      sh 'docker-compose up -d frontend'
-    end
-
-    def stop
-      puts '----- Stopping the frontend -----'
-      sh 'docker-compose rm -fs frontend'
-    end
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
-  desc '[Optional] Run utils (postmaster)'
-  task :utils, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting utils -----'
-      sh 'docker-compose up -d --build postmaster'
-    end
-
-    def stop
-      puts '----- Stopping Utils -----'
-      sh 'docker-compose rm -fs postmaster'
+      puts '----- Stopping Daemons -----'
+      sh 'docker stack rm daemons'
     end
 
     @switch.call(args, method(:start), method(:stop))
