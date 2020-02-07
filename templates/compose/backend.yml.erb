@@ -37,7 +37,7 @@ services:
       labels:
         traefik.enable: 'true'
         traefik.frontend.rule: 'Host: pma.<%= @config['app']['domain'] %>'
-        traefik.docker.network: 'proxy-net'
+        traefik.docker.network: proxy-net
         traefik.port: 80
 
   redis:
@@ -47,12 +47,6 @@ services:
       - proxy-net
     volumes:
       - redis_data:/data
-    deploy:
-      labels:
-        traefik.enable: 'true'
-        traefik.frontend.rule: 'Host: redis.<%= @config['app']['domain'] %>'
-        traefik.docker.network: proxy-net
-        traefik.port: 6379
 
   rabbitmq:
     image: rabbitmq:3.7.6-management
@@ -66,7 +60,7 @@ services:
         traefik.enable: 'true'
         traefik.frontend.rule: 'Host: rabbitmq.<%= @config['app']['domain'] %>'
         traefik.docker.network: proxy-net
-        traefik.port: 5672
+        traefik.port: 15672
 
   vault:
     image: vault
@@ -94,23 +88,22 @@ volumes:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/db"
 
   rabbitmq_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/rabbitmq"
 
   redis_data:
     driver: "local"
     driver_opts:
       type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,rw,async,no_subtree_check,no_auth_nlm,insecure,no_root_squash"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/redis"
-
 
 configs:
   mysql_config:
