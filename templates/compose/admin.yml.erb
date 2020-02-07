@@ -1,0 +1,19 @@
+version: "3.6"
+
+services:
+  z-control:
+    image: "<%= @utils['image']['z-control'] %>"
+    ports:
+      - '3000:3000'
+    networks:
+      - proxy-net
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.frontend.rule: "PathPrefix:/zsmartcheck;Host: www.<%= @config['app']['domain'] %>"
+        traefik.docker.network: proxy-net
+        traefik.port: 3000
+
+networks:
+  proxy-net:
+    external: true
