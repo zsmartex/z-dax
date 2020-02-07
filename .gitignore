@@ -1,3 +1,5 @@
+.bundle
+
 config/gateway/mapping.yaml
 config/peatio/management_api_v1.yml
 config/barong/management_api_v1.yml
