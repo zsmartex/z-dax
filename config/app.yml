@@ -1,14 +1,14 @@
 app:
   name: "ZDax"
-  manager_ip: "192.168.1.13"
+  manager_ip: "192.168.1.5"
   domain: "test.local"
   subdomain: "www"
 ssl:
   enabled: false
   email: "business@zsmart.tech"
 image:
-  barong: gcr.io/zsmartex/barong:2.3.39
-  peatio: gcr.io/zsmartex/peatio:2.3.43
+  barong: gcr.io/zsmartex/barong:2.4.0
+  peatio: gcr.io/zsmartex/peatio:2.4.0
   postmaster: gcr.io/zsmartex/postmaster:2.0.0
   z-maker: gcr.io/zsmartex/z-maker:1.0.0
 storage:
@@ -28,6 +28,10 @@ twilio:
   phone_number: "+18577635282"
   account_sid: "AC9842e4cc2cfd0f21f93c7475f6d4723b"
   auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
+vault:
+  url: http://vault:8200
+  token: s.rBYJ0AUmxH7NeqanWoZ9IWPW
+recaptcha:
+  siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
+  secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
 sendgrid_api_key: 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
-vault_url: http://vault:8200
-vault_root_key: s.rBYJ0AUmxH7NeqanWoZ9IWPW
