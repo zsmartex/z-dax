@@ -26,7 +26,7 @@ namespace :service do
     end
   end
 
-  desc 'Run consul (cluster mananger)'
+  desc 'Run autoscaler'
   task :networks, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
@@ -48,7 +48,7 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:networks"].invoke('start') unless is_service_running?('networks_consul-leader')
+      Rake::Task["service:networks"].invoke('start') unless is_service_running?('networks_autoscaler')
       puts '----- Starting the proxy -----'
       sh 'docker stack deploy -c compose/proxy.yml proxy'
       sleep 10 # time for visualizer to start, we can get connection refused without sleeping

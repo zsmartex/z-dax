@@ -1,16 +1,21 @@
-version: '3.6'
+version: '3.7'
 
 services:
   envoy:
-    image: envoyproxy/envoy:v1.9.0
+    image: envoyproxy/envoy:v1.10.0
     networks:
       - gateway-net
       - proxy-net
     configs:
       - source: gateway_config
         target: /etc/envoy/envoy.yaml
-    command: /usr/local/bin/envoy --v2-config-only -l info -c /etc/envoy/envoy.yaml
+    command: /usr/local/bin/envoy -l info -c /etc/envoy/envoy.yaml
     deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
       labels:
         traefik.enable: 'true'
         traefik.frontend.rule: "PathPrefix:/api/, /admin, /admin-assets/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"

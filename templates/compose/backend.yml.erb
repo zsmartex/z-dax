@@ -68,7 +68,6 @@ services:
     image: vault
     networks:
       - backend-net
-      - consul-net
       - proxy-net
     environment:
       SKIP_SETCAP: 1
@@ -119,6 +118,4 @@ networks:
     name: backend-net
     attachable: true
   proxy-net:
-    external: true
-  consul-net:
     external: true
