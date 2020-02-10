@@ -74,6 +74,7 @@ static_resources:
                     - exact: from
                     - exact: x-forwarded-proto
                     - exact: proxy-authorization
+                    - exact: x-csrf-token
                 authorization_response:
                   allowed_upstream_headers:
                     patterns:
