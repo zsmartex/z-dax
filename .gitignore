@@ -51,6 +51,9 @@ data/frontend/*
 data/influxdb/*
 !data/influxdb/.gitkeep
 
+data/ssl/*
+!data/ssl/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
 

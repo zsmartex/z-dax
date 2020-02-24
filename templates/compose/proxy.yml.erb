@@ -13,6 +13,7 @@ services:
         target: /etc/traefik/traefik.toml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      <%= '- ssl_folder:/ssl' if @config['ssl']['enabled'] %>
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -43,6 +44,14 @@ services:
 configs:
   traefik_config:
     file: ../config/traefik/config.toml
+
+volumes:
+  ssl_folder:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/ssl"
 
 networks:
   proxy-net:
