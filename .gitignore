@@ -33,13 +33,6 @@ terraform.tfstate*
 data/geth/*/geth
 !data/geth/.gitkeep
 
-data/consul/bootstrap/*
-!data/consul/bootstrap/.gitkeep
-data/consul/leader/*
-!data/consul/leader/.gitkeep
-data/consul/agent/*
-!data/consul/agent/.gitkeep
-
 data/db/*
 !data/db/.gitkeep
 
@@ -54,6 +47,9 @@ data/vault/*
 
 data/frontend/*
 !data/frontend/.gitkeep
+
+data/influxdb/*
+!data/influxdb/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

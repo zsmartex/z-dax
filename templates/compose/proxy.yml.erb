@@ -4,7 +4,6 @@ services:
   traefik:
     image: traefik:1.7.6
     networks:
-      - consul-net
       - proxy-net
     ports:
       - "80:80"
@@ -50,5 +49,3 @@ networks:
     driver: overlay
     name: proxy-net
     attachable: true
-  consul-net:
-    external: true

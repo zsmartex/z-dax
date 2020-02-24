@@ -5,8 +5,6 @@ services:
     image: mysql:5.7
     networks:
       - backend-net
-    ports:
-      - "3306:3306"
     configs:
       - source: mysql_config
         target: /etc/mysql/conf.d/innodb.cnf
@@ -41,14 +39,15 @@ services:
         traefik.port: 80
 
   redis:
-    image: redis:4.0.10
-    ports:
-      - "6379:6379"
+    image: bitnami/redis:4.0.14-ol-7-r33
+    environment:
+      REDIS_REPLICATION_MODE: 'master'
+      REDIS_PASSWORD: 'djtdjtdjtdjt'
     networks:
       - backend-net
       - proxy-net
     volumes:
-      - redis_data:/data
+      - redis_data:/bitnami/redis/data
 
   rabbitmq:
     image: rabbitmq:3.7.6-management
@@ -68,7 +67,6 @@ services:
     image: vault
     networks:
       - backend-net
-      - consul-net
       - proxy-net
     environment:
       SKIP_SETCAP: 1
@@ -84,6 +82,20 @@ services:
         traefik.frontend.rule: 'Host: vault.<%= @config['app']['domain'] %>'
         traefik.docker.network: proxy-net
         traefik.port: 8200
+
+  influxdb:
+    image: influxdb:1.7.8
+    networks:
+      - backend-net
+    environment:
+      INFLUXDB_ADMIN_ENABLED: "true"
+    configs:
+      - source: influxdb_build_candles
+        target: /build_candles.sql
+      - source: influxdb_config
+        target: /influxdb.sql
+    volumes:
+      - influxdb_data:/var/lib/influxdb
 
 volumes:
   db_data:
@@ -107,11 +119,23 @@ volumes:
       o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/redis"
 
+  influxdb_data:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/data/influxdb"
+
 configs:
   mysql_config:
     file: ../config/mysql/innodb.cnf
   vault_config:
     file: ../config/vault/config.json
+  influxdb_config:
+    file: ../config/influxdb/influxdb.sql
+  influxdb_build_candles:
+    file: ../config/influxdb/build_candles.sql
+
 
 networks:
   backend-net:
@@ -119,6 +143,4 @@ networks:
     name: backend-net
     attachable: true
   proxy-net:
-    external: true
-  consul-net:
     external: true

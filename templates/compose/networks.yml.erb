@@ -66,99 +66,14 @@ services:
           cpus: '0.50'
           memory: 128M
 
-  consul-bootstrap:
-    image: consul:latest
-    networks:
-      - consul-net
-    ports:
-      - 8500:8500
-    configs:
-      - source: consul_leader_config
-        target: /consul/config/config.json
-    volumes:
-      - consul_bootstrap_data:/consul/data
-    deploy:
-      replicas: 1
-      labels:
-        traefik.enable: 'true'
-        traefik.frontend.rule: 'Host: consul.<%= @config['app']['domain'] %>'
-        traefik.backend: 'consul-bootstrap'
-        traefik.docker.network: consul-net
-        traefik.port: 8500
-    command: agent -server -config-file=/consul/config/config.json -ui -disable-host-node-id=true
-
-  consul-leader:
-    image: consul:latest
-    networks:
-      - consul-net
-    configs:
-      - source: consul_leader_config
-        target: /consul/config/config.json
-    volumes:
-      - consul_leader_data:/consul/data
-    deploy:
-      replicas: 2
-      placement:
-        preferences:
-          - spread: node.id
-    command: agent -server -bootstrap -config-file=/consul/config/config.json -retry-join="consul-bootstrap" -disable-host-node-id=true
-
-  consul-agent:
-    image: consul:latest
-    networks:
-      - consul-net
-    configs:
-      - source: consul_agent_config
-        target: /consul/config/config.json
-    volumes:
-      - consul_agent_data:/consul/data
-    deploy:
-      replicas: 3
-      placement:
-        preferences:
-          - spread: node.id
-    command: agent -config-file=/consul/config/config.json -retry-join="consul-bootstrap" -disable-host-node-id=true
-
-volumes:
-  consul_bootstrap_data:
-    driver: "local"
-    driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/consul/bootstrap"
-  consul_leader_data:
-    driver: "local"
-    driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/consul/leader"
-  consul_agent_data:
-    driver: "local"
-    driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/consul/agent"
-
 configs:
   prometheus_config:
     file: "../config/prometheus/config.yml"
-  consul_bootstrap_config:
-    file: "../config/consul/bootstrap/config.json"
-  consul_leader_config:
-    file: "../config/consul/leader/config.json"
-  consul_agent_config:
-    file: ../config/consul/agent/config.json
 
 networks:
   autoscale-net:
     driver: overlay
     attachable: true
     name: autoscale-net
-    driver_opts:
-      encrypted: "true"
-  consul-net:
-    driver: overlay
-    attachable: true
-    name: consul-net
     driver_opts:
       encrypted: "true"
