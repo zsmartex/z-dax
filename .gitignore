@@ -48,6 +48,9 @@ data/vault/*
 data/frontend/*
 !data/frontend/.gitkeep
 
+data/influxdb/*
+!data/influxdb/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
 

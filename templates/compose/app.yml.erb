@@ -10,12 +10,7 @@ services:
     env_file:
       - ../config/peatio.env
     volumes:
-      - peatio_seed:/root/project/config/seed
-    deploy:
-      labels:
-        swarm.autoscaler: 'true'
-        swarm.autoscaler.maximum: '15'
-        swarm.autoscaler.minimum: '3'
+      - peatio_seed:/home/app/config/seed
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
@@ -29,12 +24,7 @@ services:
     secrets:
       - barong.key
     volumes:
-      - barong_seed:/root/project/config/seed
-    deploy:
-      labels:
-        swarm.autoscaler: 'true'
-        swarm.autoscaler.maximum: '15'
-        swarm.autoscaler.minimum: '3'
+      - barong_seed:/home/app/config/seed
 
   frontend:
     image: pagespeed/nginx-pagespeed

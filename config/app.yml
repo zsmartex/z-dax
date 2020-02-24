@@ -34,4 +34,19 @@ vault:
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
+daemons:
+  withdraw_audit: false
+  blockchain: false
+  global_state: true
+  deposit_collection: false
+  deposit_collection_fees: false
+  deposit_coin_address: false
+  market_ticker: true
+  matching: true
+  slave_book: true
+  order_processor: true
+  trade_executor: true
+  withdraw_coin: false
+  k: true
+  influx_writer: true
 sendgrid_api_key: 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

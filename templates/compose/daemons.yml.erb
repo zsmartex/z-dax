@@ -10,65 +10,89 @@ x-daemon: &peatio-daemon
     - peatio_seed:/home/app/config/seed
 
 services:
+<% if @config['daemons']['withdraw_audit'] -%>
   withdraw_audit:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb withdraw_audit"
+<% end -%>
 
+<% if @config['daemons']['blockchain'] -%>
   blockchain:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
+<% end -%>
 
+<% if @config['daemons']['global_state'] -%>
   global_state:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb global_state"
+<% end -%>
 
+<% if @config['daemons']['deposit_collection'] -%>
   deposit_collection:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_collection"
+<% end -%>
 
+<% if @config['daemons']['deposit_collection_fees'] -%>
   deposit_collection_fees:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_collection_fees"
+<% end -%>
 
+<% if @config['daemons']['deposit_coin_address'] -%>
   deposit_coin_address:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
+<% end -%>
 
+<% if @config['daemons']['market_ticker'] -%>
   market_ticker:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
+<% end -%>
 
+<% if @config['daemons']['matching'] -%>
   matching:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb matching"
+<% end -%>
 
+<% if @config['daemons']['slave_book'] -%>
   slave_book:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb slave_book"
+<% end -%>
 
+<% if @config['daemons']['order_processor'] -%>
   order_processor:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb order_processor"
+<% end -%>
 
+<% if @config['daemons']['trade_executor'] -%>
   trade_executor:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb trade_executor"
+<% end -%>
 
+<% if @config['daemons']['withdraw_coin'] -%>
   withdraw_coin:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb withdraw_coin"
+<% end -%>
 
-  pusher_market:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb pusher_market"
-
-  pusher_member:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb pusher_member"
-
+<% if @config['daemons']['k'] -%>
   k:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb k"
+<% end -%>
+
+<% if @config['daemons']['influx_writer'] -%>
+  influx_writer:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb influx_writer"
+<% end -%>
 
   ranger:
     image: "<%= @config['image']['peatio'] %>"

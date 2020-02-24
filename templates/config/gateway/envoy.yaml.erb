@@ -46,7 +46,14 @@ static_resources:
                 route:
                   cluster: peatio
               - match:
-                  prefix: "/api/v2/websocket"
+                  prefix: "/api/v2/websocket/public"
+                route:
+                  cluster: ranger
+                  prefix_rewrite: "/"
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
+                  prefix: "/api/v2/websocket/private"
                 route:
                   cluster: ranger
                   prefix_rewrite: "/"
