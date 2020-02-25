@@ -3,11 +3,7 @@ namespace :service do
   ENV['MANAGER_IP'] = @config['app']['manager_ip']
 
   def is_service_running?(service)
-    uri = URI("http://#{ENV['MANAGER_IP']}:2375/services/#{service}")
-    http = Net::HTTP.new(uri.host, uri.port)
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
+    response = Net::HTTP.get_response(URI("http://#{ENV['MANAGER_IP']}:2375/services/#{service}"))
 
     return response.code.to_i == 200
   end

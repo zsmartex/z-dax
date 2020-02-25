@@ -38,7 +38,7 @@ services:
     deploy:
       labels:
         traefik.enable: 'true'
-        traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['domain'] %>, <%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+        traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
         traefik.docker.network: proxy-net
         traefik.port: 80
 
