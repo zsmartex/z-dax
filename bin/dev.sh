@@ -12,3 +12,10 @@ docker run --rm -itd --name nfs --privileged -v /home/app/project:/nfs.1 -e SHAR
 docker stack deploy --with-registry-auth
 
 docker run --rm -itd --name nfs --privileged -v $PWD:/nfs.1 -e SHARED_DIRECTORY=/nfs.1 -p 0.0.0.0:2049:2049 itsthenetwork/nfs-server-alpine:latest
+
+cp -v *.pem ~/.docker
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --tlsverify --tlscacert=/home/huuhadz2k/.docker/ca.pem --tlscert=/home/huuhadz2k/.docker/server-cert.pem --tlskey=/home/huuhadz2k/.docker/server-key.pem \
+  -H=0.0.0.0:2376

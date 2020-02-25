@@ -54,6 +54,9 @@ data/influxdb/*
 data/ssl/*
 !data/ssl/.gitkeep
 
+config/docker_certs/*
+!config/docker_certs/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
 

@@ -1,6 +1,6 @@
 app:
   name: "ZDax"
-  manager_ip: "192.168.1.5"
+  manager_ip: "127.0.0.1"
   domain: "test.local"
   subdomain: "www"
 ssl:
