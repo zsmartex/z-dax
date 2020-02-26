@@ -1,24 +1,11 @@
-require 'net/http'
-require 'openssl'
-require 'uri'
+require_relative '../docker_api'
 
 namespace :service do
   ENV['APP_DOMAIN'] = @config['app']['domain']
   ENV['MANAGER_IP'] = @config['app']['manager_ip']
-  DEFAULT_OPTIONS = {
-    use_ssl: true,
-    verify_mode: OpenSSL::SSL::VERIFY_PEER,
-    keep_alive_timeout: 30,
-    cert: OpenSSL::X509::Certificate.new(File.read("./config/docker_certs/cert.pem")),
-    key: OpenSSL::PKey::RSA.new(File.read("./config/docker_certs/key.pem")),
-    ca_file: File.join("./config/docker_certs/", "ca.pem")
-  }
 
   def is_service_running?(service)
-    http = Net::HTTP.start("docker.local", 2376, DEFAULT_OPTIONS)
-    response = http.request Net::HTTP::Get.new "/services/#{service}"
-
-    return response.code.to_i == 200
+    DockerAPI.new.send_request("/services/#{service}")
   end
 
   @switch = Proc.new do |args, start, stop|

@@ -1,4 +1,4 @@
-require 'net/http'
+require_relative '../docker_api'
 
 namespace :db do
   ENV['MANAGER_IP'] = @config['app']['manager_ip']
@@ -12,23 +12,11 @@ namespace :db do
     volume_suffix = "seed"
     volume_name = [volume_prefix, name, volume_suffix].join("_")
 
-    uri = URI("http://#{ENV['MANAGER_IP']}:2375/volumes/#{volume_name}")
-    http = Net::HTTP.new(uri.host, uri.port)
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-
-    return response.code.to_i == 200
+    DockerAPI.new.send_request("/volumes/#{volume_name}")
   end
 
   def is_mysql_running?
-    uri = URI("http://#{ENV['MANAGER_IP']}:2375/services/backend_db")
-    http = Net::HTTP.new(uri.host, uri.port)
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-
-    return response.code.to_i == 200
+    DockerAPI.new.send_request("/services/backend_db")
   end
 
   def start_mysql_service

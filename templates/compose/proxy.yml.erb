@@ -6,13 +6,20 @@ services:
     networks:
       - proxy-net
     ports:
-      - "80:80"
-      - "443:443"
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
     configs:
       - source: traefik_config
         target: /etc/traefik/traefik.toml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - docker_certs:/docker_certs
       <%= '- ssl_folder:/ssl' if @config['ssl']['enabled'] %>
     deploy:
       placement:
@@ -52,6 +59,13 @@ volumes:
       type: "nfs4"
       o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
       device: ":/data/ssl"
+
+  docker_certs:
+    driver: "local"
+    driver_opts:
+      type: "nfs4"
+      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
+      device: ":/config/docker_certs"
 
 networks:
   proxy-net:
