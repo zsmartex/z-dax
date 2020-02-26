@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  z-maker-ethusdt:
+    image: "<%= @config['image']['z-maker'] %>"
+    networks:
+      - backend-net
+    configs:
+      - source: z-maker-ethusdt-config
+        target: /home/app/config/app.yml
+
+configs:
+  z-maker-ethusdt-config:
+    file: ../config/z-maker/ethusdt.yml
+
+networks:
+  backend-net:
+    external: true

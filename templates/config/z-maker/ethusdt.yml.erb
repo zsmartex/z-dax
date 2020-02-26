@@ -1,0 +1,22 @@
+strategy:
+  type: maker
+  source: "binance"
+  target: "zsmart"
+  volume_ratio: 0.1
+  depth_limit: 50
+  market: "ethusdt"
+  trader_id_list: [1]
+mysql:
+  host: "db"
+  user: "root"
+  password: "djtdjtdjtdjt"
+  database: "peatio_production"
+exchange:
+  - name: "zsmart"
+    api_url: "http://demo.zsmart.tech/api/v2/trade"
+    api_key: "7c5ea8bb1377122a"
+    api_secret: "444232606e212ab0f30e198112caf782"
+  - name: "binance"
+    api_url: "" #soon
+    api_key: "zNYqqYvy89g849NYVT0YJMVxtRav476j6hDjD0LIHPmXgLfwHDdvD1EkHpu9xYiT"
+    api_secret: "w9SbWnChYiYNcFue1e2DjWHcBxrZpz4Gd5XENx4xqogP6lwAX9j2zqIQdt2PK26R"
