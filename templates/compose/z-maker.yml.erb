@@ -1,7 +1,7 @@
 version: '3.6'
 
 services:
-  z-maker-ethusdt:
+  ethusdt:
     image: "<%= @config['image']['z-maker'] %>"
     networks:
       - backend-net
@@ -10,7 +10,7 @@ services:
         target: /home/app/config/app.yml
 
 configs:
-  z-maker-ethusdt-config:
+  ethusdt-config:
     file: ../config/z-maker/ethusdt.yml
 
 networks:
