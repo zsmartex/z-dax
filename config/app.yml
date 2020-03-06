@@ -30,7 +30,7 @@ twilio:
   auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
 vault:
   url: http://vault:8200
-  token: s.ffDnqBOoQAyOOptMWCDeZeQ1
+  token: s.Syal4b4mXnHB8j5Uky5dJKjC
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI

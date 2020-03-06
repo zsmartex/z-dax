@@ -22,6 +22,8 @@ config/peatio/seed/*
 !config/peatio/seed/.gitkeep
 config/postmaster/*
 !config/postmaster/.gitkeep
+config/z-maker/*
+!config/z-maker/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
