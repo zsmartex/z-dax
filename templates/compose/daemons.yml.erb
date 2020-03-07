@@ -94,27 +94,6 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb influx_writer"
 <% end -%>
 
-  ranger:
-    image: "<%= @config['image']['peatio'] %>"
-    networks:
-      - backend-net
-      - gateway-net
-    env_file:
-      - ../config/ranger.env
-    ports:
-      - "8080:8080"
-    command: bash -c "bundle exec peatio service start ranger"
-
-  postmaster:
-    image: "<%= @config['image']['postmaster'] %>"
-    networks:
-      - backend-net
-    env_file:
-      - ../config/postmaster.env
-    configs:
-      - source: postmaster_config
-        target: /app/config/postmaster.yml
-
 volumes:
   peatio_seed:
     driver: "local"
@@ -123,12 +102,6 @@ volumes:
       o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,ro"
       device: ":/config/peatio/seed"
 
-configs:
-  postmaster_config:
-    file: ../config/postmaster/postmaster.yml
-
 networks:
   backend-net:
-    external: true
-  gateway-net:
     external: true
