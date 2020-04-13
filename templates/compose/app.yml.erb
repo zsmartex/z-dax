@@ -4,7 +4,6 @@ services:
   peatio:
     image: "<%= @config['image']['peatio'] %>"
     networks:
-      - autoscale-net
       - backend-net
       - gateway-net
     env_file:
@@ -16,7 +15,6 @@ services:
   barong:
     image: "<%= @config['image']['barong'] %>"
     networks:
-      - autoscale-net
       - backend-net
       - gateway-net
     env_file:
@@ -29,28 +27,15 @@ services:
   ranger:
     image: "<%= @config['image']['peatio'] %>"
     networks:
-      - autoscale-net
       - backend-net
       - gateway-net
     env_file:
       - ../config/ranger.env
     command: bash -c "bundle exec peatio service start ranger"
 
-  postmaster:
-    image: "<%= @config['image']['postmaster'] %>"
-    networks:
-      - autoscale-net
-      - backend-net
-    env_file:
-      - ../config/postmaster.env
-    configs:
-      - source: postmaster_config
-        target: /app/config/postmaster.yml
-
   frontend:
     image: pagespeed/nginx-pagespeed
     networks:
-      - autoscale-net
       - proxy-net
     configs:
       - source: nginx_config
@@ -86,8 +71,6 @@ volumes:
       device: ":/data/frontend"
 
 configs:
-  postmaster_config:
-    file: ../config/postmaster/postmaster.yml
   nginx_config:
     file: ../config/nginx/config.conf
 
@@ -96,8 +79,6 @@ secrets:
     file: ../config/secrets/barong.key
 
 networks:
-  autoscale-net:
-    external: true
   backend-net:
     external: true
   gateway-net:
