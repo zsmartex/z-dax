@@ -9,8 +9,6 @@ ssl:
 image:
   barong: gcr.io/zsmartex/barong:2.4.0
   peatio: gcr.io/zsmartex/peatio:2.4.0
-  postmaster: gcr.io/zsmartex/postmaster:2.0.0
-  z-maker: gcr.io/zsmartex/z-maker:1.0.0
 storage:
   provider: "Google"
   bucketName: "zsmart"
@@ -35,18 +33,21 @@ recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
 daemons:
+  # Blockchain services
   withdraw_audit: false
   blockchain: false
-  global_state: true
   deposit_collection: false
   deposit_collection_fees: false
   deposit_coin_address: false
-  market_ticker: true
+  withdraw_coin: false
+  # Job
+  influx_writer: true
+  upstream: true
+  cron_job: true
+  # Job
+  global_price: true
+  # Matching engine
   matching: true
-  slave_book: true
   order_processor: true
   trade_executor: true
-  withdraw_coin: false
-  k: true
-  influx_writer: true
 sendgrid_api_key: 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

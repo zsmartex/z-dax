@@ -1,0 +1,47 @@
+http:
+  middlewares:
+    http-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    domian-redirect:
+      redirectRegex:
+        regex: "^https://<%= @config['app']['domain'] %>/(.*)"
+        replacement: "https://<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>/${1}"
+        permanent: true
+
+entryPoints:
+  web:
+    address: 80
+<% if @config['ssl']['enabled'] -%>
+    http:
+      redirections:
+        entrypoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: 443
+<% end -%>
+
+<% if @config['ssl']['enabled'] -%>
+tls:
+  certificates:
+    - certFile: /ssl/ssl.crt
+      keyFile: /ssl/ssl.key
+<% end -%>
+
+api:
+  insecure: true
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedbydefault: false
+    useBindPortIP: true
+    swarmMode: true
+    watch: true
+    network: proxy-net
+
+log:
+  level: DEBUG

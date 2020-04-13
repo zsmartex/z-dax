@@ -17,14 +17,9 @@ services:
         max_attempts: 3
         window: 120s
       labels:
-        traefik.enable: 'true'
-        traefik.frontend.rule: "PathPrefix:/api/, /admin, /admin-assets/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
-        traefik.default.port: 8099
-        traefik.default.protocol: 'http'
-        traefik.wss.frontend.rule: "Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
-        traefik.wss.protocol: 'ws'
-        traefik.docker.network: proxy-net
-        traefik.wss.port: 8099
+        - "traefik.http.routers.gateway-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/api`,`/admin`,`/admin-assets/`)"
+        - "traefik.http.services.gateway-<%= @name %>.loadbalancer.server.port=8099"
+        - "traefik.enable=true"
 
 configs:
   gateway_config:

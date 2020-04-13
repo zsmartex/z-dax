@@ -59,10 +59,9 @@ services:
       - frontend_data:/var/www/html
     deploy:
       labels:
-        traefik.enable: 'true'
-        traefik.frontend.rule: "PathPrefix:/;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
-        traefik.docker.network: proxy-net
-        traefik.port: 80
+        - "traefik.http.routers.frontend-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
+        - "traefik.http.services.frontend-<%= @name %>.loadbalancer.server.port=80"
+        - "traefik.enable=true"
 
 volumes:
   peatio_seed:

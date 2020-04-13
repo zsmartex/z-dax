@@ -22,10 +22,16 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
 <% end -%>
 
-<% if @config['daemons']['global_state'] -%>
-  global_state:
+<% if @config['daemons']['cron_job'] -%>
+  cron_job:
     << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb global_state"
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb cron_job"
+<% end -%>
+
+<% if @config['daemons']['upstream'] -%>
+  upstream:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb upstream"
 <% end -%>
 
 <% if @config['daemons']['deposit_collection'] -%>
@@ -46,22 +52,10 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
 <% end -%>
 
-<% if @config['daemons']['market_ticker'] -%>
-  market_ticker:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
-<% end -%>
-
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb matching"
-<% end -%>
-
-<% if @config['daemons']['slave_book'] -%>
-  slave_book:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb slave_book"
 <% end -%>
 
 <% if @config['daemons']['order_processor'] -%>
@@ -80,12 +74,6 @@ services:
   withdraw_coin:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb withdraw_coin"
-<% end -%>
-
-<% if @config['daemons']['k'] -%>
-  k:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb k"
 <% end -%>
 
 <% if @config['daemons']['influx_writer'] -%>
