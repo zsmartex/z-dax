@@ -1,8 +1,6 @@
 require_relative '../docker_api'
 
 namespace :db do
-  ENV['MANAGER_IP'] = @config['app']['manager_ip']
-
   def mysql_cli
     return "mysql -u root -h db -P 3306 -pdjtdjtdjtdjt"
   end

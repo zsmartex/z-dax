@@ -1,9 +1,6 @@
 require_relative '../docker_api'
 
 namespace :service do
-  ENV['APP_DOMAIN'] = @config['app']['domain']
-  ENV['MANAGER_IP'] = @config['app']['manager_ip']
-
   def is_service_running?(service)
     DockerAPI.new.send_request("/services/#{service}")
   end
