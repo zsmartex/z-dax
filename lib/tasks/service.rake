@@ -22,29 +22,11 @@ namespace :service do
     end
   end
 
-  desc 'Run autoscaler'
-  task :networks, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting the networks -----'
-      sh 'docker stack deploy -c compose/networks.yml networks'
-    end
-
-    def stop
-      puts '----- Stopping the networks -----'
-      sh 'docker stack rm networks'
-    end
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
   desc 'Run Traefik (reverse-proxy)'
   task :proxy, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:networks"].invoke('start') unless is_service_running?('networks_autoscaler')
       puts '----- Starting the proxy -----'
       sh 'docker stack deploy -c compose/proxy.yml proxy'
       sleep 10 # time for visualizer to start, we can get connection refused without sleeping

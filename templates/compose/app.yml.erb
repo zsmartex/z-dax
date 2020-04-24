@@ -50,25 +50,22 @@ services:
 
 volumes:
   peatio_seed:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
-      device: ":/config/peatio/seed"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/config/peatio/seed"
 
   barong_seed:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,ro"
-      device: ":/config/barong/seed"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/config/barong/seed"
 
   frontend_data:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,ro"
-      device: ":/data/frontend"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/frontend"
 
 configs:
   nginx_config:

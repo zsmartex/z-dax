@@ -96,32 +96,28 @@ services:
 
 volumes:
   db_data:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/db"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/db"
 
   rabbitmq_data:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/rabbitmq"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/rabbitmq"
 
   redis_data:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/redis"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/redis"
 
   influxdb_data:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/influxdb"
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/influxdb"
 
 configs:
   mysql_config:

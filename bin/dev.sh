@@ -11,7 +11,7 @@ cp -v *.pem ~/.docker
 [Service]
 ExecStart=
 ExecStart=/usr/bin/dockerd --tlsverify --tlscacert=/home/huuhadz2k/.docker/ca.pem --tlscert=/home/huuhadz2k/.docker/server-cert.pem --tlskey=/home/huuhadz2k/.docker/server-key.pem \
-  -H=0.0.0.0:2376
+  -H=0.0.0.0:2376 -H unix:///var/run/docker.sock
 
 docker run \
   -v /home/huuhadz2k/nfs_share:/nfs \

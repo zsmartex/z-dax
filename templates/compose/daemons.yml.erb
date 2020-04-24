@@ -84,11 +84,7 @@ services:
 
 volumes:
   peatio_seed:
-    driver: "local"
-    driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,ro"
-      device: ":/config/peatio/seed"
+    external: true
 
 networks:
   backend-net:

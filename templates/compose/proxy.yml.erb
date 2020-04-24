@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   traefik:
-    image: traefik:2.2.0
+    image: traefik
     networks:
       - proxy-net
     ports:
@@ -16,7 +16,7 @@ services:
         mode: host
     configs:
       - source: traefik_config
-        target: /etc/traefik/traefik.toml
+        target: /etc/traefik/traefik.yml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       <%= '- ssl_folder:/ssl' if @config['ssl']['enabled'] %>
@@ -45,15 +45,14 @@ services:
 
 configs:
   traefik_config:
-    file: ../config/traefik/config.toml
+    file: ../config/traefik/config.yml
 
 volumes:
   ssl_folder:
-    driver: "local"
     driver_opts:
-      type: "nfs4"
-      o: "addr=<%= @config['app']['manager_ip'] %>,nolock,soft,rw"
-      device: ":/data/ssl"
+      type: "none"
+      o: "bind"
+      device: "../data/ssl"
 
 networks:
   proxy-net:
