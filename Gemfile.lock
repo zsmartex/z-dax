@@ -3,6 +3,7 @@ GEM
   specs:
     bump (0.9.0)
     diff-lcs (1.3)
+    excon (0.73.0)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     jwt (2.2.1)
@@ -43,6 +44,7 @@ PLATFORMS
 
 DEPENDENCIES
   bump
+  excon
   faraday
   jwt
   puma
@@ -56,4 +58,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.4
+   1.17.3
