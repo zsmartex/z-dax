@@ -38,14 +38,6 @@ static_resources:
                   cluster: peatio
                   prefix_rewrite: "/api/v2/"
               - match:
-                  prefix: "/admin"
-                route:
-                  cluster: peatio
-              - match:
-                  prefix: "/admin-assets/"
-                route:
-                  cluster: peatio
-              - match:
                   prefix: "/api/v2/websocket/public"
                 route:
                   cluster: ranger
