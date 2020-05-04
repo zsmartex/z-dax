@@ -1,6 +1,6 @@
 entryPoints:
   web:
-    address: :80
+    address: ":80"
 <% if @config['ssl']['enabled'] -%>
     http:
       redirections:
@@ -9,14 +9,7 @@ entryPoints:
           scheme: https
 
   websecure:
-    address: :443
-<% end -%>
-
-<% if @config['ssl']['enabled'] -%>
-tls:
-  certificates:
-    - certFile: /ssl/ssl.crt
-      keyFile: /ssl/ssl.key
+    address: ":443"
 <% end -%>
 
 api:
@@ -30,6 +23,8 @@ providers:
     swarmMode: true
     watch: true
     network: proxy-net
+  file:
+    filename: /etc/traefik/dyn.yml
 
 log:
   level: DEBUG

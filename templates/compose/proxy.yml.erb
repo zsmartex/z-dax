@@ -17,9 +17,11 @@ services:
     configs:
       - source: traefik_config
         target: /etc/traefik/traefik.yml
+      - source: traefik_dyn
+        target: /etc/traefik/dyn.yml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      <%= '- ssl_folder:/ssl' if @config['ssl']['enabled'] %>
+      <%= '- ssl_folder:/etc/traefik/certs:ro' if @config['ssl']['enabled'] %>
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -58,6 +60,8 @@ services:
 configs:
   traefik_config:
     file: ../config/traefik/config.yml
+  traefik_dyn:
+    file: ../config/traefik/dyn.yml
 
 volumes:
   ssl_folder:

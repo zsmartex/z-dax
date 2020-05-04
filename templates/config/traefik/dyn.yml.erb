@@ -1,0 +1,13 @@
+<% if @config['ssl']['enabled'] -%>
+tls:
+  certificates:
+    - certFile: "/etc/traefik/certs/cert_chain.crt"
+      keyFile: "/etc/traefik/certs/server.key"
+      stores:
+        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/traefik/certs/cert_chain.crt"
+        keyFile: "/etc/traefik/certs/server.key"
+<% end -%>
