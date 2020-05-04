@@ -1,0 +1,34 @@
+version: '3.6'
+
+services:
+  vault:
+    image: vault
+    networks:
+      - backend-net
+      - proxy-net
+    environment:
+      SKIP_SETCAP: 1
+      VAULT_ADDR: http://vault:8200
+      VAULT_API_ADDR: http://vault:8200
+    configs:
+      - source: vault_config
+        target: /vault/config/local.json
+    entrypoint: vault server -config=/vault/config/local.json
+    deploy:
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.http.routers.vault-<%= @name %>.rule=Host(`vault.<%= @config['app']['domain'] %>`)"
+        - "traefik.http.services.vault-<%= @name %>.loadbalancer.server.port=8200"
+        - "traefik.enable=true"
+
+configs:
+  vault_config:
+    file: ../config/vault/config.json
+
+
+networks:
+  backend-net:
+    external: true
+  proxy-net:
+    external: true
