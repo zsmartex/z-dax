@@ -21,6 +21,12 @@ services:
         - "traefik.http.routers.vault-<%= @name %>.rule=Host(`vault.<%= @config['app']['domain'] %>`)"
         - "traefik.http.services.vault-<%= @name %>.loadbalancer.server.port=8200"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.vault-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.vault-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.vault-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
 configs:
   vault_config:

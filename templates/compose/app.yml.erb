@@ -47,6 +47,12 @@ services:
         - "traefik.http.routers.frontend-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
         - "traefik.http.services.frontend-<%= @name %>.loadbalancer.server.port=80"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.frontend-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.frontend-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.frontend-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
 volumes:
   peatio_seed:

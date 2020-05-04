@@ -1,15 +1,3 @@
-http:
-  middlewares:
-    http-redirect:
-      redirectScheme:
-        scheme: https
-        permanent: true
-    domian-redirect:
-      redirectRegex:
-        regex: "^https://<%= @config['app']['domain'] %>/(.*)"
-        replacement: "https://<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>/${1}"
-        permanent: true
-
 entryPoints:
   web:
     address: :80

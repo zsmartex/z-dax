@@ -27,6 +27,12 @@ services:
         - "traefik.http.routers.traefik-<%= @name %>.rule=Host(`traefik.<%= @config['app']['domain'] %>`)"
         - "traefik.http.services.traefik-<%= @name %>.loadbalancer.server.port=8080"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.traefik-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.traefik-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.traefik-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
   visualizer:
     image: dockersamples/visualizer
@@ -42,6 +48,12 @@ services:
         - "traefik.http.routers.visualizer-<%= @name %>.rule=Host(`visualizer.<%= @config['app']['domain'] %>`)"
         - "traefik.http.services.visualizer-<%= @name %>.loadbalancer.server.port=8080"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.visualizer-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
 configs:
   traefik_config:

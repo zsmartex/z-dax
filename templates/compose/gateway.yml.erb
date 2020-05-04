@@ -20,6 +20,12 @@ services:
         - "traefik.http.routers.gateway-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/api`,`/admin`,`/admin-assets/`)"
         - "traefik.http.services.gateway-<%= @name %>.loadbalancer.server.port=8099"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.gateway-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.gateway-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.gateway-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
 configs:
   gateway_config:
