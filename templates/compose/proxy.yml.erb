@@ -52,7 +52,7 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "../data/ssl"
+      device: "<%= @current_folder %>/data/ssl"
 
 networks:
   proxy-net:
