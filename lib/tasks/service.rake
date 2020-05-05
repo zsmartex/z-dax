@@ -57,19 +57,19 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run sercets vault'
-  task :sercets, [:command] do |task, args|
+  desc 'Run secrets vault'
+  task :secrets, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
       Rake::Task["service:backend"].invoke('start') unless is_service_running?('backend_db')
       puts '----- Starting dependencies -----'
-      sh 'docker stack deploy -c compose/sercets.yml sercets'
+      sh 'docker stack deploy -c compose/secrets.yml secrets'
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker stack rm sercets'
+      sh 'docker stack rm secrets'
     end
 
 
@@ -102,7 +102,7 @@ namespace :service do
     def start
       Rake::Task["service:gateway"].invoke('start') unless is_service_running?('gateway_envoy')
       Rake::Task["service:backend"].invoke('start') unless is_service_running?('backend_db')
-      Rake::Task["service:sercets"].invoke('start') unless is_service_running?('sercets_vault')
+      Rake::Task["service:secrets"].invoke('start') unless is_service_running?('secrets_vault')
       puts '----- Starting app -----'
       sh 'docker stack deploy -c compose/app.yml app --with-registry-auth'
     end

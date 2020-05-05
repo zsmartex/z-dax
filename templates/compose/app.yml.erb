@@ -4,6 +4,7 @@ services:
   peatio:
     image: "<%= @config['image']['peatio'] %>"
     networks:
+      - secrets-net
       - backend-net
       - gateway-net
     env_file:
@@ -15,6 +16,7 @@ services:
   barong:
     image: "<%= @config['image']['barong'] %>"
     networks:
+      - secrets-net
       - backend-net
       - gateway-net
     env_file:
@@ -54,6 +56,13 @@ services:
         - "traefik.http.routers.frontend-<%= @name %>.entrypoints=web"
         <%- end -%>
 
+  #z-maker:
+    #image: "<%= @utils['images']['z-maker'] %>"
+    #configs:
+      #- source: z-maker-strategy-config
+        #target: /home/app/config/strategy.yaml
+    #command: bash -c "bin/arke start"
+
 volumes:
   peatio_seed:
     driver_opts:
@@ -82,6 +91,8 @@ secrets:
     file: ../config/secrets/barong.key
 
 networks:
+  secrets-net:
+    external: true
   backend-net:
     external: true
   gateway-net:
