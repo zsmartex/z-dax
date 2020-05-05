@@ -3,6 +3,9 @@ version: '3.6'
 services:
   z-maker:
     image: "<%= @config['image']['z-maker'] %>"
+    networks:
+      - backend-net
+      - gateway-net
     configs:
       - source: strategy_config
         target: /home/app/config/strategy.yaml
@@ -11,3 +14,9 @@ services:
 configs:
   strategy_config:
     file: ../config/z-maker/strategy.yaml
+
+networks:
+  backend-net:
+    external: true
+  gateway-net:
+    external: true
