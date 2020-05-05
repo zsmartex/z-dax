@@ -134,18 +134,17 @@ namespace :service do
   end
 
   desc '[Optional] Run Z-Maker'
-  task :zmaker, [:command] do |task, args|
+  task :bot, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:app"].invoke('start') unless is_service_running?('app_peatio')
-      puts '----- Starting ZMaker -----'
-      sh 'docker stack deploy -c compose/z-maker.yml z-maker --with-registry-auth'
+      puts '----- Starting Bot -----'
+      sh 'docker stack deploy -c compose/bot.yml bot --with-registry-auth'
     end
 
     def stop
-      puts '----- Stopping ZMaker -----'
-      sh 'docker stack rm z-maker'
+      puts '----- Stopping Bot -----'
+      sh 'docker stack rm bot'
     end
 
     @switch.call(args, method(:start), method(:stop))

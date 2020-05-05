@@ -20,8 +20,6 @@ config/barong/seed/*
 !config/barong/seed/.gitkeep
 config/peatio/seed/*
 !config/peatio/seed/.gitkeep
-config/z-maker/*
-!config/z-maker/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

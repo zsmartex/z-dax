@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  z-maker:
+    image: "<%= @config['image']['z-maker'] %>"
+    configs:
+      - source: strategy_config
+        target: /home/app/config/strategy.yaml
+    command: bash -c "bin/arke start"
+
+configs:
+  strategy_config:
+    file: ../config/z-maker/strategy.yaml

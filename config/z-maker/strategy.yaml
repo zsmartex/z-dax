@@ -1,0 +1,18 @@
+strategy:
+  type: copy
+  volume_ratio: 1
+  target:
+    driver: rubykube
+    market: 'ETHUSDT'
+    host: "https://demo.zsmart.tech"
+    key: "45ee6ae49e4c6ec2"
+    secret: "b83f401f3e8571b062ceef941408ef17"
+    limit_book: 100
+    rate_limit: 5
+  sources:
+    - driver: binance
+      market: 'ETHUSDT'
+      host: "api.binance.com"
+      key: ""
+      secret: ""
+      rate_limit: 1
