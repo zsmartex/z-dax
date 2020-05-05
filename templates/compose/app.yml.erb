@@ -56,13 +56,6 @@ services:
         - "traefik.http.routers.frontend-<%= @name %>.entrypoints=web"
         <%- end -%>
 
-  #z-maker:
-    #image: "<%= @utils['images']['z-maker'] %>"
-    #configs:
-      #- source: z-maker-strategy-config
-        #target: /home/app/config/strategy.yaml
-    #command: bash -c "bin/arke start"
-
 volumes:
   peatio_seed:
     driver_opts:
