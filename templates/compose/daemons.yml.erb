@@ -59,13 +59,13 @@ services:
 
 <% if @config['daemons']['matching'] -%>
   matching:
-    << : *peatio-daemon
+    << : *athena-daemon
     command: bash -c "bin/athena matching"
 <% end -%>
 
 <% if @config['daemons']['order_processor'] -%>
   order_processor:
-    << : *athena-daemon
+    << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb order_processor"
 <% end -%>
 
