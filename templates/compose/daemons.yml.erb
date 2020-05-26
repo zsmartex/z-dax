@@ -9,6 +9,13 @@ x-daemon: &peatio-daemon
   volumes:
     - peatio_seed:/home/app/config/seed
 
+x-athena-daemon: &athena-daemon
+  image: "<%= @config['image']['athena'] %>"
+  networks:
+    - backend-net
+  env_file:
+    - ../config/athena.env
+
 services:
 <% if @config['daemons']['withdraw_audit'] -%>
   withdraw_audit:
@@ -54,8 +61,8 @@ services:
 
 <% if @config['daemons']['matching'] -%>
   matching:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb matching"
+    << : *athena-daemon
+    command: bash -c "bin/athena matching"
 <% end -%>
 
 <% if @config['daemons']['order_processor'] -%>

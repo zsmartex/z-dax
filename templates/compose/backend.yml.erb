@@ -33,6 +33,12 @@ services:
         - "traefik.http.routers.phpmyadmin-<%= @name %>.rule=Host(`pma.<%= @config['app']['domain'] %>`)"
         - "traefik.http.services.phpmyadmin-<%= @name %>.loadbalancer.server.port=80"
         - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.phpmyadmin-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.phpmyadmin-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.phpmyadmin-<%= @name %>.entrypoints=web"
+        <%- end -%>
 
   redis:
     image: bitnami/redis:4.0.14-ol-7-r33
