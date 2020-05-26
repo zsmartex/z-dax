@@ -1,9 +1,9 @@
 app:
   name: "ZDax"
-  domain: "test.local"
-  subdomain: "www"
+  domain: "zsmart.tech"
+  subdomain: "demo"
 ssl:
-  enabled: false
+  enabled: true
   email: "business@zsmart.tech"
 image:
   barong: gcr.io/zsmartex/barong:2.6.0-fix
@@ -29,7 +29,7 @@ twilio:
   auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
 vault:
   url: http://vault:8200
-  token: s.43ESnEMNCLIpJppWKues701h
+  token: s.oUZJehawQHuLKkPWTc0IxHMW
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI

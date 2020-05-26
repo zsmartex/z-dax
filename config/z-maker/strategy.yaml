@@ -7,7 +7,7 @@ strategy:
     host: "https://demo.zsmart.tech"
     key: "45ee6ae49e4c6ec2"
     secret: "b83f401f3e8571b062ceef941408ef17"
-    limit_book: 100
+    limit_book: 500
     rate_limit: 5
   sources:
     - driver: binance
