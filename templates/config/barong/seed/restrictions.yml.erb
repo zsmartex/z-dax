@@ -1,24 +1,6 @@
-- name:              Peatio Default Engine
-  driver:            peatio
-  state:             online
-- name:              Local Finex Spot Engine
-  driver:            finex-spot
-  state:             online
-- name:              Opendax Finex Spot Engine
-  driver:            opendax
-  uid:               U123456789
-  url:               https://www.opendax.io/api/v2/finex
-  key:               ""
-  secret:            ""
-  data:              {}
-  # The data field for store some special engines metadata
-  # Can be used in upstream worker
-  # Example for upstream:
-  #                {
-  #                 "rest"=>"https://url",
-  #                 "websocket"=>"wss://url",
-  #                 "trade_proxy"=>true,
-  #                 "orderbook_proxy"=>"true"
-  #                }
-  # }
-  state:              online
+- { category: whitelist, scope: country, value: UA, state: disabled }
+- { category: maintenance, scope: all, value: all, state: disabled }
+- { category: blacklist, scope: ip, value: 164.116.47.255, state: disabled, code: 433 }
+- { category: blacklist, scope: ip_subnet, value: 164.116.47.0/24, state: disabled, code: 434 }
+- { category: blacklist, scope: country, value: USA, state: disabled, code: 435 }
+- { category: blacklist, scope: continent, value: SA, state: disabled, code: 436 }
