@@ -37,6 +37,25 @@ namespace :db do
     sleep 5
   end
 
+  task :update do
+    start_mysql_service unless is_mysql_running?
+
+    send_command('peatio', 'bundle exec rake db:migrate')
+    sleep 5
+    send_command('barong', 'bundle exec rake db:migrate')
+    sleep 5
+  end
+
+  desc 'setup seed database'
+  task :seed do
+    start_mysql_service unless is_mysql_running?
+
+    send_command('peatio', 'bundle exec rake db:seed')
+    sleep 5
+    send_command('barong', 'bundle exec rake db:seed')
+    sleep 5
+  end
+
   desc 'setup database'
   task :setup do
     start_mysql_service unless is_mysql_running?
@@ -44,15 +63,6 @@ namespace :db do
     send_command('peatio', 'bundle exec rake db:create db:migrate db:seed')
     sleep 5
     send_command('barong', 'bundle exec rake db:create db:migrate db:seed')
-    sleep 5
-  end
-
-  task :update do
-    start_mysql_service unless is_mysql_running?
-
-    send_command('peatio', 'bundle exec rake db:migrate')
-    sleep 5
-    send_command('barong', 'bundle exec rake db:migrate')
     sleep 5
   end
 end

@@ -60,8 +60,10 @@ services:
 configs:
   traefik_config:
     file: ../config/traefik/config.yml
+  <%- if @config['ssl']['enabled'] -%>
   traefik_dyn:
     file: ../config/traefik/dyn.yml
+  <%- end -%>
 
 volumes:
   ssl_folder:
