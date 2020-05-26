@@ -11,6 +11,8 @@ x-daemon: &peatio-daemon
 
 x-athena-daemon: &athena-daemon
   image: "<%= @config['image']['athena'] %>"
+  networks:
+    - backend-net
   env_file:
     - ../config/athena.env
 

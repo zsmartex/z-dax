@@ -6,9 +6,9 @@ ssl:
   enabled: false
   email: "business@zsmart.tech"
 image:
-  barong: gcr.io/zsmartex/barong:2.4.0
-  peatio: gcr.io/zsmartex/peatio:2.4.5
-  z-maker: gcr.io/zsmartex/z-maker:2.5.5
+  barong: gcr.io/zsmartex/barong:2.6.0
+  peatio: gcr.io/zsmartex/peatio:2.6.0
+  z-maker: gcr.io/zsmartex/z-maker:2.6.0
   athena: gcr.io/zsmartex/athena:0.0.1
 storage:
   provider: "Google"
