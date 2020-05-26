@@ -18,6 +18,8 @@ namespace :image do
     name = args[:image]
     image_tag = config_image[name]
 
+    Rake::Task["image:build"].invoke(name)
+
     puts '----- Pushing image -----'
     sh %Q{docker push #{image_tag}}
     puts %Q{----- Created #{name} image successful -----}
