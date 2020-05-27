@@ -9,7 +9,7 @@ image:
   barong: gcr.io/zsmartex/barong:2.6.2
   peatio: gcr.io/zsmartex/peatio:2.6.1
   z-maker: gcr.io/zsmartex/z-maker:2.6.3
-  athena: gcr.io/zsmartex/athena:0.0.3
+  athena: gcr.io/zsmartex/athena:0.0.4
 storage:
   provider: "Google"
   bucketName: "zsmart"
