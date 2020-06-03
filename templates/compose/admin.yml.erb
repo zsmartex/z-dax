@@ -13,7 +13,7 @@ services:
         - "traefik.http.routers.z-control-<%= @name %>.middlewares=z-control-<%= @name %>"
         - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
-        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworiginlist=https://www.zooomex.com,http://localhost:3000"
+        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworiginlist=*"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowcredentials=true"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.addvaryheader=true"
         - "traefik.enable=true"
