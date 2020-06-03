@@ -23,6 +23,7 @@ module ZDax
       puts "Rendering #{out_file}"
 
       @config ||= config
+      @name ||= config['app']['name'].downcase
       @current_folder ||= Dir.pwd
       @barong_key ||= OpenSSL::PKey::RSA.new(File.read(JWT_KEY), '')
       @jwt_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
