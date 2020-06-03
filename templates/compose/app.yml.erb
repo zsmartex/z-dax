@@ -35,7 +35,7 @@ services:
       - ../config/ranger.env
     command: bash -c "bundle exec peatio service start ranger"
 
-  frontend:
+  coverapp:
     image: pagespeed/nginx-pagespeed
     networks:
       - proxy-net
@@ -43,17 +43,38 @@ services:
       - source: nginx_config
         target: /etc/nginx/nginx.conf
     volumes:
-      - frontend_data:/var/www/html
+      - coverapp_data:/var/www/html
     deploy:
       labels:
-        - "traefik.http.routers.frontend-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
-        - "traefik.http.services.frontend-<%= @name %>.loadbalancer.server.port=80"
+        - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
+        - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=80"
         - "traefik.enable=true"
         <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.frontend-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.frontend-<%= @name %>.tls=true"
+        - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.coverapp-<%= @name %>.tls=true"
         <%- else -%>
-        - "traefik.http.routers.frontend-<%= @name %>.entrypoints=web"
+        - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=web"
+        <%- end -%>
+
+  castle:
+    image: pagespeed/nginx-pagespeed
+    networks:
+      - proxy-net
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/nginx.conf
+    volumes:
+      - castle_data:/var/www/html
+    deploy:
+      labels:
+        - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
+        - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=80"
+        - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.castle-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.castle-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.castle-<%= @name %>.entrypoints=web"
         <%- end -%>
 
 volumes:
@@ -69,11 +90,18 @@ volumes:
       o: "bind"
       device: "<%= @current_folder %>/config/barong/seed"
 
-  frontend_data:
+  coverapp_data:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "<%= @current_folder %>/data/frontend"
+      device: "<%= @current_folder %>/data/coverapp"
+
+
+  castle_data:
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/castle"
 
 configs:
   nginx_config:

@@ -10,8 +10,9 @@ services:
     deploy:
       labels:
         - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
-        - "traefik.http.services.frontend-<%= @name %>.loadbalancer.server.port=3000"
+        - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
         - "traefik.enable=true"
+        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworigin=*"
         <%- if @config['ssl']['enabled'] -%>
         - "traefik.http.routers.z-control-<%= @name %>.entrypoints=websecure"
         - "traefik.http.routers.z-control-<%= @name %>.tls=true"
