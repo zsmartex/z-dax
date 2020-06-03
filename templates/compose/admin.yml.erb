@@ -11,8 +11,10 @@ services:
       labels:
         - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
         - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
-        - "traefik.enable=true"
+        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworigin=*"
+        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowcredentials=true"
+        - "traefik.enable=true"
         <%- if @config['ssl']['enabled'] -%>
         - "traefik.http.routers.z-control-<%= @name %>.entrypoints=websecure"
         - "traefik.http.routers.z-control-<%= @name %>.tls=true"
