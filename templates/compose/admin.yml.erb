@@ -10,6 +10,7 @@ services:
     deploy:
       labels:
         - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
+        - "traefik.http.routers.z-control-<%= @name %>.middlewares=z-control-<%= @name %>"
         - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworiginlist=https://www.zooomex.com,http://localhost:3000"
