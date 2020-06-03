@@ -149,4 +149,22 @@ namespace :service do
 
     @switch.call(args, method(:start), method(:stop))
   end
+
+  desc '[Optional] Run admin (z-control and home page)'
+  task :admin, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      Rake::Task["service:proxy"].invoke('start') unless is_service_running?('proxy_traefik')
+      puts '----- Starting utils -----'
+      sh 'docker stack deploy -c compose/admin.yml admin --with-registry-auth'
+    end
+
+    def stop
+      puts '----- Stopping Utils -----'
+      sh 'docker stack rm admin'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
 end
