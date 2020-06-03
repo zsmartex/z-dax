@@ -64,7 +64,7 @@ services:
       - source: nginx_config
         target: /etc/nginx/nginx.conf
     volumes:
-      - castle_data:/var/www/html
+      - castle_data:/var/www/html/castle
     deploy:
       labels:
         - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
