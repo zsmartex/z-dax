@@ -14,6 +14,7 @@ services:
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworigin=*"
         - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowcredentials=true"
+        - "traefik.http.middlewares.z-control-<%= @name %>.headers.addvaryheader=true"
         - "traefik.enable=true"
         <%- if @config['ssl']['enabled'] -%>
         - "traefik.http.routers.z-control-<%= @name %>.entrypoints=websecure"
