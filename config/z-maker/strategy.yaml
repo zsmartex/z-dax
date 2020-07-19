@@ -5,8 +5,8 @@ strategy:
     driver: rubykube
     market: 'ETHUSDT'
     host: "https://demo.zsmart.tech"
-    key: "45ee6ae49e4c6ec2"
-    secret: "b83f401f3e8571b062ceef941408ef17"
+    key: "10bd360617e78745"
+    secret: "bd412fd51363076e07a28e28730a2a99"
     limit_book: 500
     rate_limit: 5
   sources:
