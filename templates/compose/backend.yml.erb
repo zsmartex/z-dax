@@ -3,13 +3,15 @@ version: '3.6'
 services:
   db:
     image: mysql:5.7
+    ports:
+      - "3306:3306"
     networks:
       - backend-net
-    configs:
-      - source: mysql_config
-        target: /etc/mysql/conf.d/innodb.cnf
     volumes:
       - db_data:/var/lib/mysql
+    configs:
+      - source: mysql_config
+        target: /etc/mysql/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: djtdjtdjtdjt
 
@@ -42,6 +44,8 @@ services:
 
   redis:
     image: bitnami/redis:4.0.14-ol-7-r33
+    ports:
+      - "6379:6379"
     environment:
       REDIS_REPLICATION_MODE: 'master'
       REDIS_PASSWORD: 'djtdjtdjtdjt'
@@ -53,6 +57,9 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.7.6-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - backend-net
       - proxy-net
@@ -64,6 +71,8 @@ services:
 
   influxdb:
     image: influxdb:1.7.8
+    ports:
+      - "8086:8086"
     networks:
       - backend-net
     environment:
@@ -106,7 +115,7 @@ volumes:
 
 configs:
   mysql_config:
-    file: ../config/mysql/innodb.cnf
+    file: ../config/mysql/my.cnf
   vault_config:
     file: ../config/vault/config.json
   influxdb_config:
