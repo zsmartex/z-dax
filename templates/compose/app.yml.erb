@@ -77,6 +77,27 @@ services:
         - "traefik.http.routers.castle-<%= @name %>.entrypoints=web"
         <%- end -%>
 
+  assets-currency:
+    image: pagespeed/nginx-pagespeed
+    networks:
+      - proxy-net
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/nginx.conf
+    volumes:
+      - assets-currency-data:/var/www/html/assets-currency
+    deploy:
+      labels:
+        - "traefik.http.routers.assets-currency-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/assets-currency`)"
+        - "traefik.http.services.assets-currency-<%= @name %>.loadbalancer.server.port=80"
+        - "traefik.enable=true"
+        <%- if @config['ssl']['enabled'] -%>
+        - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=websecure"
+        - "traefik.http.routers.assets-currency-<%= @name %>.tls=true"
+        <%- else -%>
+        - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=web"
+        <%- end -%>
+
 volumes:
   peatio_seed:
     driver_opts:
@@ -102,6 +123,12 @@ volumes:
       type: "none"
       o: "bind"
       device: "<%= @current_folder %>/data/castle"
+
+  assets-currency-data:
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "<%= @current_folder %>/data/assets-currency"
 
 configs:
   nginx_config:

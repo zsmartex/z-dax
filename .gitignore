@@ -43,8 +43,12 @@ data/redis/*
 data/vault/*
 !data/vault/.gitkeep
 
-data/frontend/*
-!data/frontend/.gitkeep
+data/assets-currency/*
+!data/assets-currency/.gitkeep
+data/coverapp/*
+!data/coverapp/.gitkeep
+data/castle/*
+!data/castle/.gitkeep
 
 data/influxdb/*
 !data/influxdb/.gitkeep
