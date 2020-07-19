@@ -1,15 +1,15 @@
 app:
-  name: "ZDax"
+  name: "Z-Dax"
   domain: "zsmart.tech"
   subdomain: "demo"
 ssl:
   enabled: true
   email: "business@zsmart.tech"
 image:
-  barong: gcr.io/zsmartex/barong:2.6.2
-  peatio: gcr.io/zsmartex/peatio:2.6.1
-  z-maker: gcr.io/zsmartex/z-maker:2.6.3
-  athena: gcr.io/zsmartex/athena:0.0.4
+  barong: gcr.io/zsmartex/barong:2.6.5
+  peatio: gcr.io/zsmartex/peatio:2.6.2
+  z-maker: gcr.io/zsmartex/z-maker:2.7.2
+  athena: gcr.io/zsmartex/athena:0.0.10
 storage:
   provider: "Google"
   bucketName: "zsmart"
@@ -29,7 +29,7 @@ twilio:
   auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
 vault:
   url: http://vault:8200
-  token: s.oUZJehawQHuLKkPWTc0IxHMW
+  token: s.tRBAmlyVVRSgdensi7HUbSBU
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
