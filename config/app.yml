@@ -7,9 +7,10 @@ ssl:
   email: "business@zsmart.tech"
 image:
   barong: gcr.io/zsmartex/barong:2.6.5
-  peatio: gcr.io/zsmartex/peatio:2.6.2
-  z-maker: gcr.io/zsmartex/z-maker:2.7.2
-  athena: gcr.io/zsmartex/athena:0.0.10
+  peatio: gcr.io/zsmartex/peatio:2.6.5
+  rango: gcr.io/zsmartex/rango:2.6.0
+  athena: gcr.io/zsmartex/athena:1.0.13
+  contrive: gcr.io/zsmartex/contrive:1.0.4
 storage:
   provider: "Google"
   bucketName: "zsmart"
@@ -35,12 +36,12 @@ recaptcha:
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
 daemons:
   # Blockchain services
-  withdraw_audit: false
-  blockchain: false
-  deposit_collection: false
-  deposit_collection_fees: false
-  deposit_coin_address: false
-  withdraw_coin: false
+  withdraw_audit: true
+  blockchain: true
+  deposit_collection: true
+  deposit_collection_fees: true
+  deposit_coin_address: true
+  withdraw_coin: true
   # Job
   influx_writer: true
   upstream: true

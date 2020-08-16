@@ -40,20 +40,35 @@ static_resources:
               - match:
                   prefix: "/api/v2/websocket/public"
                 route:
-                  cluster: ranger
+                  cluster: rango
                   prefix_rewrite: "/"
                   upgrade_configs:
                     upgrade_type: "websocket"
               - match:
                   prefix: "/api/v2/websocket/private"
                 route:
-                  cluster: ranger
+                  cluster: rango
                   prefix_rewrite: "/"
                   upgrade_configs:
                     upgrade_type: "websocket"
           http_filters:
           - name: envoy.cors
             typed_config: {}
+          - name: envoy.filters.http.header_to_metadata
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.header_to_metadata.v3.Config
+              request_rules:
+                - header: x-version
+                  on_header_present:
+                    metadata_namespace: envoy.lb
+                    key: version
+                    type: STRING
+                  on_header_missing:
+                    metadata_namespace: envoy.lb
+                    key: default
+                    value: 'true'
+                    type: STRING
+                  remove: false
           - name: envoy.ext_authz
             config:
               with_request_body:
@@ -109,13 +124,13 @@ static_resources:
     - socket_address:
         address: peatio
         port_value: 8000
-  - name: ranger
+  - name: rango
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
     hosts:
     - socket_address:
-        address: ranger
+        address: rango
         port_value: 8080
 admin:
   access_log_path: "/dev/null"

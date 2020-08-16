@@ -62,7 +62,7 @@ services:
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *athena-daemon
-    command: bash -c "bin/athena matching"
+    command: "/app/athena matching"
 <% end -%>
 
 <% if @config['daemons']['order_processor'] -%>

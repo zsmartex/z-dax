@@ -25,15 +25,14 @@ services:
       - barong.key
     volumes:
       - barong_seed:/home/app/config/seed
-
-  ranger:
-    image: "<%= @config['image']['peatio'] %>"
+  
+  rango:
+    image: "<%= @config['image']['rango'] %>"
     networks:
       - backend-net
       - gateway-net
     env_file:
-      - ../config/ranger.env
-    command: bash -c "bundle exec peatio service start ranger"
+      - ../config/rango.env
 
   coverapp:
     image: pagespeed/nginx-pagespeed

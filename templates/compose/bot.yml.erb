@@ -1,19 +1,21 @@
 version: '3.6'
 
 services:
-  z-maker:
-    image: "<%= @config['image']['z-maker'] %>"
+  contrive:
+    image: "<%= @config['image']['contrive'] %>"
+    env_file:
+      - ../config/contrive.env
     networks:
       - backend-net
       - gateway-net
     configs:
-      - source: strategy_config
-        target: /home/app/config/strategy.yaml
+      - source: contrive_strategies_config
+        target: /app/config/strategies.yml
     command: start
 
 configs:
-  strategy_config:
-    file: ../config/z-maker/strategy.yaml
+  contrive_strategies_config:
+    file: ../config/contrive/strategies.yml
 
 networks:
   backend-net:
