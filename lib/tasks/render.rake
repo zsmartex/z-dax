@@ -1,5 +1,5 @@
 
-require_relative '../zdax/renderer'
+require_relative '../z-dax/renderer'
 
 namespace :render do
   desc 'Render configuration and compose files and keys'

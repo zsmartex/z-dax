@@ -1,54 +1,59 @@
+---
 app:
-  name: "Z-Dax"
-  domain: "zsmart.tech"
-  subdomain: "demo"
+  name: Z-Dax
+  domain: app.local
+  subdomain: www
+render_protect: false
+swarm: false
 ssl:
-  enabled: true
-  email: "business@zsmart.tech"
+  enabled: false
+  email: business@zsmart.tech
 image:
-  barong: gcr.io/zsmartex/barong:2.6.5
-  peatio: gcr.io/zsmartex/peatio:2.6.5
+  barong: gcr.io/zsmartex/barong:2.6.6
+  peatio: gcr.io/zsmartex/peatio:2.6.7
   rango: gcr.io/zsmartex/rango:2.6.0
   athena: gcr.io/zsmartex/athena:1.0.13
   contrive: gcr.io/zsmartex/contrive:1.0.4
+finex:
+  enabled: true
+  image: gcr.io/zsmartex/finex:0.0.1
 storage:
-  provider: "Google"
-  bucketName: "zsmart"
-  accessKey: "GOOGTQRI3JKKSPRV4XBKNPKZ"
-  secretKey: "xoaBinmXXTV+E6J/dceV+60yY62kOHW/EKDZYdad"
+  provider: Google
+  bucketName: zsmart
+  accessKey: GOOGTQRI3JKKSPRV4XBKNPKZ
+  secretKey: xoaBinmXXTV+E6J/dceV+60yY62kOHW/EKDZYdad
 terraform:
-  credentials: "~/safe/zdax.json"
-  project: "example-zdax"
-  region: "europe-west4"
-  zone: "europe-west4-a"
-  instance_name: "zdax-cloud"
-  machine_type: "n1-standard-4"
-  image: "debian-cloud/debian-9"
+  credentials: "~/safe/z-dax.json"
+  project: example-z-dax
+  region: europe-west4
+  zone: europe-west4-a
+  instance_name: z-dax-cloud
+  machine_type: n1-standard-4
+  image: debian-cloud/debian-9
 twilio:
   phone_number: "+18577635282"
-  account_sid: "AC9842e4cc2cfd0f21f93c7475f6d4723b"
-  auth_token: "f3d3bc96dea477cf8a855608b1eb5951"
+  account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
+  auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  url: http://vault:8200
-  token: s.tRBAmlyVVRSgdensi7HUbSBU
+  token: s.fMz4mYOYVdvquiSI5iPnz5nX
+database:
+  host: db
+  port: 3306
+  user: root
+  password: changeme
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
 daemons:
-  # Blockchain services
   withdraw_audit: true
   blockchain: true
   deposit_collection: true
   deposit_collection_fees: true
   deposit_coin_address: true
   withdraw_coin: true
-  # Job
   influx_writer: true
   upstream: true
   cron_job: true
-  # Job
-  global_price: true
-  # Matching engine
   matching: true
   order_processor: true
   trade_executor: true

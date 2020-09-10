@@ -1,68 +1,37 @@
-require_relative '../docker_api'
-
 namespace :db do
-  def mysql_cli
-    return "mysql -u root -h db -P 3306 -pdjtdjtdjtdjt"
+  task :create, [:command] do |task, args|
+    Rake::Task["render:config"].execute
+    puts '----- Running create database -----'
+    sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:create"'
+    sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:create"'
   end
 
-  def is_volume_exists?(name)
-    volume_prefix = "app"
-    volume_suffix = "seed"
-    volume_name = [volume_prefix, name, volume_suffix].join("_")
-
-    DockerAPI.new.send_request("/volumes/#{volume_name}")
+  task :migrate, [:command] do |task, args|
+    Rake::Task["render:config"].execute
+    puts '----- Running migrate database -----'
+    sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:migrate"'
+    sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:migrate"'
   end
 
-  def is_mysql_running?
-    DockerAPI.new.send_request("/services/backend_db")
+  task :seed, [:command] do |task, args|
+    Rake::Task["render:config"].execute
+    puts '----- Running seed database -----'
+    sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:seed"'
+    sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:seed"'
   end
 
-  def start_mysql_service
-    Rake::Task["service:backend"].invoke('start')
+  task :setup, [:command] do |task, args|
+    Rake::Task["vault:setup"].execute
+    Rake::Task["render:config"].execute
+
+    Rake::Task["db:create"].execute
+    Rake::Task["db:migrate"].execute
+    Rake::Task["db:seed"].execute
+    Rake::Task["db:influx"].execute
   end
 
-  def send_command(name, command)
-    image = @config['image'][name]
-
-    sh "bin/swarm-exec.sh --name #{name} -- #{image} #{command}"
-  end
-
-  desc 'Create database'
-  task :create do
-    start_mysql_service unless is_mysql_running?
-
-    send_command('peatio', 'bundle exec rake db:create')
-    sleep 5
-    send_command('barong', 'bundle exec rake db:create')
-    sleep 5
-  end
-
-  task :update do
-    start_mysql_service unless is_mysql_running?
-
-    send_command('peatio', 'bundle exec rake db:migrate')
-    sleep 5
-    send_command('barong', 'bundle exec rake db:migrate')
-    sleep 5
-  end
-
-  desc 'setup seed database'
-  task :seed do
-    start_mysql_service unless is_mysql_running?
-
-    send_command('peatio', 'bundle exec rake db:seed')
-    sleep 5
-    send_command('barong', 'bundle exec rake db:seed')
-    sleep 5
-  end
-
-  desc 'setup database'
-  task :setup do
-    start_mysql_service unless is_mysql_running?
-
-    send_command('peatio', 'bundle exec rake db:create db:migrate db:seed')
-    sleep 5
-    send_command('barong', 'bundle exec rake db:create db:migrate db:seed')
-    sleep 5
+  task :influx, [:command] do |task, args|
+    sh 'docker-compose up -d influxdb'
+    sh 'docker-compose exec influxdb bash -c "cat influxdb.sql | influx"'
   end
 end

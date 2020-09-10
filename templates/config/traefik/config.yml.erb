@@ -20,9 +20,7 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedbydefault: false
     useBindPortIP: true
-    swarmMode: true
     watch: true
-    network: proxy-net
   file:
     filename: /etc/traefik/dyn.yml
 

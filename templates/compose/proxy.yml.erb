@@ -1,79 +1,38 @@
-version: '3.6'
+version: '3.8'
 
 services:
   traefik:
     image: traefik
-    networks:
-      - proxy-net
     ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: host
-    configs:
-      - source: traefik_config
-        target: /etc/traefik/traefik.yml
-      - source: traefik_dyn
-        target: /etc/traefik/dyn.yml
+      - "80:80"
+      - "443:443"
     volumes:
+      - ../config/traefik/dyn.yml:/etc/traefik/dyn.yml
+      - ../config/traefik/config.yml:/etc/traefik/traefik.yml
+      <%= '- ../data/ssl:/etc/traefik/certs:ro' if @config['ssl']['enabled'] %>
       - /var/run/docker.sock:/var/run/docker.sock
-      <%= '- ssl_folder:/etc/traefik/certs:ro' if @config['ssl']['enabled'] %>
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-      labels:
-        - "traefik.http.routers.traefik-<%= @name %>.rule=Host(`traefik.<%= @config['app']['domain'] %>`)"
-        - "traefik.http.services.traefik-<%= @name %>.loadbalancer.server.port=8080"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.traefik-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.traefik-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.traefik-<%= @name %>.entrypoints=web"
-        <%- end -%>
+    labels:
+      - "traefik.http.routers.traefik-<%= @name %>.rule=Host(`traefik.<%= @config['app']['domain'] %>`)"
+      - "traefik.http.services.traefik-<%= @name %>.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.traefik-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.traefik-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.traefik-<%= @name %>.entrypoints=web"
+      <%- end -%>
 
   visualizer:
     image: dockersamples/visualizer
-    networks:
-      - proxy-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      labels:
-        - "traefik.http.routers.visualizer-<%= @name %>.rule=Host(`visualizer.<%= @config['app']['domain'] %>`)"
-        - "traefik.http.services.visualizer-<%= @name %>.loadbalancer.server.port=8080"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.visualizer-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=web"
-        <%- end -%>
-
-configs:
-  traefik_config:
-    file: ../config/traefik/config.yml
-  <%- if @config['ssl']['enabled'] -%>
-  traefik_dyn:
-    file: ../config/traefik/dyn.yml
-  <%- end -%>
-
-volumes:
-  ssl_folder:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/data/ssl"
-
-networks:
-  proxy-net:
-    driver: overlay
-    name: proxy-net
-    attachable: true
+    labels:
+      - "traefik.http.routers.visualizer-<%= @name %>.rule=Host(`visualizer.<%= @config['app']['domain'] %>`)"
+      - "traefik.http.services.visualizer-<%= @name %>.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.visualizer-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.visualizer-<%= @name %>.entrypoints=web"
+      <%- end -%>

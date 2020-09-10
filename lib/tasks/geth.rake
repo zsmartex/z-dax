@@ -4,7 +4,7 @@ namespace :geth do
       puts '----- Stoping geth service -----'
       sh 'docker-compose rm -fs geth'
       puts '----- Importing geth blockchain data -----'
-      sh 'wget https://storage.googleapis.com/zdax-ethereum-node-chaindata-backups/ethdata_fullsync.tar.gz'
+      sh 'wget https://storage.googleapis.com/z-dax-ethereum-node-chaindata-backups/ethdata_fullsync.tar.gz'
       sh 'tar -C data/geth -zxvf ethdata_fullsync.tar.gz'
       sh 'rm -rf ethdata_fullsync.tar.gz'
       puts '----- Restarting geth service -----'

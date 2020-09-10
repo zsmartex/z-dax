@@ -1,24 +1,10 @@
-version: '3.6'
+version: '3.8'
 
 services:
   contrive:
     image: "<%= @config['image']['contrive'] %>"
     env_file:
       - ../config/contrive.env
-    networks:
-      - backend-net
-      - gateway-net
-    configs:
-      - source: contrive_strategies_config
-        target: /app/config/strategies.yml
+    volumes:
+      - ../config/contrive/strategies.yml:/app/config/strategies.yml
     command: start
-
-configs:
-  contrive_strategies_config:
-    file: ../config/contrive/strategies.yml
-
-networks:
-  backend-net:
-    external: true
-  gateway-net:
-    external: true

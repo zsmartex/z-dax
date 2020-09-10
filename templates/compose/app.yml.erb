@@ -1,148 +1,79 @@
-version: '3.6'
+version: '3.8'
 
 services:
   peatio:
-    image: "<%= @config['image']['peatio'] %>"
-    networks:
-      - secrets-net
-      - backend-net
-      - gateway-net
+    build:
+      context: "../vendor/peatio"
     env_file:
       - ../config/peatio.env
     volumes:
-      - peatio_seed:/home/app/config/seed
+      - ../config/peatio/seed:/home/app/config/seed:ro
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
     image: "<%= @config['image']['barong'] %>"
-    networks:
-      - secrets-net
-      - backend-net
-      - gateway-net
     env_file:
       - ../config/barong.env
-    secrets:
-      - barong.key
     volumes:
-      - barong_seed:/home/app/config/seed
+      - ../config/secrets/barong.key:/secrets/barong.key
+      - ../config/barong/seed:/home/app/config/seed:ro
+
+<%- if @config['finex']['enabled'] -%>
+  finex-api:
+    image: "<%= @config['image']['finex'] %>"
+    env_file:
+      - ../config/finex.env
+<%- end -%>
   
   rango:
     image: "<%= @config['image']['rango'] %>"
-    networks:
-      - backend-net
-      - gateway-net
     env_file:
       - ../config/rango.env
 
   coverapp:
     image: pagespeed/nginx-pagespeed
-    networks:
-      - proxy-net
-    configs:
-      - source: nginx_config
-        target: /etc/nginx/nginx.conf
     volumes:
-      - coverapp_data:/var/www/html
-    deploy:
-      labels:
-        - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
-        - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=80"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.coverapp-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=web"
-        <%- end -%>
+      - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
+      - ../data/coverapp:/var/www/html:ro
+    labels:
+      - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
+      - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.coverapp-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=web"
+      <%- end -%>
 
   castle:
     image: pagespeed/nginx-pagespeed
-    networks:
-      - proxy-net
-    configs:
-      - source: nginx_config
-        target: /etc/nginx/nginx.conf
     volumes:
-      - castle_data:/var/www/html/castle
-    deploy:
-      labels:
-        - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
-        - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=80"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.castle-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.castle-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.castle-<%= @name %>.entrypoints=web"
-        <%- end -%>
+      - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
+      - ../data/castle:/var/www/html/castle:ro
+    labels:
+      - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
+      - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.castle-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.castle-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.castle-<%= @name %>.entrypoints=web"
+      <%- end -%>
 
   assets-currency:
     image: pagespeed/nginx-pagespeed
-    networks:
-      - proxy-net
-    configs:
-      - source: nginx_config
-        target: /etc/nginx/nginx.conf
     volumes:
-      - assets-currency-data:/var/www/html/assets-currency
-    deploy:
-      labels:
-        - "traefik.http.routers.assets-currency-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/assets-currency`)"
-        - "traefik.http.services.assets-currency-<%= @name %>.loadbalancer.server.port=80"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.assets-currency-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=web"
-        <%- end -%>
-
-volumes:
-  peatio_seed:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/config/peatio/seed"
-
-  barong_seed:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/config/barong/seed"
-
-  coverapp_data:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/data/coverapp"
-
-
-  castle_data:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/data/castle"
-
-  assets-currency-data:
-    driver_opts:
-      type: "none"
-      o: "bind"
-      device: "<%= @current_folder %>/data/assets-currency"
-
-configs:
-  nginx_config:
-    file: ../config/nginx/config.conf
-
-secrets:
-  barong.key:
-    file: ../config/secrets/barong.key
-
-networks:
-  secrets-net:
-    external: true
-  backend-net:
-    external: true
-  gateway-net:
-    external: true
-  proxy-net:
-    external: true
+      - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
+      - ../data/assets-currency:/var/www/html/assets-currency:ro
+    labels:
+      - "traefik.http.routers.assets-currency-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/assets-currency`)"
+      - "traefik.http.services.assets-currency-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.assets-currency-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.assets-currency-<%= @name %>.entrypoints=web"
+      <%- end -%>

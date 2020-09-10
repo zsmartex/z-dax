@@ -1,10 +1,4 @@
-require_relative '../docker_api'
-
 namespace :service do
-  def is_service_running?(service)
-    DockerAPI.new.send_request("/services/#{service}")
-  end
-
   @switch = Proc.new do |args, start, stop|
     case args.command
     when 'start'
@@ -25,13 +19,13 @@ namespace :service do
 
     def start
       puts '----- Starting the proxy -----'
-      sh 'docker stack deploy -c compose/proxy.yml proxy'
+      sh 'docker-compose up -d traefik visualizer'
       sleep 10 # time for visualizer to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping the proxy -----'
-      sh 'docker stack rm proxy'
+      sh 'docker-compose rm -fs traefik visualizer'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -42,53 +36,33 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:proxy"].invoke('start') unless is_service_running?('proxy_traefik')
       puts '----- Starting dependencies -----'
-      sh 'docker stack deploy -c compose/backend.yml backend'
+      sh 'docker-compose up -d db phpmyadmin redis influxdb vault'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker stack rm backend'
+      sh 'docker-compose rm -fs db phpmyadmin redis influxdb vault'
     end
 
 
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run secrets vault'
-  task :secrets, [:command] do |task, args|
+  desc 'Run stream (nats)'
+  task :stream, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:backend"].invoke('start') unless is_service_running?('backend_db')
       puts '----- Starting dependencies -----'
-      sh 'docker stack deploy -c compose/secrets.yml secrets'
+      sh 'docker-compose up -d rabbitmq nats nats-replica'
+      sh 'docker-compose scale nats-replica=5'
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker stack rm secrets'
-    end
-
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
-  desc 'Run mikro gateway'
-  task :gateway, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      Rake::Task["service:proxy"].invoke('start') unless is_service_running?('proxy_traefik')
-      puts '----- Starting dependencies -----'
-      sh 'docker stack deploy -c compose/gateway.yml gateway'
-    end
-
-    def stop
-      puts '----- Stopping dependencies -----'
-      sh 'docker stack rm gateway'
+      sh 'docker-compose rm -fs rabbitmq nats nats-replica'
     end
 
 
@@ -100,16 +74,13 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:gateway"].invoke('start') unless is_service_running?('gateway_envoy')
-      Rake::Task["service:backend"].invoke('start') unless is_service_running?('backend_db')
-      Rake::Task["service:secrets"].invoke('start') unless is_service_running?('secrets_vault')
       puts '----- Starting app -----'
-      sh 'docker stack deploy -c compose/app.yml app --with-registry-auth'
+      sh 'docker-compose up -d peatio barong rango envoy coverapp castle assets-currency'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker stack rm app'
+      sh 'docker-compose rm -fs peatio barong rango envoy coverapp castle assets-currency'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -119,15 +90,16 @@ namespace :service do
   task :daemons, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
+    @daemons = @config['daemons'].select { |key, v| v }
+
     def start
-      Rake::Task["service:app"].invoke('start') unless is_service_running?('app_peatio')
       puts '----- Starting Daemons -----'
-      sh 'docker stack deploy -c compose/daemons.yml daemons --with-registry-auth'
+      sh "docker-compose up -d #{@daemons.keys.join(' ')}"
     end
 
     def stop
       puts '----- Stopping Daemons -----'
-      sh 'docker stack rm daemons'
+      sh "docker-compose rm -fs #{@daemons.keys.join(' ')}"
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -139,30 +111,73 @@ namespace :service do
 
     def start
       puts '----- Starting Bot -----'
-      sh 'docker stack deploy -c compose/bot.yml bot --with-registry-auth'
+      sh 'docker-compose up -d contrive'
     end
 
     def stop
       puts '----- Stopping Bot -----'
-      sh 'docker stack rm bot'
+      sh 'docker-compose rm -fs contrive'
     end
 
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc '[Optional] Run admin (z-control and home page)'
+  desc 'Run monitoring'
+  task :monitoring, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting monitoring -----'
+      sh 'docker-compose up -d prometheus node-exporter cadvisor grafana alertmanager'
+    end
+
+    def stop
+      puts '----- Stopping monitoring -----'
+      sh 'docker-compose rm -fs prometheus node-exporter cadvisor grafana alertmanager'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
+  desc '[Optional] Run admin (z-control)'
   task :admin, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:proxy"].invoke('start') unless is_service_running?('proxy_traefik')
       puts '----- Starting utils -----'
-      sh 'docker stack deploy -c compose/admin.yml admin --with-registry-auth'
+      sh 'docker-compose up -d z-control'
     end
 
     def stop
       puts '----- Stopping Utils -----'
-      sh 'docker stack rm admin'
+      sh 'docker-compose rm -fs z-control'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
+  desc 'Run the micro app with dependencies (does not run Optional)'
+  task :all, [:command] => 'render:config' do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      Rake::Task["service:proxy"].invoke('start')
+      Rake::Task["service:backend"].invoke('start')
+      puts 'Wait 5 second for backend'
+      sleep(5)
+      Rake::Task["service:stream"].invoke('start')
+      Rake::Task["service:app"].invoke('start')
+      Rake::Task["service:daemons"].invoke('start')
+      Rake::Task["service:monitoring"].invoke('start')
+    end
+
+    def stop
+      Rake::Task["service:proxy"].invoke('stop')
+      Rake::Task["service:backend"].invoke('stop')
+      Rake::Task["service:stream"].invoke('stop')
+      Rake::Task["service:app"].invoke('stop')
+      Rake::Task["service:daemons"].invoke('stop')
+      Rake::Task["service:monitoring"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))

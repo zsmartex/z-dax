@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.7.6-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ../data/rabbitmq:/var/lib/rabbitmq
+
+  nats:
+    image: nats
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+    command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+
+  nats-replica:
+    image: nats
+    command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"

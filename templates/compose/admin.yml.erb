@@ -1,29 +1,22 @@
-version: "3.6"
+version: "3.8"
 
 services:
   z-control:
     image: "<%= @utils['image']['z-control'] %>"
     ports:
       - '3000:3000'
-    networks:
-      - proxy-net
-    deploy:
-      labels:
-        - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
-        - "traefik.http.routers.z-control-<%= @name %>.middlewares=z-control-<%= @name %>"
-        - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
-        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
-        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworiginlist=*"
-        - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowcredentials=true"
-        - "traefik.http.middlewares.z-control-<%= @name %>.headers.addvaryheader=true"
-        - "traefik.enable=true"
-        <%- if @config['ssl']['enabled'] -%>
-        - "traefik.http.routers.z-control-<%= @name %>.entrypoints=websecure"
-        - "traefik.http.routers.z-control-<%= @name %>.tls=true"
-        <%- else -%>
-        - "traefik.http.routers.z-control-<%= @name %>.entrypoints=web"
-        <%- end -%>
-
-networks:
-  proxy-net:
-    external: true
+    labels:
+      - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
+      - "traefik.http.routers.z-control-<%= @name %>.middlewares=z-control-<%= @name %>"
+      - "traefik.http.services.z-control-<%= @name %>.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
+      - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolalloworiginlist=*"
+      - "traefik.http.middlewares.z-control-<%= @name %>.headers.accesscontrolallowcredentials=true"
+      - "traefik.http.middlewares.z-control-<%= @name %>.headers.addvaryheader=true"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.z-control-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.z-control-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.z-control-<%= @name %>.entrypoints=web"
+      <%- end -%>

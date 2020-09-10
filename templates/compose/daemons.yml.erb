@@ -1,20 +1,17 @@
-version: '3.6'
+version: '3.8'
 
 x-daemon: &peatio-daemon
-  image: "<%= @config['image']['peatio'] %>"
-  networks:
-    - backend-net
+  build:
+    context: "../vendor/peatio"
   env_file:
     - ../config/peatio.env
   volumes:
-    - peatio_seed:/home/app/config/seed
+    - ../config/peatio/seed:/home/app/config/seed
 
-x-athena-daemon: &athena-daemon
-  image: "<%= @config['image']['athena'] %>"
-  networks:
-    - backend-net
+x-finex-engine: &finex-engine
+  image: "<%= @config['finex']['image'] %>"
   env_file:
-    - ../config/athena.env
+    - ../config/finex.env
 
 services:
 <% if @config['daemons']['withdraw_audit'] -%>
@@ -59,23 +56,19 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
 <% end -%>
 
-<% if @config['daemons']['matching'] -%>
-  matching:
-    << : *athena-daemon
-    command: "/app/athena matching"
-<% end -%>
-
-<% if @config['daemons']['order_processor'] -%>
-  order_processor:
+<% ['matching', 'order_processor', 'trade_executor'].each do |engine| %>
+<% if @config['daemons'][engine] -%>
+<% if @config['finex']['enabled'] %>
+  <%= engine %>:
+    << : *finex-engine
+    command: "/home/app/finex-engine <%= engine %>"
+<% else %>
+  <%= engine %>:
     << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb order_processor"
-<% end -%>
-
-<% if @config['daemons']['trade_executor'] -%>
-  trade_executor:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb trade_executor"
-<% end -%>
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb <%= engine %>"
+<% end %>
+<% end %>
+<% end %>
 
 <% if @config['daemons']['withdraw_coin'] -%>
   withdraw_coin:
@@ -88,11 +81,3 @@ services:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb influx_writer"
 <% end -%>
-
-volumes:
-  peatio_seed:
-    external: true
-
-networks:
-  backend-net:
-    external: true

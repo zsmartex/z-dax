@@ -1,12 +1,7 @@
 {
   "ui": true,
   "storage": {
-    "mysql": {
-      "address": "db",
-      "username": "root",
-      "password": "djtdjtdjtdjt",
-      "database": "vault"
-    }
+    "file": { "path": "/vault/data" }
   },
   "listener": {
     "tcp": {

@@ -6,12 +6,12 @@ provider "google" {
 
 provider "random" {}
 
-resource "random_id" "zdax" {
+resource "random_id" "z-dax" {
   byte_length = 2
 }
 
-resource "google_compute_instance" "zdax" {
-  name         = "${var.instance_name}-${random_id.zdax.hex}"
+resource "google_compute_instance" "z-dax" {
+  name         = "${var.instance_name}-${random_id.z-dax.hex}"
   machine_type = "${var.machine_type}"
   zone         = "${var.zone}"
 
@@ -26,10 +26,10 @@ resource "google_compute_instance" "zdax" {
   }
 
   network_interface {
-    network = "${google_compute_network.zdax.name}"
+    network = "${google_compute_network.z-dax.name}"
 
     access_config {
-      nat_ip = "${google_compute_address.zdax.address}"
+      nat_ip = "${google_compute_address.z-dax.address}"
     }
   }
 
@@ -61,9 +61,9 @@ resource "google_compute_instance" "zdax" {
   }
 }
 
-resource "google_compute_firewall" "zdax" {
-  name    = "zdax-firewall-${random_id.zdax.hex}"
-  network = "${google_compute_network.zdax.name}"
+resource "google_compute_firewall" "z-dax" {
+  name    = "z-dax-firewall-${random_id.z-dax.hex}"
+  network = "${google_compute_network.z-dax.name}"
 
   allow {
     protocol = "tcp"
@@ -75,10 +75,10 @@ resource "google_compute_firewall" "zdax" {
   target_tags = ["allow-webhook"]
 }
 
-resource "google_compute_address" "zdax" {
-  name = "zdax-ip-${random_id.zdax.hex}"
+resource "google_compute_address" "z-dax" {
+  name = "z-dax-ip-${random_id.z-dax.hex}"
 }
 
-resource "google_compute_network" "zdax" {
-  name = "zdax-network-${random_id.zdax.hex}"
+resource "google_compute_network" "z-dax" {
+  name = "z-dax-network-${random_id.z-dax.hex}"
 }

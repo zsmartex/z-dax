@@ -1,4 +1,4 @@
-require_relative '../zdax/payload'
+require_relative '../z-dax/payload'
 require 'faraday'
 
 namespace :payload do
