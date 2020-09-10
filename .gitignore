@@ -58,3 +58,5 @@ data/ssl/*
 
 vendor/*
 !vendor/.gitkeep
+
+config/vault-secrets.yml

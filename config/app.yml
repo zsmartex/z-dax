@@ -39,7 +39,7 @@ database:
   host: db
   port: 3306
   user: root
-  password: changeme
+  password: djtdjtdjtdjt
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI

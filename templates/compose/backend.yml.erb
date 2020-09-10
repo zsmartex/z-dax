@@ -9,7 +9,7 @@ services:
       - ../config/mysql/my.cnf:/etc/mysql/my.cnf
       - ../data/db:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: djtdjtdjtdjt
+      MYSQL_ROOT_PASSWORD: <%= @config['database']['password'] %>
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
