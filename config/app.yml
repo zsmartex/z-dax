@@ -4,7 +4,6 @@ app:
   domain: app.local
   subdomain: www
 render_protect: false
-swarm: false
 ssl:
   enabled: false
   email: business@zsmart.tech
