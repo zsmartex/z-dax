@@ -1,21 +1,21 @@
 ---
 app:
   name: Z-Dax
-  domain: app.local
-  subdomain: www
+  domain: zsmart.tech
+  subdomain: demo
 render_protect: false
 ssl:
-  enabled: false
+  enabled: true
   email: business@zsmart.tech
 image:
-  barong: gcr.io/zsmartex/barong:2.6.6
+  barong: gcr.io/zsmartex/barong:2.6.7
   peatio: gcr.io/zsmartex/peatio:2.6.7
   rango: gcr.io/zsmartex/rango:2.6.0
   athena: gcr.io/zsmartex/athena:1.0.13
   contrive: gcr.io/zsmartex/contrive:1.0.4
 finex:
   enabled: true
-  image: gcr.io/zsmartex/finex:0.0.1
+  image: gcr.io/zsmartex/finex:1.0.4
 storage:
   provider: Google
   bucketName: zsmart
@@ -34,7 +34,7 @@ twilio:
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.fMz4mYOYVdvquiSI5iPnz5nX
+  token: s.wLw4v2p0mafUY2XuhCFzT60s
 database:
   host: db
   port: 3306

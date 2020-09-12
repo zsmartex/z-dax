@@ -3,7 +3,7 @@ version: '3.8'
 services:
   peatio:
     build:
-      context: "../vendor/peatio"
+      context: ../vendor/peatio
     env_file:
       - ../config/peatio.env
     volumes:
@@ -11,7 +11,8 @@ services:
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
-    image: "<%= @config['image']['barong'] %>"
+    build:
+      context: ../vendor/barong
     env_file:
       - ../config/barong.env
     volumes:
@@ -20,15 +21,22 @@ services:
 
 <%- if @config['finex']['enabled'] -%>
   finex-api:
-    image: "<%= @config['image']['finex'] %>"
+    image: "<%= @config['finex']['image'] %>"
     env_file:
       - ../config/finex.env
-<%- end -%>
+    command: "/home/app/finex-api"
   
+  finex-websocket:
+    image: "<%= @config['finex']['image'] %>"
+    env_file:
+      - ../config/finex.env
+    command: "/home/app/finex-websocket"
+<%- else -%>
   rango:
     image: "<%= @config['image']['rango'] %>"
     env_file:
       - ../config/rango.env
+<%- end -%>
 
   coverapp:
     image: pagespeed/nginx-pagespeed

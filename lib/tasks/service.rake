@@ -75,12 +75,22 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d peatio barong rango envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d --build peatio barong envoy coverapp castle assets-currency'
+      if @config['finex']['enabled']
+        sh 'docker-compose up -d finex-api finex-websocket'
+      else
+        sh 'docker-compose up -d rango'
+      end
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong rango envoy coverapp castle assets-currency'
+      sh 'docker-compose rm -fs peatio barong envoy coverapp castle assets-currency'
+      if @config['finex']['enabled']
+        sh 'docker-compose rm -fs finex-api finex-websocket'
+      else
+        sh 'docker-compose rm -fs rango'
+      end
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -94,7 +104,7 @@ namespace :service do
 
     def start
       puts '----- Starting Daemons -----'
-      sh "docker-compose up -d #{@daemons.keys.join(' ')}"
+      sh "docker-compose up -d --build #{@daemons.keys.join(' ')}"
     end
 
     def stop

@@ -24,10 +24,10 @@ module ZDax
 
       initialize_vault
       unseal
+      apply_acl
 
       vault_secrets = YAML.safe_load(File.read(vault_secrets_path))
       vault_root_token = vault_secrets['root_token']
-      return vault_root_token if vault_status['initialized']
 
       puts '----- Vault login -----'
       vault_exec("vault login #{vault_root_token}")
@@ -70,6 +70,16 @@ module ZDax
         unseal_keys.each { |key| vault_exec("vault operator unseal #{key}") }
       else
         puts '----- Vault is unsealed -----'
+      end
+    end
+
+    def apply_acl
+      vault_secrets = YAML.safe_load(File.read(vault_secrets_path))
+      vault_root_token = vault_secrets['root_token']
+
+      ['barong-authz', 'barong-rails', 'peatio-crypto-daemons', 'peatio-rails', 'peatio-upstream-proxy'].each do |policy|
+        vault_exec("VAULT_TOKEN=#{vault_root_token} vault policy write #{policy} /acl_policies/#{policy}.hcl")
+        vault_exec("VAULT_TOKEN=#{vault_root_token} vault token create -policy=#{policy} -period=240h")
       end
     end
   end

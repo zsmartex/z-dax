@@ -15,4 +15,9 @@ namespace :vault do
     vault = ZDax::Vault.new
     vault.unseal
   end
+
+  task :apply_acl do
+    vault = ZDax::Vault.new
+    vault.apply_acl
+  end
 end

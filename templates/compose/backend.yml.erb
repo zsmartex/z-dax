@@ -59,6 +59,7 @@ services:
     volumes:
       - ../data/vault:/vault/data
       - ../config/vault/config.json:/vault/config/local.json
+      - ../acl_policies:/acl_policies
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/local.json

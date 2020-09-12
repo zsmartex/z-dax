@@ -31,17 +31,18 @@ static_resources:
                   prefix: "/api/v2/auth"
                 route:
                   cluster: barong
-                  prefix_rewrite: "/api/v2/"
+                  prefix_rewrite: "/api/v2"
               - match:
                   prefix: "/api/v2/trade"
                 route:
                   cluster: peatio
-                  prefix_rewrite: "/api/v2/"
+                  prefix_rewrite: "/api/v2"
+              <%- if @config['finex']['enabled'] -%>
               - match:
                   prefix: "/api/v2/finex"
                 route:
                   cluster: finex-api
-                  prefix_rewrite: "/api/v2/"
+                  prefix_rewrite: "/api/v2"
               - match:
                   prefix: "/api/v2/websocket/public"
                 route:
@@ -56,6 +57,22 @@ static_resources:
                   prefix_rewrite: "/"
                   upgrade_configs:
                     upgrade_type: "websocket"
+              <%- else -%>
+              - match:
+                  prefix: "/api/v2/websocket/public"
+                route:
+                  cluster: rango
+                  prefix_rewrite: "/"
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
+                  prefix: "/api/v2/websocket/private"
+                route:
+                  cluster: rango
+                  prefix_rewrite: "/"
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              <%- end -%>
           http_filters:
           - name: envoy.cors
             typed_config: {}
@@ -114,6 +131,7 @@ static_resources:
     - socket_address:
         address: peatio
         port_value: 8000
+<%- if @config['finex']['enabled'] -%>
   - name: finex-api
     connect_timeout: 0.25s
     type: strict_dns
@@ -130,6 +148,16 @@ static_resources:
     - socket_address:
         address: finex-websocket
         port_value: 8081
+<%- else -%>
+  - name: rango
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: rango
+        port_value: 8080
+<%- end -%>
 admin:
   access_log_path: "/dev/null"
   address:
