@@ -34,7 +34,7 @@ twilio:
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.wLw4v2p0mafUY2XuhCFzT60s
+  token: s.dRkit8Jwktp1hJF7Nu7CxVIk
 database:
   host: db
   port: 3306
