@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   peatio:
-    build:
-      context: ../vendor/peatio
+    image: "<%= @config['image']['peatio'] %>"
     env_file:
       - ../config/peatio.env
     volumes:
@@ -11,8 +10,7 @@ services:
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
-    build:
-      context: ../vendor/barong
+    image: "<%= @config['image']['barong'] %>"
     env_file:
       - ../config/barong.env
     volumes:

@@ -9,12 +9,12 @@
     transaction:     https://goerli.etherscan.io/tx/#{txid}
   status:            active
 
-- key:               eth-mainet
+- key:               eth-mainnet
   name:              Ethereum Mainet
-  client:            geth               # API client name.
-  server:            http://geth:8545       # Public Ethereum node endpoint. IMPORTANT: full syncmode.
-  height:            5000000                # Initial block number from which sync will be started.
-  min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
+  client:            parity                           # API client name.
+  server:            http://104.238.160.193:8545      # Public Ethereum node endpoint. IMPORTANT: full syncmode.
+  height:            10852585                         # Initial block number from which sync will be started.
+  min_confirmations: 10                               # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://etherscan.io/address/#{address}
     transaction:     https://etherscan.io/tx/#{txid}

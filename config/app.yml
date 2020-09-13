@@ -8,8 +8,8 @@ ssl:
   enabled: true
   email: business@zsmart.tech
 image:
-  barong: gcr.io/zsmartex/barong:2.6.7
-  peatio: gcr.io/zsmartex/peatio:2.6.7
+  barong: gcr.io/zsmartex/barong:2.6.8
+  peatio: gcr.io/zsmartex/peatio:2.6.8
   rango: gcr.io/zsmartex/rango:2.6.0
   athena: gcr.io/zsmartex/athena:1.0.13
   contrive: gcr.io/zsmartex/contrive:1.0.4

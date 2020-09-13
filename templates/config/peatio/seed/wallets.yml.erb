@@ -1,179 +1,89 @@
 - name:             Ethereum Deposit Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      eth
   # Address where deposits will be collected to.
-  address:          '0xeaCB530262a39438579968bd3877523B3B4c23f2'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0x864fa181d19553c6fc5907f95b69beee7b6e1f30'  # IMPORTANT: Always wrap this value in quotes!
   kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      0.0
   status:           active
-  gateway:          geth     # Gateway client name.
+  gateway:          parity     # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'
 
 - name:             Ethereum Hot Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      eth
   # Address where deposits will be collected to.
-  address:          '0x671eb69873f1D762bDCE3aA52649b4B82bb29766'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0xbbbdd039f1ac732e850d2c9c3be5d44b2a47291b'  # IMPORTANT: Always wrap this value in quotes!
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      100.0
   status:           active
-  gateway:          geth    # Gateway client name.
+  gateway:          parity    # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'
 
 - name:             Ethereum Warm Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      eth
   # Address where deposits will be collected to.
-  address:          '0x130e74084924A5e2391E872317f70473897bD87e'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0xe526c3d01dd54536675e120e3a287e2a87d57cd8'  # IMPORTANT: Always wrap this value in quotes!
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      1000.0
   status:           active
-  gateway:          geth    # Gateway client name.
+  gateway:          parity    # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'
 
 - name:             Tether USD Deposit Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      usdt
   # Address where deposits will be collected to.
-  address:          '0xeaCB530262a39438579968bd3877523B3B4c23f2'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0x4c2107849188cbe3b8cab34b5d7d2d8f95ec5d97'  # IMPORTANT: Always wrap this value in quotes!
   kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      0.0
   status:           active
-  gateway:          geth     # Gateway client name.
+  gateway:          parity     # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'
 
 - name:             Tether USD Hot Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      usdt
   # Address where deposits will be collected to.
-  address:          '0x671eb69873f1D762bDCE3aA52649b4B82bb29766'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0xb7dac3f4f12fc9603922501cf3e14d00631d068a'  # IMPORTANT: Always wrap this value in quotes!
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      100.0
   status:           active
-  gateway:          geth    # Gateway client name.
+  gateway:          parity    # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'
 
 - name:             Tether USD Warm Wallet
-  blockchain_key:   eth-goerli
+  blockchain_key:   eth-mainnet
   currency_id:      usdt
   # Address where deposits will be collected to.
-  address:          '0x130e74084924A5e2391E872317f70473897bD87e'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '0xa8b13e5f5f5103dcb3f230aa6b73f7b311eb980e'  # IMPORTANT: Always wrap this value in quotes!
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   max_balance:      1000.0
   status:           active
-  gateway:          geth    # Gateway client name.
+  gateway:          parity    # Gateway client name.
   settings:
     #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Goerli Test Token Deposit Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      tst
-  # Address where deposits will be collected to.
-  address:          '0xeaCB530262a39438579968bd3877523B3B4c23f2'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      0.0
-  status:           active
-  gateway:          geth     # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Goerli Test Token Hot Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      tst
-  # Address where deposits will be collected to.
-  address:          '0x671eb69873f1D762bDCE3aA52649b4B82bb29766'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      100.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Goerli Test Token Warm Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      tst
-  # Address where deposits will be collected to.
-  address:          '0x130e74084924A5e2391E872317f70473897bD87e'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      1000.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Zippie Deposit Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      zipt
-  # Address where deposits will be collected to.
-  address:          '0xeaCB530262a39438579968bd3877523B3B4c23f2'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      0.0
-  status:           active
-  gateway:          geth     # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Zippie Hot Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      zipt
-  # Address where deposits will be collected to.
-  address:          '0x671eb69873f1D762bDCE3aA52649b4B82bb29766'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      100.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
-
-- name:             Zippie Warm Wallet
-  blockchain_key:   eth-goerli
-  currency_id:      zipt
-  # Address where deposits will be collected to.
-  address:          '0x130e74084924A5e2391E872317f70473897bD87e'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      1000.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://geth:8545
-    secret:       'exchangewallet'
+    # parity gateway client settings.
+    uri:          http://104.238.160.193:8545
+    secret:       'huuhadz2k'

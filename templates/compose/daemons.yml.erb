@@ -1,8 +1,7 @@
 version: '3.8'
 
 x-daemon: &peatio-daemon
-  build:
-    context: "../vendor/peatio"
+  image: "<%= @config['image']['peatio'] %>"
   env_file:
     - ../config/peatio.env
   volumes:
