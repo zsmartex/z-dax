@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   contrive:
-    image: "<%= @config['image']['contrive'] %>"
+    image: "<%= @config['images']['contrive'] %>"
     env_file:
       - ../config/contrive.env
     volumes:

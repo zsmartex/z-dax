@@ -16,9 +16,9 @@ services:
     depends_on:
       - db
     environment:
-      PMA_HOST: db
-      PMA_USER: root
-      PMA_PASSWORD: djtdjtdjtdjt
+      PMA_HOST: <%= @config['database']['host'] %>
+      PMA_USER: <%= @config['database']['user'] %>
+      PMA_PASSWORD: <%= @config['database']['password'] %>
       PHP_UPLOAD_MAX_FILESIZE: 1G
       PHP_MAX_INPUT_VARS: 1G
     labels:

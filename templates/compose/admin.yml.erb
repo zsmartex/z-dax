@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   z-control:
-    image: "<%= @utils['image']['z-control'] %>"
+    build:
+      context: "../vendor/z-control"
     ports:
       - '3000:3000'
     labels:

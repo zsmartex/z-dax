@@ -24,10 +24,6 @@ config/peatio/seed/*
 vendor/*
 !vendor/.gitkeep
 
-.terraform/
-*.tfvars
-terraform.tfstate*
-
 data/geth/*/geth
 !data/geth/.gitkeep
 

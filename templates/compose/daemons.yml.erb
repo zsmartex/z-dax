@@ -1,14 +1,16 @@
 version: '3.8'
 
 x-daemon: &peatio-daemon
-  image: "<%= @config['image']['peatio'] %>"
+  build:
+    context: "../vendor/peatio"
   env_file:
     - ../config/peatio.env
   volumes:
     - ../config/peatio/seed:/home/app/config/seed
 
-x-finex-engine: &finex-engine
-  image: "<%= @config['finex']['image'] %>"
+x-finex-daemon: &finex-daemon
+  build:
+    context: "../vendor/finex"
   env_file:
     - ../config/finex.env
 
@@ -25,10 +27,22 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
 <% end -%>
 
-<% if @config['daemons']['cron_job'] -%>
-  cron_job:
+<% if @config['daemons']['peatio_cron_job'] -%>
+  peatio_cron_job:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb cron_job"
+<% end -%>
+
+<% if @config['daemons']['finex_cron_job'] -%>
+  finex_cron_job:
+    << : *finex-daemon
+    command: "/home/app/finex-daemon cron_job"
+<% end -%>
+
+<% if @config['daemons']['deposit'] -%>
+  deposit:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb deposit"
 <% end -%>
 
 <% if @config['daemons']['upstream'] -%>
@@ -37,35 +51,23 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb upstream"
 <% end -%>
 
-<% if @config['daemons']['deposit_collection'] -%>
-  deposit_collection:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_collection"
-<% end -%>
-
-<% if @config['daemons']['deposit_collection_fees'] -%>
-  deposit_collection_fees:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_collection_fees"
-<% end -%>
-
 <% if @config['daemons']['deposit_coin_address'] -%>
   deposit_coin_address:
     << : *peatio-daemon
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
 <% end -%>
 
+<% if @config['daemons']['market_ticker'] -%>
+  market_ticker:
+    << : *peatio-daemon
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
+<% end -%>
+
 <% ['matching', 'order_processor', 'trade_executor'].each do |engine| %>
 <% if @config['daemons'][engine] -%>
-<% if @config['finex']['enabled'] %>
   <%= engine %>:
-    << : *finex-engine
+    << : *finex-daemon
     command: "/home/app/finex-engine <%= engine %>"
-<% else %>
-  <%= engine %>:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb <%= engine %>"
-<% end %>
 <% end %>
 <% end %>
 
@@ -75,8 +77,28 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb withdraw_coin"
 <% end -%>
 
-<% if @config['daemons']['influx_writer'] -%>
-  influx_writer:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb influx_writer"
-<% end -%>
+  mailer:
+    restart: always
+    build:
+      context: "../vendor/barong"
+    env_file:
+      - ../config/barong.env
+    volumes:
+      -  ../config/secrets:/secrets:ro
+      -  ../config/mailer/templates:/home/app/app/views/postmaster
+      -  ../config/mailer.yml:/home/app/config/mailer.yml
+    command: bash -c "bin/mailer run"
+
+  sidekiq:
+    restart: always
+    build:
+      context: "../vendor/barong"
+    env_file:
+      - ../config/barong.env
+    volumes:
+      - ../config/secrets:/secrets
+      - ../config/barong/seeds.yml:/home/app/config/seeds.yml
+      - ../config/barong/barong.yml:/home/app/config/barong.yml
+      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml
+      - ../config/barong/management_api.yml:/home/app/config/management_api.yml
+    command: bash -c "bundle exec sidekiq"

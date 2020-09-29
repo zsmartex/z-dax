@@ -7,34 +7,23 @@ render_protect: false
 ssl:
   enabled: true
   email: business@zsmart.tech
-image:
-  barong: gcr.io/zsmartex/barong:2.6.8
-  peatio: gcr.io/zsmartex/peatio:2.6.8
-  rango: gcr.io/zsmartex/rango:2.6.0
+images:
+  barong: quay.io/openware/barong:2.6.0-a97b181
+  peatio: quay.io/openware/peatio:2.6.0-0f60e12
   athena: gcr.io/zsmartex/athena:1.0.13
   contrive: gcr.io/zsmartex/contrive:1.0.4
-finex:
-  enabled: true
-  image: gcr.io/zsmartex/finex:1.0.4
+  finex: gcr.io/zsmartex/finex:1.0.20
 storage:
   provider: Google
   bucketName: zsmart
   accessKey: GOOGTQRI3JKKSPRV4XBKNPKZ
   secretKey: xoaBinmXXTV+E6J/dceV+60yY62kOHW/EKDZYdad
-terraform:
-  credentials: "~/safe/z-dax.json"
-  project: example-z-dax
-  region: europe-west4
-  zone: europe-west4-a
-  instance_name: z-dax-cloud
-  machine_type: n1-standard-4
-  image: debian-cloud/debian-9
 twilio:
   phone_number: "+18577635282"
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.dRkit8Jwktp1hJF7Nu7CxVIk
+  token: s.2G2v1t78WslH2Eca4uEv3yTu
 database:
   host: db
   port: 3306
@@ -43,17 +32,24 @@ database:
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI
+smtp:
+  host: smtp.sendgrid.net
+  port: 2525
+  user: apikey
+  password: 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
+  sender_email: no-reply@zsmart.tech
+  sender_name: ZSmart
+  sender_logo: https://media.giphy.com/media/khlyv0MvfDmKvbpzZO/giphy.gif
 daemons:
   withdraw_audit: true
   blockchain: true
-  deposit_collection: true
-  deposit_collection_fees: true
+  deposit: true
   deposit_coin_address: true
   withdraw_coin: true
-  influx_writer: true
   upstream: true
-  cron_job: true
+  peatio_cron_job: true
+  finex_cron_job: true
   matching: true
   order_processor: true
   trade_executor: true
-sendgrid_api_key: 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
+  mailer: true

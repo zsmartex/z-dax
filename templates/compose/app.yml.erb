@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   peatio:
-    image: "<%= @config['image']['peatio'] %>"
+    build:
+      context: "../vendor/peatio"
     env_file:
       - ../config/peatio.env
     volumes:
@@ -10,31 +11,33 @@ services:
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
-    image: "<%= @config['image']['barong'] %>"
+    build:
+      context: "../vendor/barong"
     env_file:
       - ../config/barong.env
     volumes:
-      - ../config/secrets/barong.key:/secrets/barong.key
-      - ../config/barong/seed:/home/app/config/seed:ro
+      - ../config/secrets:/secrets
+      - ../config/barong/seeds.yml:/home/app/config/seeds.yml
+      - ../config/barong/barong.yml:/home/app/config/barong.yml
+      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml
+      - ../config/barong/management_api.yml:/home/app/config/management_api.yml
 
-<%- if @config['finex']['enabled'] -%>
   finex-api:
-    image: "<%= @config['finex']['image'] %>"
+    build:
+      context: "../vendor/finex"
     env_file:
       - ../config/finex.env
     command: "/home/app/finex-api"
-  
+
   finex-websocket:
-    image: "<%= @config['finex']['image'] %>"
+    build:
+      context: "../vendor/finex"
     env_file:
       - ../config/finex.env
     command: "/home/app/finex-websocket"
-<%- else -%>
-  rango:
-    image: "<%= @config['image']['rango'] %>"
-    env_file:
-      - ../config/rango.env
-<%- end -%>
+
+  applogic:
+    
 
   coverapp:
     image: pagespeed/nginx-pagespeed

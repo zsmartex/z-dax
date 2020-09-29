@@ -75,22 +75,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d --build peatio barong envoy coverapp castle assets-currency'
-      if @config['finex']['enabled']
-        sh 'docker-compose up -d finex-api finex-websocket'
-      else
-        sh 'docker-compose up -d rango'
-      end
+      sh 'docker-compose up -d --build peatio barong finex-api finex-websocket envoy coverapp castle assets-currency'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong envoy coverapp castle assets-currency'
-      if @config['finex']['enabled']
-        sh 'docker-compose rm -fs finex-api finex-websocket'
-      else
-        sh 'docker-compose rm -fs rango'
-      end
+      sh 'docker-compose rm -fs peatio barong finex-api finex-websocket envoy coverapp castle assets-currency'
     end
 
     @switch.call(args, method(:start), method(:stop))

@@ -1,13 +1,12 @@
 - id:                     eth
   name:                   Ethereum
   blockchain_key:         eth-mainnet
-  symbol:                 'Ξ'
   type:                   coin
   precision:              8
   base_factor:            1_000_000_000_000_000_000
   visible:                true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   min_deposit_amount:     0.00021
   min_collection_amount:  0.00021
   withdraw_limit_24h:     0.2
@@ -16,21 +15,18 @@
   withdraw_fee:           0
   position:               2
   options:
-    # ETH tx fees configurations.
-    #
-    # Maximum amount of gas you're willing to spend on a particular transaction.
     gas_limit: 21_000
-    # Internal price that is paid for running a transaction on the Ethereum network.
     gas_price: 1_000_000_000
 
 - id:                     usdt
   name:                   Tether USD
   blockchain_key:         eth-mainnet
-  symbol:                 'Ξ'
   type:                   coin
-  precision:              8
-  base_factor:            1_000_000
+  precision:              2
+  base_factor:            1
   visible:                true
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   min_deposit_amount:     5
   min_collection_amount:  5
   withdraw_limit_24h:     300

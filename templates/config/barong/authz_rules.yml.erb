@@ -1,0 +1,14 @@
+#
+# pass for whitelisted (public) routes
+# block for blacklisted routes
+#
+rules:
+  pass: 
+    - api/v2/auth/identity
+    - api/v2/trade/public
+    - api/v2/finex/public
+    - api/v2/websocket/public
+    - api/v2/applogic/public
+  block:
+    - api/v2/auth/management
+    - api/v2/trade/management

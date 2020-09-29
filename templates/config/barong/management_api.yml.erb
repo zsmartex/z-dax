@@ -1,0 +1,11 @@
+keychain:
+  applogic:
+    algorithm: RS256
+    value: <%= @jwt_public_key %>
+    
+scopes:
+  read_users:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic

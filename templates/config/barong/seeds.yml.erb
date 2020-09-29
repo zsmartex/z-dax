@@ -1,0 +1,214 @@
+# List of Barong administrators.
+#
+# Other parameters that you can set here can be found in Account,
+# Profile and Phone models (e.g. app/models/account.rb...); all the
+# model properties are listed at the very bottom of this models files.
+#
+# Note: email is the only required field here.
+users:
+  - email: business@zsmart.tech
+    password: J\=v<Sfn7>8%W6S6
+    role: "admin"
+    state: "active"
+    level: 3
+  - email: admin@zsmart.tech
+    password: J\=v<Sfn7>8%W6S6
+    role: "admin"
+    state: "active"
+    level: 3
+  - email: demo@zsmart.tech
+    password: J\=v<Sfn7>8%W6S6
+    role: "admin"
+    state: "active"
+    level: 3
+  - email: test@zsmart.tech
+    password: J\=v<Sfn7>8%W6S6
+    role: "admin"
+    state: "active"
+    level: 3
+
+levels:
+  - key: email
+    value: verified
+    description: "User clicked on the confirmation link"
+  - key: phone
+    value: verified
+    description: "User entered a valid code from sms"
+  - key: document
+    value: verified
+    description: "User personal documents have been verified"
+
+restrictions: {}
+
+permissions:
+  # SUPER ADMIN has an access to the whole system without any limits
+  # so we can just grant him access to /api/v2/*
+  - { role: superadmin, verb: all, path: api/v2, action: accept }
+  #  superadmin has a full access to the trade admin api
+  #  websocket access
+  - { role: superadmin, verb: get, path: api/v2/websocket, action: accept }
+  #  we are watching after you 0_0
+  - { role: superadmin, verb: post, path: api/v2/, action: audit }
+  - { role: superadmin, verb: put, path: api/v2/, action: audit }
+  - { role: superadmin, verb: delete, path: api/v2/, action: audit }
+
+  # ADMIN
+  # admin has nearly full access to auth and trade api, except managing permissions
+  - { role: admin, verb: all, path: api/v2, action: accept }
+  #  admin has a full access to the trade admin api
+  #  websocket access
+  - { role: admin, verb: get, path: api/v2/websocket, action: accept }
+  #  admin doesnt have access to manage platform roles and permissions
+  - { role: admin, verb: all, path: api/v2/auth/admin/permissions, action: drop }
+  #  admin doesnt have access to manage roles
+  - { role: admin, verb: all, path: api/v2/auth/admin/users/role, action: drop }
+  #  admin doesnt have access to admin activities
+  - { role: admin, verb: all, path: api/v2/auth/admin/activities/admin, action: drop }
+  #  we are watching after you 0_0
+  - { role: admin, verb: post, path: api/v2/, action: audit }
+  - { role: admin, verb: put, path: api/v2/, action: audit }
+  - { role: admin, verb: delete, path: api/v2/, action: audit }
+
+  # ACCOUNTANT
+  #  accountant has a read access to auth admin
+  - { role: accountant, verb: get, path: api/v2/auth/admin, action: accept }
+  - { role: accountant, verb: get, path: api/v2/applogic/admin, action: accept }
+  #  has an ability to ban user
+  #  Warning! PUT call working but only GET/DELETE/POST will be audited correctly, **/update is a temporary solution
+  - { role: accountant, verb: put, path: api/v2/auth/admin/users, action: accept }
+  - { role: accountant, verb: put, path: api/v2/applogic/admin/users, action: accept }
+  - { role: accountant, verb: put, path: api/v2/auth/admin/users/labels, action: drop }
+  - { role: accountant, verb: post, path: api/v2/auth/admin/users/update, action: accept }
+  - { role: accountant, verb: post, path: api/v2/auth/admin/users/labels/update, action: drop }
+  #  accountant doesnt have access to manage platform roles and permissions
+  - { role: accountant, verb: all, path: api/v2/auth/admin/users/role, action: drop }
+  - { role: accountant, verb: all, path: api/v2/auth/admin/permissions, action: drop }
+  #  accountant doesnt have access to admin activities
+  - { role: accountant, verb: all, path: api/v2/auth/admin/activities/admin, action: drop }
+  #  we are watching after you 0_0
+  - { role: accountant, verb: post, path: api/v2/, action: audit }
+  - { role: accountant, verb: put, path: api/v2/, action: audit }
+  - { role: accountant, verb: delete, path: api/v2/, action: audit }
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: accountant, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: accountant, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: accountant, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: accountant, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: accountant, verb: get, path: api/v2/websocket, action: accept }
+
+  # COMPLIANCE
+  #  has an access to CRUD of user-related resources
+  - { role: compliance, verb: get, path: api/v2/auth/admin/metrics, action: accept }
+  - { role: compliance, verb: post, path: api/v2/auth/admin/users, action: accept }
+  - { role: compliance, verb: put, path: api/v2/auth/admin/users, action: accept }
+  - { role: compliance, verb: get, path: api/v2/auth/admin/users, action: accept }
+  - { role: compliance, verb: delete, path: api/v2/auth/admin/users, action: accept }
+  - { role: compliance, verb: delete, path: api/v2/applogic/admin/users, action: accept }
+  - { role: compliance, verb: get, path: api/v2/auth/admin/activities, action: accept }
+  #  compliance doesnt have access to change users roles
+  - { role: compliance, verb: all, path: api/v2/auth/admin/users/role, action: drop }
+  #  compliance doesnt have access to admin activities
+  - { role: compliance, verb: all, path: api/v2/auth/admin/activities/admin, action: drop }
+  #  compliance doesnt have access to manage platform roles and permissions
+  - { role: compliance, verb: all, path: api/v2/auth/admin/permissions, action: drop }
+  #  has read-only access to trade admin api
+  #  we are watching after you 0_0
+  - { role: compliance, verb: post, path: api/v2/, action: audit }
+  - { role: compliance, verb: put, path: api/v2/, action: audit }
+  - { role: compliance, verb: delete, path: api/v2/, action: audit }
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: compliance, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: compliance, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: compliance, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: compliance, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: compliance, verb: get, path: api/v2/websocket, action: accept }
+
+  # TECHNICAL
+  #  has an access to CRUD of trade admin functionality on market, blockchain, wallets, currencies
+  #  technical has a read access to auth admin
+  - { role: technical, verb: get, path: api/v2/auth/admin, action: accept }
+  - { role: technical, verb: get, path: api/v2/applogic/admin, action: accept }
+  #  technical doesnt have access to admin activities
+  - { role: compliance, verb: all, path: api/v2/auth/admin/activities/admin, action: drop }
+  #  technical doesnt have access to manage platform roles and permissions
+  - { role: technical, verb: all, path: api/v2/auth/admin/permissions, action: drop }
+  #  we are watching after you 0_0
+  - { role: technical, verb: post, path: api/v2/, action: audit }
+  - { role: technical, verb: put, path: api/v2/, action: audit }
+  - { role: technical, verb: delete, path: api/v2/, action: audit }
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: technical, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: technical, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: technical, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: technical, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: technical, verb: get, path: api/v2/websocket, action: accept }
+
+  # SUPPORT
+  #  has read only access to several statistic and user-related endpoints
+  - { role: support, verb: get, path: api/v2/auth/admin/metrics, action: accept }
+  - { role: support, verb: get, path: api/v2/auth/admin/users, action: accept }
+  - { role: support, verb: get, path: api/v2/applogic/admin/users, action: accept }
+  - { role: support, verb: get, path: api/v2/auth/admin/activities, action: accept }
+  #  support doesnt have access to admin activities
+  - { role: support, verb: all, path: api/v2/auth/admin/activities/admin, action: drop }
+  #  support doesnt have access to manage platform roles and permissions
+  - { role: support, verb: all, path: api/v2/auth/admin/permissions, action: drop }
+  #  we are watching after you 0_0
+  - { role: support, verb: post, path: api/v2/, action: audit }
+  - { role: support, verb: put, path: api/v2/, action: audit }
+  - { role: support, verb: delete, path: api/v2/, action: audit }
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: support, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: support, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: support, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: support, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: technical, verb: get, path: api/v2/websocket, action: accept }
+
+  # TRADER
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: trader, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: trader, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: trader, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: trader, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: trader, verb: get, path: api/v2/websocket, action: accept }
+
+  #  MEMBER
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: member, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: member, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: member, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: member, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: member, verb: get, path: api/v2/websocket, action: accept }
+
+  #  BROKER
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: broker, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: broker, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: broker, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: broker, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: broker, verb: get, path: api/v2/websocket, action: accept }
+
+  #  Manager
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: manager, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: manager, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: manager, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: manager, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: manager, verb: get, path: api/v2/websocket, action: accept }
+
+  #  Partner
+  #  has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
+  - { role: partner, verb: all, path: api/v2/trade/account, action: accept }
+  - { role: partner, verb: all, path: api/v2/trade/market, action: accept }
+  - { role: partner, verb: all, path: api/v2/finex/market, action: accept }
+  - { role: partner, verb: all, path: api/v2/auth/resource, action: accept }
+  #  websocket access
+  - { role: partner, verb: get, path: api/v2/websocket, action: accept }
