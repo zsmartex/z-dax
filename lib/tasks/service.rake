@@ -75,12 +75,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d --build peatio barong finex-api finex-websocket envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d --build peatio barong finex-api finex-websocket applogic envoy coverapp castle assets-currency'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong finex-api finex-websocket envoy coverapp castle assets-currency'
+      sh 'docker-compose rm -fs peatio barong finex-api finex-websocket applogic envoy coverapp castle assets-currency'
     end
 
     @switch.call(args, method(:start), method(:stop))

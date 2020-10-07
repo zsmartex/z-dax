@@ -3,8 +3,6 @@ version: '3.8'
 services:
   db:
     image: mysql:5.7
-    ports:
-      - "3306:3306"
     volumes:
       - ../config/mysql/my.cnf:/etc/mysql/my.cnf
       - ../data/db:/var/lib/mysql
@@ -33,16 +31,12 @@ services:
       <%- end -%>
 
   redis:
-    image: redis:4.0.10
-    ports:
-      - "6379:6379"
+    image: redis:4.0.10-alpine
     volumes:
-      - ../data/redis:/bitnami/redis/data
+      - ../data/redis:/data
 
   influxdb:
     image: influxdb:1.7.8
-    ports:
-      - "8086:8086"
     environment:
       INFLUXDB_ADMIN_ENABLED: "true"
     volumes:

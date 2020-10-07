@@ -37,7 +37,11 @@ services:
     command: "/home/app/finex-websocket"
 
   applogic:
-    
+    build:
+      context: "../vendor/applogic"
+    env_file:
+      - ../config/applogic.env
+    command: "crystal ./src/applogic.cr"
 
   coverapp:
     image: pagespeed/nginx-pagespeed
