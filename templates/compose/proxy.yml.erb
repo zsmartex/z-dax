@@ -3,6 +3,7 @@ version: '3.8'
 services:
   traefik:
     image: traefik
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -24,6 +25,7 @@ services:
 
   visualizer:
     image: dockersamples/visualizer
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:

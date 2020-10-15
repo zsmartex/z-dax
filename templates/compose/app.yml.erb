@@ -4,6 +4,7 @@ services:
   peatio:
     build:
       context: "../vendor/peatio"
+    restart: always
     env_file:
       - ../config/peatio.env
     volumes:
@@ -25,6 +26,7 @@ services:
   finex-api:
     build:
       context: "../vendor/finex"
+    restart: always
     env_file:
       - ../config/finex.env
     command: "/home/app/finex-api"
@@ -32,6 +34,7 @@ services:
   finex-websocket:
     build:
       context: "../vendor/finex"
+    restart: always
     env_file:
       - ../config/finex.env
     command: "/home/app/finex-websocket"
@@ -39,12 +42,14 @@ services:
   applogic:
     build:
       context: "../vendor/applogic"
+    restart: always
     env_file:
       - ../config/applogic.env
     command: "crystal ./src/applogic.cr"
 
   coverapp:
     image: pagespeed/nginx-pagespeed
+    restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
       - ../data/coverapp:/var/www/html:ro
@@ -61,6 +66,7 @@ services:
 
   castle:
     image: pagespeed/nginx-pagespeed
+    restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
       - ../data/castle:/var/www/html/castle:ro
@@ -77,6 +83,7 @@ services:
 
   assets-currency:
     image: pagespeed/nginx-pagespeed
+    restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
       - ../data/assets-currency:/var/www/html/assets-currency:ro

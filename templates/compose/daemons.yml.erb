@@ -3,6 +3,7 @@ version: '3.8'
 x-daemon: &peatio-daemon
   build:
     context: "../vendor/peatio"
+  restart: always
   env_file:
     - ../config/peatio.env
   volumes:
@@ -11,6 +12,7 @@ x-daemon: &peatio-daemon
 x-finex-daemon: &finex-daemon
   build:
     context: "../vendor/finex"
+  restart: always
   env_file:
     - ../config/finex.env
 

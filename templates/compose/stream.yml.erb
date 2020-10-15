@@ -3,12 +3,14 @@ version: '3.8'
 services:
   rabbitmq:
     image: rabbitmq:3.7.6-management
+    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
 
   nats:
     image: nats
+    restart: always
     ports:
       - "8222:8222"
       - "4222:4222"
@@ -16,4 +18,5 @@ services:
 
   nats-replica:
     image: nats
+    restart: always
     command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
