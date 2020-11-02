@@ -38,7 +38,7 @@ services:
 <% if @config['daemons']['finex_cron_job'] -%>
   finex_cron_job:
     << : *finex-daemon
-    command: "/home/app/finex-daemon cron_job"
+    command: "crystal run /home/app/src/finex-daemon -- cron_job"
 <% end -%>
 
 <% if @config['daemons']['deposit'] -%>
@@ -65,11 +65,11 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
 <% end -%>
 
-<% ['matching', 'order_processor', 'trade_executor'].each do |engine| %>
+<% ['matching', 'order_processor', 'trade_executor', 'depth_cache'].each do |engine| %>
 <% if @config['daemons'][engine] -%>
   <%= engine %>:
     << : *finex-daemon
-    command: "/home/app/finex-engine <%= engine %>"
+    command: "crystal run /home/app/src/finex-engine.cr -- <%= engine %>"
 <% end %>
 <% end %>
 

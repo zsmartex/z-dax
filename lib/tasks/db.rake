@@ -4,7 +4,7 @@ namespace :db do
     puts '----- Running create database -----'
     sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:create"'
     sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:create"'
-    sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:create"'
+    # sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:create"'
   end
 
   task :migrate, [:command] do |task, args|
@@ -12,7 +12,7 @@ namespace :db do
     puts '----- Running migrate database -----'
     sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:migrate"'
     sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:migrate"'
-    sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:migrate"'
+    # sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:migrate"'
   end
 
   task :seed, [:command] do |task, args|
@@ -20,7 +20,7 @@ namespace :db do
     puts '----- Running seed database -----'
     sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:seed"'
     sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:seed"'
-    sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:seed"'
+    # sh 'docker-compose run --rm applogic sh -c "./applogic-sam db:seed"'
   end
 
   task :setup, [:command] do |task, args|

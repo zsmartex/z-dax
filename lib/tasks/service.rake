@@ -37,13 +37,13 @@ namespace :service do
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db phpmyadmin redis influxdb vault'
+      sh 'docker-compose up -d db redis influxdb vault'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db phpmyadmin redis influxdb vault'
+      sh 'docker-compose rm -fs db redis influxdb vault'
     end
 
 
@@ -111,7 +111,7 @@ namespace :service do
 
     def start
       puts '----- Starting Bot -----'
-      sh 'docker-compose up -d contrive'
+      sh 'docker-compose up -d --build contrive'
     end
 
     def stop

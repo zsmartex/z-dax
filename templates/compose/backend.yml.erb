@@ -2,35 +2,13 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:5.7
+    image: postgres:13
     restart: always
     volumes:
-      - ../config/mysql/my.cnf:/etc/mysql/my.cnf
-      - ../data/db:/var/lib/mysql
+      - ../data/db:/var/lib/postgresql/data
     environment:
-      MYSQL_ROOT_PASSWORD: <%= @config['database']['password'] %>
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    depends_on:
-      - db
-    environment:
-      PMA_HOST: <%= @config['database']['host'] %>
-      PMA_USER: <%= @config['database']['user'] %>
-      PMA_PASSWORD: <%= @config['database']['password'] %>
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    labels:
-      - "traefik.http.routers.phpmyadmin-<%= @name %>.rule=Host(`pma.<%= @config['app']['domain'] %>`)"
-      - "traefik.http.services.phpmyadmin-<%= @name %>.loadbalancer.server.port=80"
-      - "traefik.enable=true"
-      <%- if @config['ssl']['enabled'] -%>
-      - "traefik.http.routers.phpmyadmin-<%= @name %>.entrypoints=websecure"
-      - "traefik.http.routers.phpmyadmin-<%= @name %>.tls=true"
-      <%- else -%>
-      - "traefik.http.routers.phpmyadmin-<%= @name %>.entrypoints=web"
-      <%- end -%>
+      POSTGRES_USER: <%= @config['database']['user'] %>
+      POSTGRES_PASSWORD: <%= @config['database']['password'] %>
 
   redis:
     image: redis:4.0.10-alpine

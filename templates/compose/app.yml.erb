@@ -29,7 +29,7 @@ services:
     restart: always
     env_file:
       - ../config/finex.env
-    command: "/home/app/finex-api"
+    command: "crystal run /home/app/src/finex-api.cr"
 
   finex-websocket:
     build:
@@ -37,7 +37,7 @@ services:
     restart: always
     env_file:
       - ../config/finex.env
-    command: "/home/app/finex-websocket"
+    command: "crystal run /home/app/src/finex-websocket.cr"
 
   applogic:
     build:
@@ -45,7 +45,7 @@ services:
     restart: always
     env_file:
       - ../config/applogic.env
-    command: "crystal ./src/applogic.cr"
+    command: "/home/app/applogic"
 
   coverapp:
     image: pagespeed/nginx-pagespeed

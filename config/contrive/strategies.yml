@@ -5,8 +5,8 @@ exchanges:
     driver: zsmart
     host: "https://demo.zsmart.tech"
     ws: "wss://demo.zsmart.tech/api/v2/websocket"
-    key: "10bd360617e78745"
-    secret: "bd412fd51363076e07a28e28730a2a99"
+    key: "eda20b00d5ea7041"
+    secret: "1533439e383450ad30c8bda7a30326b6"
 
   - id: 2
     driver: binance
@@ -16,33 +16,33 @@ exchanges:
     secret: ""
 
 strategies:
-  - type: copy
-    volume_ratio: 1
-    delay: 0.25
-    spread_bids: 0
-    spread_asks: 0
-    limit_depth: 1500
-    target:
-      exchange_id: 1
-      market: 
-        id: ETHUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
-        min_ask_amount: 0.00001
-        min_bid_amount: 0.00001
-    source:
-      exchange_id: 2
-      market:
-        id: ETHUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
+  # - type: copy
+  #   volume_ratio: 1
+  #   delay: 2
+  #   spread_bids: 0
+  #   spread_asks: 0
+  #   limit_depth: 100
+  #   target:
+  #     exchange_id: 1
+  #     market: 
+  #       id: ETHUSDT
+  #       base: ETH
+  #       quote: USDT
+  #       base_precision: 2
+  #       quote_precision: 5
+  #       min_ask_amount: 0.00001
+  #       min_bid_amount: 0.00001
+  #   source:
+  #     exchange_id: 2
+  #     market:
+  #       id: ETHUSDT
+  #       base: ETH
+  #       quote: USDT
+  #       base_precision: 2
+  #       quote_precision: 5
   - type: trade
     trade_amount: 5
-    delay: 2
+    delay: 4
     target:
       exchange_id: 1
       market: 
@@ -61,95 +61,3 @@ strategies:
         quote: USDT
         base_precision: 2
         quote_precision: 5
-
-  - type: copy
-    volume_ratio: 1
-    delay: 0.25
-    spread_bids: 0
-    spread_asks: 0
-    limit_depth: 1500
-    target:
-      exchange_id: 1
-      market: 
-        id: BTCUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 6
-        min_ask_amount: 0.000001
-        min_bid_amount: 0.000001
-    source:
-      exchange_id: 2
-      market:
-        id: BTCUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
-  - type: trade
-    trade_amount: 0.1
-    delay: 2
-    target:
-      exchange_id: 1
-      market: 
-        id: BTCUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 6
-        min_ask_amount: 0.00001
-        min_bid_amount: 0.00001
-        limit_depth: 50
-    source:
-      exchange_id: 2
-      market:
-        id: BTCUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
-
-  # - type: copy
-  #   volume_ratio: 1
-  #   delay: 0.1
-  #   target:
-  #     exchange_id: 1
-  #     market: 
-  #       id: TSTETH
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5
-  #       min_ask_amount: 0.00001
-  #       min_bid_amount: 0.00001
-  #       limit_depth: 500
-  #   source:
-  #     exchange_id: 2
-  #     market:
-  #       id: ETHUSDT
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5
-  # - type: copy
-  #   volume_ratio: 1
-  #   delay: 0.1
-  #   target:
-  #     exchange_id: 1
-  #     market: 
-  #       id: ZIPTETH
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5
-  #       min_ask_amount: 0.00001
-  #       min_bid_amount: 0.00001
-  #       limit_depth: 500
-  #   source:
-  #     exchange_id: 2
-  #     market:
-  #       id: ETHUSDT
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5

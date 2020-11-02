@@ -23,10 +23,10 @@ twilio:
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.2G2v1t78WslH2Eca4uEv3yTu
+  token: s.ELeIMbZD9LMChMDH4i48STJF
 database:
   host: db
-  port: 3306
+  port: 5432
   user: root
   password: djtdjtdjtdjt
 recaptcha:
@@ -52,4 +52,5 @@ daemons:
   matching: true
   order_processor: true
   trade_executor: true
+  depth_cache: true
   mailer: true
