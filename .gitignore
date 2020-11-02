@@ -16,28 +16,16 @@ config/gateway/*
 
 config/traefik/*
 !config/traefik/.gitkeep
-config/barong/seed/*
-!config/barong/seed/.gitkeep
+config/barong/*
+!config/barong/.gitkeep
 config/peatio/seed/*
 !config/peatio/seed/.gitkeep
 
+config/postmaster/*
+!config/postmaster/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
-
-data/geth/*/geth
-!data/geth/.gitkeep
-
-data/db/*
-!data/db/.gitkeep
-
-data/rabbitmq/*
-!data/rabbitmq/.gitkeep
-
-data/redis/*
-!data/redis/.gitkeep
-
-data/vault/*
-!data/vault/.gitkeep
 
 data/assets-currency/*
 !data/assets-currency/.gitkeep
@@ -45,10 +33,14 @@ data/coverapp/*
 !data/coverapp/.gitkeep
 data/castle/*
 !data/castle/.gitkeep
-
+data/db/*
+!data/db/.gitkeep
 data/influxdb/*
 !data/influxdb/.gitkeep
-
+data/redis/*
+!data/redis/.gitkeep
+data/vault/*
+!data/vault/.gitkeep
 data/ssl/*
 !data/ssl/.gitkeep
 
