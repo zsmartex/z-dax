@@ -18,6 +18,7 @@ config/traefik/*
 !config/traefik/.gitkeep
 config/barong/*
 !config/barong/.gitkeep
+config/peatio/*
 config/peatio/seed/*
 !config/peatio/seed/.gitkeep
 
