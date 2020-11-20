@@ -4,21 +4,48 @@ services:
   db:
     image: postgres:13
     restart: always
+    ports:
+      - "5432:5432"
     volumes:
       - ../data/db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: <%= @config['database']['user'] %>
       POSTGRES_PASSWORD: <%= @config['database']['password'] %>
 
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: pgsql
+      ADMINER_DEFAULT_DB_HOST: db
+      ADMINER_DEFAULT_DB_USER: <%= @config['database']['user'] %>
+      ADMINER_DEFAULT_DB_PASSWORD: <%= @config['database']['password'] %>
+    labels:
+      - "traefik.http.routers.adminer-<%= @name %>.rule=Host(`adminer.<%= @config['app']['domain'] %>`)"
+      - "traefik.http.services.adminer-<%= @name %>.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.adminer-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.adminer-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.adminer-<%= @name %>.entrypoints=web"
+      <%- end -%>
+
   redis:
     image: redis:4.0.10-alpine
     restart: always
+    ports:
+      - "6379:6379"
     volumes:
       - ../data/redis:/data
 
   influxdb:
     image: influxdb:1.7.8
     restart: always
+    ports:
+      - "8086:8086"
     environment:
       INFLUXDB_ADMIN_ENABLED: "true"
     volumes:

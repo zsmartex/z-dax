@@ -38,7 +38,7 @@ services:
 <% if @config['daemons']['finex_cron_job'] -%>
   finex_cron_job:
     << : *finex-daemon
-    command: "crystal run /home/app/src/finex-daemon -- cron_job"
+    command: "./bin/finex-daemon cron_job"
 <% end -%>
 
 <% if @config['daemons']['deposit'] -%>
@@ -69,7 +69,7 @@ services:
 <% if @config['daemons'][engine] -%>
   <%= engine %>:
     << : *finex-daemon
-    command: "crystal run /home/app/src/finex-engine.cr -- <%= engine %>"
+    command: "./bin/finex-engine <%= engine %>"
 <% end %>
 <% end %>
 

@@ -27,9 +27,11 @@ services:
     build:
       context: "../vendor/finex"
     restart: always
+    volumes:
+      - ../config/finex/watch.yml:/home/app/config/watch.yml
     env_file:
       - ../config/finex.env
-    command: "crystal run /home/app/src/finex-api.cr"
+    command: "./bin/finex-api"
 
   finex-websocket:
     build:
@@ -37,7 +39,7 @@ services:
     restart: always
     env_file:
       - ../config/finex.env
-    command: "crystal run /home/app/src/finex-websocket.cr"
+    command: "./bin/finex-websocket"
 
   applogic:
     build:

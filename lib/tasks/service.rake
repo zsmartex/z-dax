@@ -37,13 +37,13 @@ namespace :service do
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db redis influxdb vault'
+      sh 'docker-compose up -d db adminer redis influxdb vault'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db redis influxdb vault'
+      sh 'docker-compose rm -fs db adminer redis influxdb vault'
     end
 
 

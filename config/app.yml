@@ -1,11 +1,11 @@
 ---
 app:
   name: Z-Dax
-  domain: zsmart.tech
-  subdomain: demo
+  domain: app.local
+  subdomain: www
 render_protect: false
 ssl:
-  enabled: true
+  enabled: false
   email: business@zsmart.tech
 images:
   barong: quay.io/openware/barong:2.6.0-a97b181
@@ -23,7 +23,7 @@ twilio:
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.ELeIMbZD9LMChMDH4i48STJF
+  token: s.xkfOGAbmDmEVl3RnfLLzU9rv
 database:
   host: db
   port: 5432
@@ -41,16 +41,16 @@ smtp:
   sender_name: ZSmart
   sender_logo: https://media.giphy.com/media/khlyv0MvfDmKvbpzZO/giphy.gif
 daemons:
-  withdraw_audit: true
-  blockchain: true
-  deposit: true
-  deposit_coin_address: true
-  withdraw_coin: true
-  upstream: true
+  withdraw_audit: false
+  blockchain: false
+  deposit: false
+  deposit_coin_address: false
+  withdraw_coin: false
+  upstream: false
   peatio_cron_job: true
   finex_cron_job: true
   matching: true
   order_processor: true
   trade_executor: true
   depth_cache: true
-  mailer: true
+  mailer: false
