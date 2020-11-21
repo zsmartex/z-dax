@@ -1,11 +1,11 @@
 ---
 app:
   name: Z-Dax
-  domain: app.local
-  subdomain: www
+  domain: zsmart.tech
+  subdomain: demo
 render_protect: false
 ssl:
-  enabled: false
+  enabled: true
   email: business@zsmart.tech
 images:
   barong: quay.io/openware/barong:2.6.0-a97b181
@@ -23,7 +23,7 @@ twilio:
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
   auth_token: f3d3bc96dea477cf8a855608b1eb5951
 vault:
-  token: s.xkfOGAbmDmEVl3RnfLLzU9rv
+  token: s.foptPsefqGVK5svHzTk6Yu4x
 database:
   host: db
   port: 5432
@@ -53,4 +53,4 @@ daemons:
   order_processor: true
   trade_executor: true
   depth_cache: true
-  mailer: false
+  mailer: true
