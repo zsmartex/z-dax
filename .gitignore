@@ -35,8 +35,7 @@ data/coverapp/*
 !data/coverapp/.gitkeep
 data/castle/*
 !data/castle/.gitkeep
-data/db/*
-!data/db
+data/db
 data/influxdb/*
 !data/influxdb/.gitkeep
 data/redis/*

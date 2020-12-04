@@ -45,6 +45,9 @@ services:
     build:
       context: "../vendor/applogic"
     restart: always
+    volumes:
+      - ../data/applogic/banners:/home/app/banners
+      - ../data/applogic/documents:/home/app/documents
     env_file:
       - ../config/applogic.env
     command: "./bin/applogic"
