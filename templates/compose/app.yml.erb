@@ -47,7 +47,7 @@ services:
     restart: always
     env_file:
       - ../config/applogic.env
-    command: "/home/app/applogic"
+    command: "./bin/applogic"
 
   coverapp:
     image: pagespeed/nginx-pagespeed

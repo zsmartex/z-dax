@@ -4,8 +4,6 @@ services:
   db:
     image: postgres:13
     restart: always
-    ports:
-      - "5432:5432"
     volumes:
       - ../data/db:/var/lib/postgresql/data
     environment:
@@ -34,18 +32,14 @@ services:
       <%- end -%>
 
   redis:
-    image: redis:4.0.10-alpine
+    image: redis:4.0.10
     restart: always
-    ports:
-      - "6379:6379"
     volumes:
       - ../data/redis:/data
 
   influxdb:
     image: influxdb:1.7.8
     restart: always
-    ports:
-      - "8086:8086"
     environment:
       INFLUXDB_ADMIN_ENABLED: "true"
     volumes:

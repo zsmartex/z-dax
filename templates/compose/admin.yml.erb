@@ -4,8 +4,6 @@ services:
   z-control:
     build:
       context: "../vendor/z-control"
-    ports:
-      - '3000:3000'
     labels:
       - "traefik.http.routers.z-control-<%= @name %>.rule=Host(`www.<%= @config['app']['domain'] %>`) && PathPrefix(`/zsmartcheck`)"
       - "traefik.http.routers.z-control-<%= @name %>.middlewares=z-control-<%= @name %>"
