@@ -50,7 +50,7 @@ services:
       - ../data/applogic/documents:/home/app/documents
     env_file:
       - ../config/applogic.env
-    command: "./bin/applogic-api"
+    command: "./bin/applogic"
 
   coverapp:
     image: pagespeed/nginx-pagespeed

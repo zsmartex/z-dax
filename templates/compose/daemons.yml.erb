@@ -69,7 +69,7 @@ services:
 <% if @config['daemons'][engine] -%>
   <%= engine %>:
     << : *finex-daemon
-    command: "./bin/finex-engine <%= engine %>"
+    command: "./bin/finex-engine  <%= engine %>"
 <% end %>
 <% end %>
 
