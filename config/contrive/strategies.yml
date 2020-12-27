@@ -5,8 +5,8 @@ exchanges:
     driver: zsmart
     host: "https://demo.zsmart.tech"
     ws: "wss://demo.zsmart.tech/api/v2/websocket"
-    key: "eda20b00d5ea7041"
-    secret: "1533439e383450ad30c8bda7a30326b6"
+    key: "1c390e8ca70521ac"
+    secret: "631394f8bb22187cd008e882c3735c3c"
 
   - id: 2
     driver: binance
@@ -16,30 +16,30 @@ exchanges:
     secret: ""
 
 strategies:
-  # - type: copy
-  #   volume_ratio: 1
-  #   delay: 2
-  #   spread_bids: 0
-  #   spread_asks: 0
-  #   limit_depth: 100
-  #   target:
-  #     exchange_id: 1
-  #     market: 
-  #       id: ETHUSDT
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5
-  #       min_ask_amount: 0.00001
-  #       min_bid_amount: 0.00001
-  #   source:
-  #     exchange_id: 2
-  #     market:
-  #       id: ETHUSDT
-  #       base: ETH
-  #       quote: USDT
-  #       base_precision: 2
-  #       quote_precision: 5
+  - type: copy
+    volume_ratio: 1
+    delay: 0.5
+    spread_bids: 0.01
+    spread_asks: 0.01
+    limit_depth: 250
+    target:
+      exchange_id: 1
+      market: 
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 0.00001
+        min_bid_amount: 0.00001
+    source:
+      exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - type: trade
     trade_amount: 5
     delay: 4

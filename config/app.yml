@@ -52,5 +52,4 @@ daemons:
   matching: true
   order_processor: true
   trade_executor: true
-  depth_cache: true
   mailer: true

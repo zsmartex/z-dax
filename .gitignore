@@ -29,6 +29,8 @@ config/postmaster/*
 vendor/*
 !vendor/.gitkeep
 
+data/applogic/*
+!data/applogic/.gitkeep
 data/assets-currency/*
 !data/assets-currency/.gitkeep
 data/coverapp/*

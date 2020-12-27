@@ -65,11 +65,11 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
 <% end -%>
 
-<% ['matching', 'order_processor', 'trade_executor', 'depth_cache'].each do |engine| %>
+<% ['matching', 'order_processor', 'trade_executor'].each do |engine| %>
 <% if @config['daemons'][engine] -%>
   <%= engine %>:
     << : *finex-daemon
-    command: "./bin/finex-engine  <%= engine %>"
+    command: "./bin/finex-engine <%= engine %>"
 <% end %>
 <% end %>
 
