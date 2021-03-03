@@ -12,6 +12,14 @@ entryPoints:
     address: ":443"
 <% end -%>
 
+<% if @config['ssl']['enabled'] -%>
+tls:
+  options:
+    default:
+      minVersion: VersionTLS10
+      maxVersion: VersionTLS13
+<% end -%>
+
 api:
   insecure: true
 

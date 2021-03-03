@@ -1,9 +1,5 @@
 .bundle
 
-config/gateway/mapping.yaml
-config/peatio/management_api_v1.yml
-config/barong/management_api_v1.yml
-config/toolbox.yaml
 config/*.env
 config/mailer.yml
 config/secrets/*
@@ -17,6 +13,8 @@ config/gateway/*
 
 config/traefik/*
 !config/traefik/.gitkeep
+config/applogic/*
+!config/applogic/.gitkeep
 config/barong/*
 !config/barong/.gitkeep
 config/peatio/*

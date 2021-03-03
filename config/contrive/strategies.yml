@@ -18,10 +18,11 @@ exchanges:
 strategies:
   - type: copy
     volume_ratio: 1
-    delay: 0.5
-    spread_bids: 0.01
-    spread_asks: 0.01
-    limit_depth: 250
+    delay: 10
+    spread_bids: 0
+    spread_asks: 0
+    min_depth: 30
+    limit_depth: 100
     target:
       exchange_id: 1
       market: 
@@ -40,24 +41,24 @@ strategies:
         quote: USDT
         base_precision: 2
         quote_precision: 5
-  - type: trade
-    trade_amount: 5
-    delay: 4
-    target:
-      exchange_id: 1
-      market: 
-        id: ETHUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
-        min_ask_amount: 0.00001
-        min_bid_amount: 0.00001
-    source:
-      exchange_id: 2
-      market:
-        id: ETHUSDT
-        base: ETH
-        quote: USDT
-        base_precision: 2
-        quote_precision: 5
+  # - type: trade
+  #   trade_amount: 10
+  #   delay: 7
+  #   target:
+  #     exchange_id: 1
+  #     market: 
+  #       id: ETHUSDT
+  #       base: ETH
+  #       quote: USDT
+  #       base_precision: 2
+  #       quote_precision: 5
+  #       min_ask_amount: 0.00001
+  #       min_bid_amount: 0.00001
+  #   source:
+  #     exchange_id: 2
+  #     market:
+  #       id: ETHUSDT
+  #       base: ETH
+  #       quote: USDT
+  #       base_precision: 2
+  #       quote_precision: 5

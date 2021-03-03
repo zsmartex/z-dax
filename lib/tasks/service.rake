@@ -75,12 +75,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d --build peatio barong finex-api finex-websocket applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d --build peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong finex-api finex-websocket applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose rm -fs peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -165,6 +165,7 @@ namespace :service do
       Rake::Task["service:backend"].invoke('start')
       puts 'Wait 5 second for backend'
       sleep(5)
+      Rake::Task["vault:unseal"].invoke('stop')
       Rake::Task["service:stream"].invoke('start')
       Rake::Task["service:app"].invoke('start')
       Rake::Task["service:daemons"].invoke('start')

@@ -33,19 +33,18 @@ services:
       - ../config/finex.env
     command: "./bin/finex-api"
 
-  finex-websocket:
-    build:
-      context: "../vendor/finex"
+  rango:
     restart: always
+    image: "<%= @config['images']['rango'] %>"
     env_file:
-      - ../config/finex.env
-    command: "./bin/finex-websocket"
+      - ../config/rango.env
 
   applogic:
     build:
       context: "../vendor/applogic"
     restart: always
     volumes:
+      - ../config/applogic/management_api.yml:/home/app/config/management_api.yml
       - ../data/applogic/banners:/home/app/banners
       - ../data/applogic/documents:/home/app/documents
     env_file:
