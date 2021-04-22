@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="header">
+    <div class="header-logo">
+      <%= image_tag @logo %>
+    </div>
+  </div>
+  <div class="content">
+    <h2 class="title">Deposit Confirmed</h2>
+    <p>
+      You've received <%= @record.amount %> <%= @record.currency %> in your ZSmart account.
+      <br>
+      <br>
+      <br>
+      If you do not receive this activity, please immediately disable your account and contact us at <a href="#">https://www.zsmart.tech/vn/support</a>.
+      <br>
+      <br>
+      <br>
+
+      ZSmart Team
+      <br>
+      This is an automated message, please do not reply.
+    </p>
+  </div>
+  <p class="footer">
+    © 2021 Zsmart.tech All Rights Reserved.
+  </p>
+</div>

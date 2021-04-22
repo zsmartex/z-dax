@@ -15,10 +15,10 @@ images:
   finex: gcr.io/zsmartex/finex:1.0.20
   rango: quay.io/openware/rango:2.7.0-b9d8372
 storage:
-  provider: Google
-  bucketName: zsmart
-  accessKey: GOOGTQRI3JKKSPRV4XBKNPKZ
-  secretKey: xoaBinmXXTV+E6J/dceV+60yY62kOHW/EKDZYdad
+  provider: AWS
+  bucketName: zsmartex
+  accessKey: AKIAULLC3J7NDE6SSFLK
+  secretKey: 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
 twilio:
   phone_number: "+18577635282"
   account_sid: AC9842e4cc2cfd0f21f93c7475f6d4723b
@@ -40,13 +40,12 @@ smtp:
   password: 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
   sender_email: no-reply@zsmart.tech
   sender_name: ZSmart
-  sender_logo: https://media.giphy.com/media/khlyv0MvfDmKvbpzZO/giphy.gif
+  sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
-  withdraw_audit: false
-  blockchain: false
-  deposit: false
-  deposit_coin_address: false
-  withdraw_coin: false
+  blockchain: true
+  deposit: true
+  deposit_coin_address: true
+  withdraw_coin: true
   upstream: false
   peatio_cron_job: true
   finex_cron_job: true

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="header">
+    <div class="header-logo">
+      <%= image_tag @logo %>
+    </div>
+  </div>
+  <div class="content">
+    <h2 class="title">Withdrawal Request</h2>
+    <p>
+      You've requested to withdraw <%= @record.amount %> <%= @record.currency %>
+      <br>
+      to this address: <%= @record.rid %>
+      <br>
+      <br>
+      Before going further with the withdrawal, please <strong>check carefully the target address.</strong> Be aware that if you confirm an incorrect address, we won't be able to assist you to recover your assets.
+      <br>
+      Verification code:
+      <br>
+      <br>
+      <span class="confirm_code"><%= @record.code %></span> or <a clicktracking=off target="_blank" href="<%= @record.domain %>/confirmation/withdrawal?tid=<%= @record.tid %>&confirmation_code=<%= @record.code %>&action=confirm">click here</a> to confirm your withdrawal
+      <br>
+      <br>
+      The verification code will be valid for 30 minutes. Please do not share this code with anyone.
+      <br>
+      If you do not receive this activity, please immediately disable your account, contact us at <a target="_blank" href="#">https://www.zsmart.tech/vn/support</a> and <a clicktracking=off target="_blank" href="<%= @record.domain %>/confirmation/withdrawal?tid=<%= @record.tid %>&confirmation_code=<%= @record.code %>&action=cancel">click here</a> to cancel.
+      <br>
+      <br>
+      <br>
+
+      ZSmart Team
+      <br>
+      This is an automated message, please do not reply.
+    </p>
+  </div>
+  <p class="footer">
+    © 2021 Zsmart.tech All Rights Reserved.
+  </p>
+</div>

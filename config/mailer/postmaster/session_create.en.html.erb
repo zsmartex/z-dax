@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="header">
+    <div class="header-logo">
+      <%= image_tag @logo %>
+    </div>
+  </div>
+  <div class="content">
+    <h2 class="title">New session create</h2>
+    <p>
+      We detected a login to your account.
+      <br>
+      <br>
+      <table>
+        <tbody>
+          <tr>
+            <td class="table_title">IP Address:</td>
+            <td><%= @record.user_ip %></td>
+          </tr>
+          <tr>
+            <td class="table_title">User-agent:</td>
+            <td><%= @record.user_agent %></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      If you do not receive this activity, please immediately disable your account and contact us at <a href="#">https://www.zsmart.tech/vn/support</a>.
+      <br>
+      <br>
+      <br>
+
+      ZSmart Team
+      <br>
+      This is an automated message, please do not reply.
+    </p>
+  </div>
+  <p class="footer">
+    © 2021 Zsmart.tech All Rights Reserved.
+  </p>
+</div>

@@ -4,7 +4,12 @@ keychain:
     value: <%= @jwt_public_key %>
 
 scopes:
-  read_operations:
+  read_withdraws:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_withdraws:
     mandatory_signers:
       - applogic
     permitted_signers:

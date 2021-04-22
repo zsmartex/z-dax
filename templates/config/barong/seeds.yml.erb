@@ -26,6 +26,16 @@ users:
     role: "admin"
     state: "active"
     level: 3
+  - email: admin@barong.io
+    password: 0lDHd9ufs9t@
+    role: "admin"
+    state: "active"
+    level: 3
+  - email: john@barong.io
+    password: Am8icnzEI3d!
+    role: "admin"
+    state: "active"
+    level: 3
 
 levels:
   - key: email
@@ -34,6 +44,9 @@ levels:
   - key: phone
     value: verified
     description: "User entered a valid code from sms"
+  - key: profile
+    value: verified
+    description: "User personal profile have been verified"
   - key: document
     value: verified
     description: "User personal documents have been verified"
@@ -94,6 +107,7 @@ permissions:
   - { role: accountant, verb: all, path: api/v2/trade/market, action: accept }
   - { role: accountant, verb: all, path: api/v2/finex/market, action: accept }
   - { role: accountant, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: accountant, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: accountant, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: accountant, verb: get, path: api/v2/websocket, action: accept }
@@ -123,6 +137,7 @@ permissions:
   - { role: compliance, verb: all, path: api/v2/trade/market, action: accept }
   - { role: compliance, verb: all, path: api/v2/finex/market, action: accept }
   - { role: compliance, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: compliance, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: compliance, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: compliance, verb: get, path: api/v2/websocket, action: accept }
@@ -145,6 +160,7 @@ permissions:
   - { role: technical, verb: all, path: api/v2/trade/market, action: accept }
   - { role: technical, verb: all, path: api/v2/finex/market, action: accept }
   - { role: technical, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: technical, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: technical, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: technical, verb: get, path: api/v2/websocket, action: accept }
@@ -168,6 +184,7 @@ permissions:
   - { role: support, verb: all, path: api/v2/trade/market, action: accept }
   - { role: support, verb: all, path: api/v2/finex/market, action: accept }
   - { role: support, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: support, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: support, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: technical, verb: get, path: api/v2/websocket, action: accept }
@@ -178,6 +195,7 @@ permissions:
   - { role: trader, verb: all, path: api/v2/trade/market, action: accept }
   - { role: trader, verb: all, path: api/v2/finex/market, action: accept }
   - { role: trader, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: trader, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: trader, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: trader, verb: get, path: api/v2/websocket, action: accept }
@@ -188,6 +206,7 @@ permissions:
   - { role: member, verb: all, path: api/v2/trade/market, action: accept }
   - { role: member, verb: all, path: api/v2/finex/market, action: accept }
   - { role: member, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: member, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: member, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: member, verb: get, path: api/v2/websocket, action: accept }
@@ -198,6 +217,7 @@ permissions:
   - { role: broker, verb: all, path: api/v2/trade/market, action: accept }
   - { role: broker, verb: all, path: api/v2/finex/market, action: accept }
   - { role: broker, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: broker, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: broker, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: broker, verb: get, path: api/v2/websocket, action: accept }
@@ -208,6 +228,7 @@ permissions:
   - { role: manager, verb: all, path: api/v2/trade/market, action: accept }
   - { role: manager, verb: all, path: api/v2/finex/market, action: accept }
   - { role: manager, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: manager, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: manager, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: manager, verb: get, path: api/v2/websocket, action: accept }
@@ -218,6 +239,7 @@ permissions:
   - { role: partner, verb: all, path: api/v2/trade/market, action: accept }
   - { role: partner, verb: all, path: api/v2/finex/market, action: accept }
   - { role: partner, verb: all, path: api/v2/auth/resource, action: accept }
+  - { role: partner, verb: all, path: api/v2/applogic/account, action: accept }
   - { role: partner, verb: all, path: api/v2/applogic/resource, action: accept }
   #  websocket access
   - { role: partner, verb: get, path: api/v2/websocket, action: accept }

@@ -17,12 +17,6 @@ x-finex-daemon: &finex-daemon
     - ../config/finex.env
 
 services:
-<% if @config['daemons']['withdraw_audit'] -%>
-  withdraw_audit:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb withdraw_audit"
-<% end -%>
-
 <% if @config['daemons']['blockchain'] -%>
   blockchain:
     << : *peatio-daemon
@@ -108,7 +102,8 @@ services:
       - ../config/barong.env
     volumes:
       -  ../config/secrets:/secrets:ro
-      -  ../config/mailer/templates:/home/app/app/views/postmaster
+      -  ../config/mailer/layouts/mailer.html.erb:/home/app/app/views/layouts/mailer.html.erb
+      -  ../config/mailer/postmaster:/home/app/app/views/postmaster
       -  ../config/mailer.yml:/home/app/config/mailer.yml
     command: bash -c "bin/mailer run"
 

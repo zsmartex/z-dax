@@ -5,6 +5,9 @@ keychain:
   peatio:
     algorithm: RS256
     value: "<%= @jwt_public_key %>"
+  applogic:
+    algorithm: RS256
+    value: "<%= @jwt_public_key %>"
 
 exchanges:
   barong_system:
@@ -16,82 +19,60 @@ exchanges:
   peatio:
     name: peatio.events.model
     signer: peatio
+  applogic_system:
+    name: applogic.events.system
+    signer: applogic
 
 events:
-- name: Email Confirmation
-  key: user.email.confirmation.token
-  exchange: barong_system
-  templates:
-    EN:
-      subject: Registration Confirmation
-      template_path: email_confirmation.en.html.erb
-    RU:
-      subject: Подтверждение Регистрации
-      template_path: email_confirmation.ru.html.erb
+  - name: Registration Confirmation
+    key: user.email.confirmation.code
+    exchange: applogic_system
+    templates:
+      en:
+        subject: Registration Confirmation
+        template_path: email_confirmation.en.html.erb
 
-- name: Password Reset
-  key: user.password.reset.token
-  exchange: barong_system
-  templates:
-    EN:
-      subject: Password Reset
-      template_path: password_reset.en.html.erb
-    RU:
-      subject: Сброс Пароля
-      template_path: password_reset.ru.html.erb
+  - name: Password Reset
+    key: user.password.reset.code
+    exchange: applogic_system
+    templates:
+      en:
+        subject: Password Reset
+        template_path: password_reset.en.html.erb
 
-- name: Label Created
-  key: label.created
-  exchange: barong_model
-  expression: |
-    record.key in ["phone", "profile", "document"] &&
-    record.value in ["verified", "rejected"]
-  templates:
-    EN:
-      subject: Account Details Updated
-      template_path: label_created.en.html.erb
+  - name: Session Create
+    key: session.create
+    exchange: barong_system
+    templates:
+      en:
+        subject: New Login
+        template_path: session_create.en.html.erb
 
-- name: Label Updated
-  key: label.updated
-  exchange: barong_model
-  expression: |
-    record.key in ["phone", "profile", "document"] &&
-    record.value in ["verified", "rejected"]
-  templates:
-    EN:
-      subject: Account Details Updated
-      template_path: label_created.en.html.erb
+  - name: Deposit Accepted
+    key: deposit.updated
+    exchange: peatio
+    templates:
+      en:
+        subject: Deposit Accepted
+        template_path: deposit_accepted.en.html.erb
 
-- name: Deposit Accepted
-  key: deposit.updated
-  exchange: peatio
-  expression: changes.state == "submitted" && record.state == "accepted"
-  templates:
-    EN:
-      subject: Deposit Accepted
-      template_path: deposit_accepted.en.html.erb
+  - name: Withdrawal Confirmation
+    key: withdraw.confirmation.code
+    exchange: applogic_system
+    templates:
+      en:
+        subject: Withdrawal Confirmation
+        template_path: withdrawal_confirmation.en.html.erb
 
-- name: Session Create
-  key: session.create
-  exchange: barong_system
-  templates:
-    EN:
-      subject: New Login
-      template_path: session_create.en.html.erb
-
-- name: Withdrawal Succeed
-  key: withdraw.updated
-  exchange: peatio
-  expression: changes.state in ["succeed", "rejected", "canceled", "failed", "accepted"] && record.state in ["succeed", "rejected", "canceled", "failed"]
-  templates:
-    EN:
-      subject: Withdrawal Succeed
-      template_path: withdraw_succeed.en.html.erb
-
-- name: New Beneficiary
-  key: beneficiary.created
-  exchange: peatio
-  templates:
-    EN:
-      subject: New Beneficiary
-      template_path: new_beneficiary.en.html.erb
+  # expression example
+  # - name: Session Create
+  #   key: session.create
+  #   expression:
+  #     and:                          # need to use and/or/not operator here
+  #       record.user_ip: '::1'       # full patch to key
+  #       record.user.role: 'member'
+  #   exchange: barong_system
+  #   templates:
+  #     en:
+  #       subject: New Login
+  #       template_path: session_create.en.html.erb

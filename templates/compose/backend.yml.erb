@@ -5,10 +5,12 @@ services:
     image: postgres:13
     restart: always
     volumes:
+      - ../config/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
       - ../data/db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: <%= @config['database']['user'] %>
       POSTGRES_PASSWORD: <%= @config['database']['password'] %>
+    command: "postgres -c config_file=/etc/postgresql/postgresql.conf"
 
   adminer:
     image: adminer

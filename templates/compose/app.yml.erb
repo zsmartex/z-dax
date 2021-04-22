@@ -9,6 +9,7 @@ services:
       - ../config/peatio.env
     volumes:
       - ../config/peatio/seed:/home/app/config/seed:ro
+      - ../config/peatio/management_api_v1.yml:/home/app/config/management_api_v1.yml:ro
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
@@ -17,18 +18,18 @@ services:
     env_file:
       - ../config/barong.env
     volumes:
-      - ../config/secrets:/secrets
-      - ../config/barong/seeds.yml:/home/app/config/seeds.yml
-      - ../config/barong/barong.yml:/home/app/config/barong.yml
-      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml
-      - ../config/barong/management_api.yml:/home/app/config/management_api.yml
+      - ../config/secrets:/secrets:ro
+      - ../config/barong/seeds.yml:/home/app/config/seeds.yml:ro
+      - ../config/barong/barong.yml:/home/app/config/barong.yml:ro
+      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml:ro
+      - ../config/barong/management_api.yml:/home/app/config/management_api.yml:ro
 
   finex-api:
     build:
       context: "../vendor/finex"
     restart: always
     volumes:
-      - ../config/finex/watch.yml:/home/app/config/watch.yml
+      - ../config/finex/watch.yml:/home/app/config/watch.yml:ro
     env_file:
       - ../config/finex.env
     command: "./bin/finex-api"
@@ -44,12 +45,12 @@ services:
       context: "../vendor/applogic"
     restart: always
     volumes:
-      - ../config/applogic/management_api.yml:/home/app/config/management_api.yml
+      - ../config/applogic/management_api.yml:/home/app/config/management_api.yml:ro
       - ../data/applogic/banners:/home/app/banners
       - ../data/applogic/documents:/home/app/documents
     env_file:
       - ../config/applogic.env
-    command: "./bin/applogic-api"
+    command: "crystal run ./src/applogic-api.cr"
 
   coverapp:
     image: pagespeed/nginx-pagespeed
