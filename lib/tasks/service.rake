@@ -139,23 +139,6 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc '[Optional] Run admin (z-control)'
-  task :admin, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting utils -----'
-      sh 'docker-compose up -d z-control'
-    end
-
-    def stop
-      puts '----- Stopping Utils -----'
-      sh 'docker-compose rm -fs z-control'
-    end
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
   desc 'Run the micro app with dependencies (does not run Optional)'
   task :all, [:command] => 'render:config' do |task, args|
     args.with_defaults(:command => 'start')
