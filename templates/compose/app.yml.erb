@@ -46,8 +46,6 @@ services:
     restart: always
     volumes:
       - ../config/applogic/management_api.yml:/home/app/config/management_api.yml:ro
-      - ../data/applogic/banners:/home/app/banners
-      - ../data/applogic/documents:/home/app/documents
     env_file:
       - ../config/applogic.env
     command: "./bin/applogic-api"
