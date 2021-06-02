@@ -1,8 +1,7 @@
 version: '3.8'
 
 x-daemon: &peatio-daemon
-  build:
-    context: "../vendor/peatio"
+  image: "<%= @config['images']['peatio'] %>"
   restart: always
   env_file:
     - ../config/peatio.env
@@ -10,8 +9,7 @@ x-daemon: &peatio-daemon
     - ../config/peatio/seed:/home/app/config/seed
 
 x-finex-daemon: &finex-daemon
-  build:
-    context: "../vendor/finex"
+  image: "<%= @config['images']['finex'] %>"
   restart: always
   env_file:
     - ../config/finex.env

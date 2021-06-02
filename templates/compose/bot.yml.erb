@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   contrive:
-    build:
-      context: "../vendor/contrive"
+    image: "<%= @config['images']['contrive'] %>"
     restart: always
     env_file:
       - ../config/contrive.env

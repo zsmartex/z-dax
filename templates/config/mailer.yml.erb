@@ -63,6 +63,25 @@ events:
       en:
         subject: Withdrawal Confirmation
         template_path: withdrawal_confirmation.en.html.erb
+  
+  - name: New Beneficiary
+    key: beneficiary.created
+    exchange: peatio
+    templates:
+      en:
+        subject: New Beneficiary
+        template_path: new_beneficiary.en.html.erb
+
+  - name: Resend beneficiary
+    key: beneficiary.updated
+    exchange: peatio
+    expression:
+      and:
+        record.state: 'pending'
+    templates:
+      en:
+        subject: Resend Beneficiary
+        template_path: new_beneficiary.en.html.erb
 
   # expression example
   # - name: Session Create

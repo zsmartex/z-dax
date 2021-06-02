@@ -8,3 +8,14 @@
     address:         https://etherscan.io/address/#{address}
     transaction:     https://etherscan.io/tx/#{txid}
   status:            active
+
+- key:               btc-mainnet
+  name:              Bitcoin Mainet
+  client:            bitcoin                           # API client name.
+  server:            http://user:password@127.0.0.1:18332 # Public Bitcoin node endpoint.
+  height:            1500000                         # Initial block number from which sync will be started.
+  min_confirmations: 6                               # Minimal confirmations needed for withdraw and deposit confirmation.
+  explorer:
+    address:         https://blockchain.info/address/#{address}
+    transaction:     https://blockchain.info/tx/#{txid}
+  status:            active

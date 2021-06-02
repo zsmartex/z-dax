@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   peatio:
-    build:
-      context: "../vendor/peatio"
+    image: "<%= @config['images']['peatio'] %>"
     restart: always
     env_file:
       - ../config/peatio.env
@@ -13,8 +12,7 @@ services:
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
-    build:
-      context: "../vendor/barong"
+    image: "<%= @config['images']['barong'] %>"
     env_file:
       - ../config/barong.env
     volumes:
@@ -25,8 +23,7 @@ services:
       - ../config/barong/management_api.yml:/home/app/config/management_api.yml:ro
 
   finex-api:
-    build:
-      context: "../vendor/finex"
+    image: "<%= @config['images']['finex'] %>"
     restart: always
     volumes:
       - ../config/finex/watch.yml:/home/app/config/watch.yml:ro
@@ -41,21 +38,22 @@ services:
       - ../config/rango.env
 
   applogic:
-    build:
-      context: "../vendor/applogic"
+    image: "<%= @config['images']['applogic'] %>"
     restart: always
     volumes:
       - ../config/applogic/management_api.yml:/home/app/config/management_api.yml:ro
+      - ../data/applogic/banners:/home/app/banners
     env_file:
       - ../config/applogic.env
     command: "./bin/applogic-api"
 
   coverapp:
-    image: pagespeed/nginx-pagespeed
+    image: nginx:stable
     restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
       - ../data/coverapp:/var/www/html:ro
+    restart: always
     labels:
       - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
       - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=80"
@@ -68,7 +66,7 @@ services:
       <%- end -%>
 
   castle:
-    image: pagespeed/nginx-pagespeed
+    image: nginx:stable
     restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
@@ -85,7 +83,7 @@ services:
       <%- end -%>
 
   assets-currency:
-    image: pagespeed/nginx-pagespeed
+    image: nginx:stable
     restart: always
     volumes:
       - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro

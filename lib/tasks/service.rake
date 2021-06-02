@@ -37,32 +37,13 @@ namespace :service do
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db adminer redis influxdb vault'
+      sh 'docker-compose up -d db adminer redis rabbitmq influxdb vault'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db adminer redis influxdb vault'
-    end
-
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
-  desc 'Run stream (nats)'
-  task :stream, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d rabbitmq nats nats-replica'
-      sh 'docker-compose scale nats-replica=5'
-    end
-
-    def stop
-      puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs rabbitmq nats nats-replica'
+      sh 'docker-compose rm -fs db adminer redis rabbitmq influxdb vault'
     end
 
 
@@ -122,23 +103,6 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run monitoring'
-  task :monitoring, [:command] do |task, args|
-    args.with_defaults(:command => 'start')
-
-    def start
-      puts '----- Starting monitoring -----'
-      sh 'docker-compose up -d prometheus node-exporter cadvisor grafana alertmanager'
-    end
-
-    def stop
-      puts '----- Stopping monitoring -----'
-      sh 'docker-compose rm -fs prometheus node-exporter cadvisor grafana alertmanager'
-    end
-
-    @switch.call(args, method(:start), method(:stop))
-  end
-
   desc 'Run the micro app with dependencies (does not run Optional)'
   task :all, [:command] => 'render:config' do |task, args|
     args.with_defaults(:command => 'start')
@@ -148,20 +112,16 @@ namespace :service do
       Rake::Task["service:backend"].invoke('start')
       puts 'Wait 5 second for backend'
       sleep(5)
-      Rake::Task["vault:unseal"].invoke('stop')
-      Rake::Task["service:stream"].invoke('start')
+      Rake::Task["vault:unseal"].invoke('start')
       Rake::Task["service:app"].invoke('start')
       Rake::Task["service:daemons"].invoke('start')
-      Rake::Task["service:monitoring"].invoke('start')
     end
 
     def stop
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
-      Rake::Task["service:stream"].invoke('stop')
       Rake::Task["service:app"].invoke('stop')
       Rake::Task["service:daemons"].invoke('stop')
-      Rake::Task["service:monitoring"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))
