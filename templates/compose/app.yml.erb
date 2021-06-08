@@ -25,11 +25,9 @@ services:
   finex-api:
     image: "<%= @config['images']['finex'] %>"
     restart: always
-    volumes:
-      - ../config/finex/watch.yml:/home/app/config/watch.yml:ro
     env_file:
       - ../config/finex.env
-    command: "./bin/finex-api"
+    command: "./finex-api"
 
   rango:
     restart: always
