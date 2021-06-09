@@ -63,17 +63,10 @@ services:
     command: "./finex-engine trade_executor"
 <% end %>
 
-<% if @config['daemons']['depth_cache'] -%>
-  depth_cache:
-    << : *finex-daemon
-    command: "./finex-engine depth_cache"
-<% end %>
-
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *finex-daemon
     depends_on:
-      - depth_cache
       - trade_executor
     command: "./finex-engine matching"
 <% end %>

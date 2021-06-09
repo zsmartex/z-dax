@@ -53,4 +53,3 @@ daemons:
   order_processor: true
   trade_executor: true
   mailer: true
-  depth_cache: true
