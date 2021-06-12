@@ -37,15 +37,32 @@ namespace :service do
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db adminer redis rabbitmq nats influxdb vault'
+      sh 'docker-compose up -d db redis rabbitmq nats influxdb vault'
+      puts 'Wait 5 second for backend'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db adminer redis rabbitmq nats influxdb vault'
+      sh 'docker-compose rm -fs db redis rabbitmq nats influxdb vault'
     end
 
+    @switch.call(args, method(:start), method(:stop))
+  end
+
+  desc 'Run adminer (database management)'
+  task :backend, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting dependencies -----'
+      sh 'docker-compose up -d db adminer'
+    end
+
+    def stop
+      puts '----- Stopping dependencies -----'
+      sh 'docker-compose rm -fs db adminer'
+    end
 
     @switch.call(args, method(:start), method(:stop))
   end
@@ -110,8 +127,6 @@ namespace :service do
     def start
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:backend"].invoke('start')
-      puts 'Wait 5 second for backend'
-      sleep(5)
       Rake::Task["vault:unseal"].invoke('start')
       Rake::Task["service:app"].invoke('start')
       Rake::Task["service:daemons"].invoke('start')
