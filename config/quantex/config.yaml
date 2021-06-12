@@ -1,0 +1,305 @@
+log_level: DEBUG
+exchanges:
+  - id: 1
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 2
+    driver: binance
+    host: "https://www.binance.com/"
+    ws: "wss://stream.binance.com:9443/ws"
+    key: ""
+    secret: ""
+  - id: 3
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 4
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 5
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 6
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 7
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 8
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+  - id: 9
+    driver: zsmartex
+    host: "http://www.app.local/api/v2/"
+    ws: "ws://www.app.local/api/v2/websocket/private"
+    key: "1a15c7d2b6593553"
+    secret: "881c3314e8f4d0c188c63043552daad1"
+strategies:
+  - id: 1
+    type: copy
+    enabled: true
+    period: 1
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 2
+      levels_start: 10
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 1
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 2
+    type: copy
+    enabled: true
+    period: 5
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 4
+      levels_start: 40
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 3
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 3
+    type: copy
+    enabled: true
+    period: 5
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 5
+      levels_start: 60
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 4
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 4
+    type: copy
+    enabled: true
+    period: 7
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 4
+      levels_start: 1200
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 5
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 5
+    type: copy
+    enabled: true
+    period: 15
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 20
+      levels_start: 2500
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 6
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 6
+    type: trade
+    enabled: true
+    period: 15
+    target:
+      exchange_id: 7
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+          min_ask_amount: 1.5
+          min_bid_amount: 1.5
+  - id: 7
+    type: copy
+    enabled: true
+    period: 57
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 20
+      levels_start: 3000
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 8
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5
+  - id: 8
+    type: copy
+    enabled: true
+    period: 43
+    params:
+      spread_bids: 0.003
+      spread_asks: 0.003
+      limit_asks_base: 0.00001
+      limit_bids_base: 0.00001
+      levels_size: 0.25 # percent 25% = 0.25
+      levels_count: 40
+      levels_start: 4000
+      side: both # not ready
+      enable_orderback: false # not ready
+    target:
+      exchange_id: 9
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
+    sources:
+      - exchange_id: 2
+        market:
+          id: ETHUSDT
+          base: ETH
+          quote: USDT
+          base_precision: 2
+          quote_precision: 5

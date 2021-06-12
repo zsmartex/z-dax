@@ -12,6 +12,8 @@ config/gateway/*
 
 !config/secrets/.gitkeep
 
+config/nginx/*
+!config/nginx/.gitkeep
 config/traefik/*
 !config/traefik/.gitkeep
 config/applogic/*

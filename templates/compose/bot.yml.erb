@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  contrive:
-    image: "<%= @config['images']['contrive'] %>"
+  quantex:
+    image: "<%= @config['images']['quantex'] %>"
     restart: always
     env_file:
-      - ../config/contrive.env
+      - ../config/quantex.env
     volumes:
-      - ../config/contrive/strategies.yml:/app/config/strategies.yml
-    command: start
+      - ../config/quantex/config.yml:/app/config/config.yml
+    command: "./quantex"

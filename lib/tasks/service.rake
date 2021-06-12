@@ -56,7 +56,7 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d --build peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
     end
 
     def stop
@@ -75,7 +75,7 @@ namespace :service do
 
     def start
       puts '----- Starting Daemons -----'
-      sh "docker-compose up -d --build #{@daemons.keys.join(' ')}"
+      sh "docker-compose up -d #{@daemons.keys.join(' ')}"
     end
 
     def stop
@@ -92,12 +92,12 @@ namespace :service do
 
     def start
       puts '----- Starting Bot -----'
-      sh 'docker-compose up -d --build contrive'
+      sh 'docker-compose up -d quantex'
     end
 
     def stop
       puts '----- Stopping Bot -----'
-      sh 'docker-compose rm -fs contrive'
+      sh 'docker-compose rm -fs quantex'
     end
 
     @switch.call(args, method(:start), method(:stop))
