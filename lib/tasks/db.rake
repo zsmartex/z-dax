@@ -5,7 +5,6 @@ namespace :db do
     sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:create"'
     sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:create"'
     sh 'docker-compose run --rm applogic sh -c "lucky db.create"'
-    sh %q(docker-compose run --rm db /bin/sh -c "mysql -u root -h db -P 3306 -pchangeme -e 'CREATE DATABASE quantex_production'")
   end
 
   task :migrate, [:command] do |task, args|
