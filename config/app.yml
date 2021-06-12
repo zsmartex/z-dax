@@ -10,7 +10,7 @@ ssl:
 images:
   barong: registry.gitlab.com/zsmartex/barong:338d8656
   peatio: registry.gitlab.com/zsmartex/peatio:44a8d812
-  quantex: registry.gitlab.com/zsmartex/quantex:de6f541a
+  quantex: registry.gitlab.com/zsmartex/quantex:2a60ef3e
   applogic: registry.gitlab.com/zsmartex/applogic:bff4924f
   finex: registry.gitlab.com/zsmartex/finex:7ee603a9
   rango: quay.io/openware/rango:3.0.2
