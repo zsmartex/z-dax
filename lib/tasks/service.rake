@@ -51,7 +51,7 @@ namespace :service do
   end
 
   desc 'Run adminer (database management)'
-  task :backend, [:command] do |task, args|
+  task :adminer, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
