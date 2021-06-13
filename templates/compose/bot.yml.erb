@@ -7,5 +7,5 @@ services:
     env_file:
       - ../config/quantex.env
     volumes:
-      - ../config/quantex/config.yml:/app/config/config.yml
+      - ../config/quantex/strategies.yaml:/app/config/strategies.yaml
     command: "./quantex"
