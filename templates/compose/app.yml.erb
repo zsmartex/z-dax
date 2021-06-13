@@ -23,7 +23,7 @@ services:
       - ../config/barong/management_api.yml:/home/app/config/management_api.yml:ro
 
   finex-api:
-    image: "<%= @config['images']['finex'] %>"
+    image: "<%= @utils['images']['finex'] %>"
     restart: always
     env_file:
       - ../config/finex.env
@@ -36,7 +36,7 @@ services:
       - ../config/rango.env
 
   applogic:
-    image: "<%= @config['images']['applogic'] %>"
+    image: "<%= @utils['images']['applogic'] %>"
     restart: always
     volumes:
       - ../config/applogic/management_api.yml:/home/app/config/management_api.yml:ro

@@ -10,9 +10,6 @@ ssl:
 images:
   barong: registry.gitlab.com/zsmartex/barong:338d8656
   peatio: registry.gitlab.com/zsmartex/peatio:44a8d812
-  quantex: registry.gitlab.com/zsmartex/quantex:bcba9bc2
-  applogic: registry.gitlab.com/zsmartex/applogic:bff4924f
-  finex: registry.gitlab.com/zsmartex/finex:7ee603a9
   rango: quay.io/openware/rango:3.0.2
 storage:
   provider: AWS
@@ -29,7 +26,7 @@ database:
   host: db
   port: 5432
   user: root
-  password: djtdjtdjtdjt
+  password: changeme
 recaptcha:
   siteKey: 6LcrA5wUAAAAABY8KW-beaUOjShGC_U2va3kJEJt
   secretKey: 6LcrA5wUAAAAAK53t5qrkC7wvMB1tBeJed2YEkMI

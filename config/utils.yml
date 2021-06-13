@@ -1,5 +1,10 @@
-log_level: DEBUG
-exchanges:
+images:
+  quantex: registry.gitlab.com/zsmartex/quantex:12249e6d
+  applogic: registry.gitlab.com/zsmartex/applogic:bff4924f
+  finex: registry.gitlab.com/zsmartex/finex:7ee603a9
+quantex:
+  log_level: DEBUG
+  exchanges:
   - id: 1
     driver: zsmartex
     host: "http://www.app.local/api/v2/"
@@ -54,7 +59,7 @@ exchanges:
     ws: "ws://www.app.local/api/v2/websocket/private"
     key: "1a15c7d2b6593553"
     secret: "881c3314e8f4d0c188c63043552daad1"
-strategies:
+  strategies:
   - id: 1
     type: copy
     enabled: true
@@ -80,13 +85,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 2
     type: copy
     enabled: true
@@ -112,13 +117,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 3
     type: copy
     enabled: true
@@ -144,13 +149,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 4
     type: copy
     enabled: true
@@ -176,13 +181,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 5
     type: copy
     enabled: true
@@ -208,13 +213,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 6
     type: trade
     enabled: true
@@ -230,15 +235,15 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
-          min_ask_amount: 1.5
-          min_bid_amount: 1.5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
+        min_ask_amount: 1.5
+        min_bid_amount: 1.5
   - id: 7
     type: copy
     enabled: true
@@ -264,13 +269,13 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5
   - id: 8
     type: copy
     enabled: true
@@ -296,10 +301,10 @@ strategies:
         min_ask_amount: 1.5
         min_bid_amount: 1.5
     sources:
-      - exchange_id: 2
-        market:
-          id: ETHUSDT
-          base: ETH
-          quote: USDT
-          base_precision: 2
-          quote_precision: 5
+    - exchange_id: 2
+      market:
+        id: ETHUSDT
+        base: ETH
+        quote: USDT
+        base_precision: 2
+        quote_precision: 5

@@ -9,7 +9,7 @@ x-daemon: &peatio-daemon
     - ../config/peatio/seed:/home/app/config/seed
 
 x-finex-daemon: &finex-daemon
-  image: "<%= @config['images']['finex'] %>"
+  image: "<%= @utils['images']['finex'] %>"
   restart: always
   env_file:
     - ../config/finex.env

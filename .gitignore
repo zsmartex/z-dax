@@ -23,6 +23,8 @@ config/barong/*
 config/peatio/*
 config/peatio/seed/*
 !config/peatio/seed/.gitkeep
+config/quantex/*
+!config/quantex/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
