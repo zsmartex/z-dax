@@ -48,6 +48,8 @@ data/rabbitmq/*
 !data/rabbitmq/.gitkeep
 data/ssl/*
 !data/ssl/.gitkeep
+data/vault/*
+!data/vault/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

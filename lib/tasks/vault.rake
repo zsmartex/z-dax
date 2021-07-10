@@ -10,6 +10,8 @@ namespace :vault do
       File.open(CONFIG_PATH, 'w') { |f| YAML.dump(@config, f) }
     end
 
+    sh 'sudo chmod -R 757 data/vault'
+
     Rake::Task["vault:load_policies"].invoke
   end
 
