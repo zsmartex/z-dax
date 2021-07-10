@@ -1,60 +1,19 @@
-- id:                     eth
-  name:                   Ethereum
-  blockchain_key:         eth-mainnet
-  type:                   coin
-  precision:              8
-  base_factor:            1_000_000_000_000_000_000
-  visible:                true
-  deposit_enabled:        true
-  withdrawal_enabled:     true
-  min_deposit_amount:     0.00021
-  min_collection_amount:  0.00021
-  withdraw_limit_24h:     0.2
-  withdraw_limit_72h:     0.5
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               2
-  options:
-    gas_limit: 21_000
-    gas_price: 1_000_000_000
-
-- id:                     usdt
-  name:                   Tether USD
-  blockchain_key:         eth-mainnet
-  type:                   coin
-  precision:              2
-  base_factor:            1
-  visible:                true
-  deposit_enabled:        true
-  withdrawal_enabled:     true
-  min_deposit_amount:     5
-  min_collection_amount:  5
-  withdraw_limit_24h:     300
-  withdraw_limit_72h:     600
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               1
-  options:
-    gas_limit: 90_000
-    gas_price: 1_000_000_000
-    erc20_contract_address: '0xfab42ef61ebca5ae396bc82977ab055a05242f9d'
-
 - id:                     btc
   name:                   Bitcoin
-  blockchain_key:         btc-mainnet
   type:                   coin
+  status:                 enabled
   precision:              8
-  base_factor:            100_000_000
-  visible:                true
-  deposit_enabled:        true
-  withdrawal_enabled:     true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
-  min_deposit_amount:     0.0000356
-  min_collection_amount:  0.0000356
-  withdraw_limit_24h:     0.1
-  withdraw_limit_72h:     0.2
-  deposit_fee:            0
-  withdraw_fee:           0
+  position:               1
+
+- id:                     eth
+  name:                   Ethereum
+  type:                   coin
+  status:                 enabled
   position:               2
-  options:                {}
+
+- id:                     usdt
+  name:                   Thether
+  type:                   coin
+  status:                 enabled
+  precision:              8
+  position:               4

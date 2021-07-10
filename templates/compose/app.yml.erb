@@ -4,6 +4,8 @@ services:
   peatio:
     image: "<%= @config['images']['peatio'] %>"
     restart: always
+    environment:
+      - VAULT_TOKEN=${PEATIO_RAILS_VAULT_TOKEN}
     env_file:
       - ../config/peatio.env
     volumes:
