@@ -10,9 +10,9 @@ namespace :vault do
     unless vault_root_token.nil?
       @config["vault"]["root_token"] = vault_root_token
       File.open(CONFIG_PATH, 'w') { |f| YAML.dump(@config, f) }
-    end
 
-    Rake::Task["vault:load_policies"].invoke
+      Rake::Task["vault:load_policies"].invoke
+    end
   end
 
   task :unseal do

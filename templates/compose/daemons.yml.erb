@@ -25,7 +25,7 @@ services:
   peatio_cron_job:
     << : *peatio-daemon
     environment:
-    - VAULT_TOKEN=${PEATIO_CRYPTO_VAULT_TOKEN}
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb cron_job"
 <% end -%>
 
@@ -39,7 +39,7 @@ services:
   deposit:
     << : *peatio-daemon
     environment:
-    - VAULT_TOKEN=${PEATIO_CRYPTO_VAULT_TOKEN}
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb deposit"
 <% end -%>
 
@@ -47,7 +47,7 @@ services:
   upstream:
     << : *peatio-daemon
     environment:
-    - VAULT_TOKEN=${PEATIO_UPSTREAM_VAULT_TOKEN}
+      - VAULT_TOKEN=<%= @config['vault']['peatio_upstream_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb upstream"
 <% end -%>
 
@@ -55,7 +55,7 @@ services:
   deposit_coin_address:
     << : *peatio-daemon
     environment:
-    - VAULT_TOKEN=${PEATIO_CRYPTO_VAULT_TOKEN}
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
 <% end -%>
 

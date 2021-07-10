@@ -56,12 +56,12 @@ namespace :service do
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db adminer'
+      sh 'docker-compose up -d adminer'
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db adminer'
+      sh 'docker-compose rm -fs adminer'
     end
 
     @switch.call(args, method(:start), method(:stop))
