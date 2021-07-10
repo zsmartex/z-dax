@@ -46,8 +46,6 @@ data/redis/*
 !data/redis/.gitkeep
 data/rabbitmq/*
 !data/rabbitmq/.gitkeep
-data/vault/*
-!data/vault/.gitkeep
 data/ssl/*
 !data/ssl/.gitkeep
 
