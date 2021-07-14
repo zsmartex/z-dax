@@ -18,6 +18,8 @@ services:
 <% if @config['daemons']['blockchain'] -%>
   blockchain:
     << : *peatio-daemon
+    environment:
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
 <% end -%>
 
