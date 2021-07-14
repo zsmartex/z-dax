@@ -1,0 +1,31 @@
+version: '3.6'
+
+services:
+  parity:
+    image: openethereum/openethereum:v3.2.5
+    restart: always
+    command: |
+      --chain=foundation
+      --mode=active
+      --interface=all
+      --warp-barrier=12640000
+      --min-peers=5
+      --max-peers=10
+      --jsonrpc-interface=0.0.0.0
+      --jsonrpc-cors=all
+      --jsonrpc-hosts=all
+      --jsonrpc-apis=all
+      --db-compaction=ssd
+      --no-persistent-txqueue
+      --no-ancient-blocks
+    volumes:
+      - ../data/cryptonodes/parity:/home/openethereum/.local/share/io.parity.ethereum
+
+  bitcoind:
+    image: quay.io/zsmartex/bitcoind:0.21
+    restart: always
+    user: root
+    volumes:
+      - ../data/cryptonodes/bitcoin:/bitcoin/.bitcoin
+      - ../config/bitcoin.conf:/bitcoin/.bitcoin/bitcoin.conf
+    command: bitcoind

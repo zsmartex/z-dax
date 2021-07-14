@@ -120,6 +120,23 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+  desc '[Optional] Run Cryptonodes'
+  task :cryptonodes, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting Cryptonodes -----'
+      sh 'docker-compose up -d parity bitcoind'
+    end
+
+    def stop
+      puts '----- Stopping Cryptonodes -----'
+      sh 'docker-compose rm -fs parity bitcoind'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
   desc 'Run the micro app with dependencies (does not run Optional)'
   task :all, [:command] => 'render:config' do |task, args|
     args.with_defaults(:command => 'start')

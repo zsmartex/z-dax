@@ -50,6 +50,10 @@ data/ssl/*
 !data/ssl/.gitkeep
 data/vault/*
 !data/vault/.gitkeep
+data/cryptonodes/parity/*
+!data/cryptonodes/parity/.gitkeep
+data/cryptonodes/bitcoind/*
+!data/cryptonodes/bitcoind/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
