@@ -10,7 +10,7 @@ services:
       - ../config/peatio.env
     volumes:
       - ../config/peatio/seed:/home/app/config/seed:ro
-      - ../config/peatio/management_api_v1.yml:/home/app/config/management_api.yml:ro
+      - ../config/peatio/management_api.yml:/home/app/config/management_api.yml:ro
     command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
 
   barong:
