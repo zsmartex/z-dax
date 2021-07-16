@@ -7,8 +7,8 @@ render_protect: false
 ssl:
   enabled: true
 images:
-  barong: registry.gitlab.com/zsmartex/barong:338d8656
-  peatio: registry.gitlab.com/zsmartex/peatio:trade-fixed
+  barong: registry.gitlab.com/zsmartex/barong:40e3449b
+  peatio: registry.gitlab.com/zsmartex/peatio:9214b240
   rango: quay.io/openware/rango:3.0.2
 storage:
   provider: AWS
