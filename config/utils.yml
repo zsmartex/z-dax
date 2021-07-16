@@ -1,6 +1,6 @@
 images:
   quantex: registry.gitlab.com/zsmartex/quantex:b9a9539d
-  applogic: registry.gitlab.com/zsmartex/applogic:bff4924f
+  applogic: registry.gitlab.com/zsmartex/applogic:9841e3cf
   finex: registry.gitlab.com/zsmartex/finex:ca980591
 quantex:
   log_level: DEBUG

@@ -93,7 +93,7 @@ services:
   withdraw_coin:
     << : *peatio-daemon
     environment:
-    - VAULT_TOKEN=${PEATIO_CRYPTO_VAULT_TOKEN}
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb withdraw_coin"
 <% end -%>
 

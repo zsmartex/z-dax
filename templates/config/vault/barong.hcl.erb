@@ -23,10 +23,6 @@ path "auth/token/lookup" {
   capabilities = ["update"]
 }
 # Manage otp keys
-path "totp/keys/<%= @config['app']['name'].downcase %>_*" {
-  capabilities = ["create", "read", "update", "delete"]
-}
-# Verify an otp code
-path "totp/code/<%= @config['app']['name'].downcase %>_*" {
-  capabilities = ["update"]
+path "totp/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
