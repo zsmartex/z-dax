@@ -3,14 +3,6 @@ require_relative '../z-dax/vault'
 namespace :vault do
   desc 'Initialize, unseal and set secrets for Vault'
   task :setup do
-    if Dir.exist?('./Project/z-dax-test')
-      puts '----- Vault not allow to setup again! -----'
-      return
-    end
-
-    sh 'mkdir data/vault'
-    sh 'sudo chmod -R 757 data/vault'
-
     vault = ZDax::Vault.new
     vault_root_token = vault.setup
     unless vault_root_token.nil?
