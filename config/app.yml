@@ -19,6 +19,7 @@ twilio:
   phone_number: "+18577635282"
   account_sid: changeme
   auth_token: changeme
+  service_id: changeme
 vault:
   root_token: changeme
   peatio_rails_token: changeme
