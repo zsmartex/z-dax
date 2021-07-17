@@ -9,3 +9,6 @@ Custom images:
 Finex | High perfomance matching engine for peatio |
 Quantex | A liquidity bot support for Finex |
 Applogic | Custom logic for peatio |
+
+
+Command to fix ``sudo chmod -R 757 data/vault``
