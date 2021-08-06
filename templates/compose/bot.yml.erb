@@ -1,11 +1,16 @@
 version: '3.8'
 
 services:
-  quantex:
+  quantex-api:
     image: "<%= @utils['images']['quantex'] %>"
     restart: always
     env_file:
       - ../config/quantex.env
-    volumes:
-      - ../config/quantex/strategies.yaml:/app/config/strategies.yaml
-    command: "./quantex"
+    command: "./quantex-api"
+
+  quantex-engine:
+    image: "<%= @utils['images']['quantex'] %>"
+    restart: always
+    env_file:
+      - ../config/quantex.env
+    command: "./quantex-engine"

@@ -48,6 +48,11 @@ static_resources:
                   cluster: finex-api
                   prefix_rewrite: "/api/v2"
               - match:
+                  prefix: "/api/v2/quantex"
+                route:
+                  cluster: quantex-api
+                  prefix_rewrite: "/api/v2"
+              - match:
                   prefix: "/api/v2/websocket/public"
                 route:
                   cluster: rango
@@ -134,6 +139,14 @@ static_resources:
     hosts:
     - socket_address:
         address: finex-api
+        port_value: 3000
+  - name: quantex-api
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: quantex-api
         port_value: 3000
   - name: rango
     connect_timeout: 0.25s

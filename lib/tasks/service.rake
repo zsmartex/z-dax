@@ -109,12 +109,12 @@ namespace :service do
 
     def start
       puts '----- Starting Bot -----'
-      sh 'docker-compose up -d quantex'
+      sh 'docker-compose up -d quantex-api quantex-engine'
     end
 
     def stop
       puts '----- Stopping Bot -----'
-      sh 'docker-compose rm -fs quantex'
+      sh 'docker-compose rm -fs quantex-api quantex-engine'
     end
 
     @switch.call(args, method(:start), method(:stop))
