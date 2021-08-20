@@ -73,12 +73,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d peatio barong finex-api quantex-api rango applogic envoy coverapp castle assets-currency'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong finex-api rango applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose rm -fs peatio barong finex-api quantex-api rango applogic envoy coverapp castle assets-currency'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -109,12 +109,12 @@ namespace :service do
 
     def start
       puts '----- Starting Bot -----'
-      sh 'docker-compose up -d quantex-api quantex-engine'
+      sh 'docker-compose up -d quantex-engine'
     end
 
     def stop
       puts '----- Stopping Bot -----'
-      sh 'docker-compose rm -fs quantex-api quantex-engine'
+      sh 'docker-compose rm -fs quantex-engine'
     end
 
     @switch.call(args, method(:start), method(:stop))

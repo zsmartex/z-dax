@@ -76,8 +76,6 @@ services:
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *finex-daemon
-    depends_on:
-      - trade_executor
     command: "./finex-engine matching"
 <% end %>
 
