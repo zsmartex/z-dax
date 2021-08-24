@@ -13,6 +13,7 @@ namespace :db do
     sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:migrate"'
     sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:migrate"'
     sh 'docker-compose run --rm applogic sh -c "lucky db.migrate"'
+    sh 'docker-compose run --rm quantex-api sh -c "./quantex-migrator"'
   end
 
   task :seed, [:command] do |task, args|
