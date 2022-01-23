@@ -18,7 +18,7 @@ static_resources:
               - "*"
               cors:
                 allow_origin:
-                - "<%= ssl_helper('http') %>://<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+                - "*"
                 allow_methods: "PUT, GET, POST"
                 allow_headers: "content-type, x-grpc-web"
                 filter_enabled:

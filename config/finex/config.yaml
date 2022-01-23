@@ -1,0 +1,18 @@
+referral:
+  enabled: true
+  currency: USDT
+  rewards:
+    - hold_amount: 1000
+      reward: 0.05 # => 5%
+    - hold_amount: 10000
+      reward: 0.1
+    - hold_amount: 20000
+      reward: 0.15
+    - hold_amount: 30000
+      reward: 0.2
+    - hold_amount: 50000
+      reward: 0.3
+    - hold_amount: 70000
+      reward: 0.4
+    - hold_amount: 100000
+      reward: 0.5

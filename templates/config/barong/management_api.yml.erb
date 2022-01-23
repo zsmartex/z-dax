@@ -2,6 +2,9 @@ keychain:
   applogic:
     algorithm: RS256
     value: <%= @jwt_public_key %>
+  peatio:
+    algorithm: RS256
+    value: <%= @jwt_public_key %>
     
 scopes:
   read_users:
@@ -14,3 +17,8 @@ scopes:
       - applogic
     permitted_signers:
       - applogic
+  send_phones:
+    mandatory_signers:
+      - peatio
+    permitted_signers:
+      - peatio

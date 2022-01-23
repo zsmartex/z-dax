@@ -29,11 +29,13 @@ services:
     restart: always
     env_file:
       - ../config/finex.env
+    volumes:
+      - ../config/finex/config.yaml:/app/config/config.yaml
     command: "./finex-api"
 
   rango:
-    restart: always
     image: "<%= @config['images']['rango'] %>"
+    restart: always
     env_file:
       - ../config/rango.env
 
@@ -48,15 +50,11 @@ services:
     command: "./bin/applogic-api"
 
   coverapp:
-    image: nginx:stable
-    restart: always
-    volumes:
-      - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
-      - ../data/coverapp:/var/www/html:ro
+    image: "<%= @config['images']['coverapp'] %>"
     restart: always
     labels:
       - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
-      - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=3000"
       - "traefik.enable=true"
       <%- if @config['ssl']['enabled'] -%>
       - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=websecure"
@@ -66,11 +64,8 @@ services:
       <%- end -%>
 
   castle:
-    image: nginx:stable
+    image: "<%= @config['images']['castle'] %>"
     restart: always
-    volumes:
-      - ../config/nginx/config.conf:/etc/nginx/nginx.conf:ro
-      - ../data/castle:/var/www/html/castle:ro
     labels:
       - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
       - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=80"

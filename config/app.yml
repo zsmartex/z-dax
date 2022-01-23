@@ -7,9 +7,11 @@ render_protect: false
 ssl:
   enabled: true
 images:
-  barong: registry.gitlab.com/zsmartex/barong:40e3449b
-  peatio: registry.gitlab.com/zsmartex/peatio:9214b240
-  rango: quay.io/openware/rango:3.0.2
+  barong: zsmartex/barong
+  peatio: zsmartex/peatio
+  rango: zsmartex/rango
+  coverapp: zsmartex/coverapp
+  castle: zsmartex/castle
 storage:
   provider: AWS
   bucketName: zsmartex
@@ -56,3 +58,5 @@ daemons:
   order_processor: true
   trade_executor: true
   mailer: true
+  ieo_order_processor: true
+  ieo_order_executor: true

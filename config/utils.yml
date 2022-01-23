@@ -1,4 +1,4 @@
 images:
-  quantex: registry.gitlab.com/zsmartex/quantex:b9a9539d
-  applogic: registry.gitlab.com/zsmartex/applogic:9841e3cf
-  finex: registry.gitlab.com/zsmartex/finex:ca980591
+  quantex: zsmartex/quantex
+  applogic: zsmartex/applogic
+  finex: zsmartex/finex

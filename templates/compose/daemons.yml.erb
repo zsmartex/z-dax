@@ -13,6 +13,8 @@ x-finex-daemon: &finex-daemon
   restart: always
   env_file:
     - ../config/finex.env
+  volumes:
+    - ../config/finex/config.yaml:/app/config/config.yaml
 
 services:
 <% if @config['daemons']['blockchain'] -%>
@@ -85,6 +87,20 @@ services:
     depends_on:
       - matching
     command: "./finex-engine order_processor"
+<% end %>
+
+<% if @config['daemons']['ieo_order_processor'] -%>
+  ieo_order_processor:
+    << : *finex-daemon
+    depends_on:
+      - ieo_order_executor
+    command: "./finex-engine ieo_order_processor"
+<% end %>
+
+<% if @config['daemons']['ieo_order_executor'] -%>
+  ieo_order_executor:
+    << : *finex-daemon
+    command: "./finex-engine ieo_order_executor"
 <% end %>
 
 <% if @config['daemons']['withdraw_coin'] -%>

@@ -52,8 +52,8 @@ data/vault/*
 !data/vault/.gitkeep
 data/cryptonodes/parity/*
 !data/cryptonodes/parity/.gitkeep
-data/cryptonodes/bitcoind/*
-!data/cryptonodes/bitcoind/.gitkeep
+data/cryptonodes/bitcoin/*
+!data/cryptonodes/bitcoin/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
