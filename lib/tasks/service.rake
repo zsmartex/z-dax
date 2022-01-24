@@ -19,13 +19,12 @@ namespace :service do
 
     def start
       puts '----- Starting the proxy -----'
-      sh 'docker-compose up -d traefik visualizer'
-      sleep 10 # time for visualizer to start, we can get connection refused without sleeping
+      sh 'docker-compose up -d traefik'
     end
 
     def stop
       puts '----- Stopping the proxy -----'
-      sh 'docker-compose rm -fs traefik visualizer'
+      sh 'docker-compose rm -fs traefik'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -33,18 +32,20 @@ namespace :service do
 
   desc 'Run backend (db redis rabbitmq)'
   task :backend, [:command] do |task, args|
+    backend_services = %w[zookeeper kafka elasticsearch kafka-schema-registry kafka-rest-proxy kafka-connect ksqldb-server control-center kibana db redis rabbitmq influxdb vault]
+
     args.with_defaults(:command => 'start')
 
     def start
       puts '----- Starting dependencies -----'
-      sh 'docker-compose up -d db redis rabbitmq nats influxdb vault'
+      sh "docker-compose up -d #{backend_services}"
       puts 'Wait 5 second for backend'
       sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db redis rabbitmq nats influxdb vault'
+      sh "docker-compose rm -fs #{backend_services}"
     end
 
     @switch.call(args, method(:start), method(:stop))

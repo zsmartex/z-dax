@@ -54,6 +54,10 @@ data/cryptonodes/parity/*
 !data/cryptonodes/parity/.gitkeep
 data/cryptonodes/bitcoin/*
 !data/cryptonodes/bitcoin/.gitkeep
+data/elasticsearch/*
+!data/elasticsearch/.gitkeep
+data/kafka/*
+!data/kafka/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
