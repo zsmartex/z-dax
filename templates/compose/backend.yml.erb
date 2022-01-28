@@ -214,3 +214,5 @@ services:
     image: zsmartex/kafka-connect-init
     volumes:
       - ../config/kafka-connect:/app/connectors
+    environment:
+      - KAFKA_CONNECT_HOST=http://kafka-connect:8083
