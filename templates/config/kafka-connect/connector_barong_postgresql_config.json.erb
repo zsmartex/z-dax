@@ -1,0 +1,13 @@
+{
+  "name": "barong_postgresql",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.server.name": "barong",
+    "database.hostname": "<%= @config['database']['host'] %>",
+    "database.port": "<%= @config['database']['port'] %>",
+    "database.user": "<%= @config['database']['user'] %>",
+    "database.password": "<%= @config['database']['password'] %>",
+    "database.dbname": "barong_production"
+  }
+}

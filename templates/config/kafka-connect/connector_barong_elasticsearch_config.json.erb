@@ -1,0 +1,24 @@
+{
+  "name": "barong_elasticsearch",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "tasks.max": "10",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "transforms": "extractKey, dropPrefix, unwrap",
+    "topics": [
+      "barong.public.codes",
+      "barong.public.activities"
+    ],
+    "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
+    "transforms.extractKey.field": "id",
+    "transforms.dropPrefix.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex": "barong.public.(.*)",
+    "transforms.dropPrefix.replacement": "$1",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    "connection.url": "http://elasticsearch:9200",
+    "behavior.on.null.values": "delete",
+    "value.converter.schema.registry.url": "http://kafka-schema-registry:8081",
+    "value.converter.schemas.enable": "true"
+  }
+}

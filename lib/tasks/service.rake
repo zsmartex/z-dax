@@ -32,20 +32,22 @@ namespace :service do
 
   desc 'Run backend (db redis rabbitmq)'
   task :backend, [:command] do |task, args|
-    backend_services = %w[zookeeper kafka elasticsearch kafka-schema-registry kafka-rest-proxy kafka-connect ksqldb-server control-center kibana db redis rabbitmq influxdb vault]
+    @backend_services = %w[zookeeper kafka elasticsearch kafka-schema-registry kafka-rest-proxy kafka-connect ksqldb-server control-center kibana db redis rabbitmq influxdb vault]
 
     args.with_defaults(:command => 'start')
 
     def start
       puts '----- Starting dependencies -----'
-      sh "docker-compose up -d #{backend_services}"
-      puts 'Wait 5 second for backend'
-      sleep 5 # time for db to start, we can get connection refused without sleeping
+      sh "docker-compose up -d #{@backend_services.join(' ')}"
+      puts 'Wait 60 second for backend'
+      # sleep 60
+
+      # sh "docker-compose run --rm curl sh -c 'curl --location --request POST http://kafka-connect:8083/connectors/ --header \'Content-Type: application/json\' --data-raw  \'#{JSON.parse(File.read('config/kafka-connect/connector_barong_postgresql_config.json')).to_json}\''"
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh "docker-compose rm -fs #{backend_services}"
+      sh "docker-compose rm -fs #{@backend_services.join(' ')}"
     end
 
     @switch.call(args, method(:start), method(:stop))

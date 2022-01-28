@@ -39,7 +39,8 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     volumes:
-      - ../data/zookeeper:/var/lib/zookeeper/data
+      - ../data/zookeeper/data:/var/lib/zookeeper/data
+      - ../data/zookeeper/log:/var/lib/zookeeper/log
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
@@ -208,3 +209,8 @@ services:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
       - elasticsearch
+
+  kafka-connect-init:
+    image: zsmartex/kafka-connect-init
+    volumes:
+      - ../config/kafka-connect:/app/connectors

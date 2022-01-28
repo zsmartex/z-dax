@@ -27,6 +27,8 @@ config/quantex/*
 !config/quantex/.gitkeep
 config/vault/*
 !config/vault/.gitkeep
+config/kafka-connect/*
+!config/kafka-connect/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
@@ -58,6 +60,10 @@ data/elasticsearch/*
 !data/elasticsearch/.gitkeep
 data/kafka/*
 !data/kafka/.gitkeep
+data/zookeeper/data/*
+!data/zookeeper/data/.gitkeep
+data/zookeeper/log/*
+!data/zookeeper/log/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
