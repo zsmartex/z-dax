@@ -46,8 +46,6 @@ data/influxdb/*
 !data/influxdb/.gitkeep
 data/redis/*
 !data/redis/.gitkeep
-data/rabbitmq/*
-!data/rabbitmq/.gitkeep
 data/ssl/*
 !data/ssl/.gitkeep
 data/vault/*

@@ -60,13 +60,13 @@ services:
     << : *peatio-daemon
     environment:
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb deposit_coin_address"
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb deposit_coin_address"
 <% end -%>
 
 <% if @config['daemons']['market_ticker'] -%>
   market_ticker:
     << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb market_ticker"
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb market_ticker"
 <% end -%>
 
 <% if @config['daemons']['trade_executor'] -%>
@@ -78,7 +78,7 @@ services:
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *finex-daemon
-    command: "./finex-engine matching"
+    command: "./finex-matching-engine"
 <% end %>
 
 <% if @config['daemons']['order_processor'] -%>
@@ -108,7 +108,7 @@ services:
     << : *peatio-daemon
     environment:
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb withdraw_coin"
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb withdraw_coin"
 <% end -%>
 
   mailer:
