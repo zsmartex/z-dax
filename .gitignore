@@ -62,6 +62,8 @@ data/zookeeper/data/*
 !data/zookeeper/data/.gitkeep
 data/zookeeper/log/*
 !data/zookeeper/log/.gitkeep
+data/mongodb/log/*
+!data/mongodb/log/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
