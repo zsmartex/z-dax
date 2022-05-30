@@ -11,7 +11,7 @@ services:
     volumes:
       - ../config/peatio/seed:/home/app/config/seed:ro
       - ../config/peatio/management_api.yml:/home/app/config/management_api.yml:ro
-    command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
+    command: "./peatio api -p 3000"
 
   barong:
     image: "<%= @config['images']['barong'] %>"
@@ -23,6 +23,7 @@ services:
       - ../config/barong/barong.yml:/home/app/config/barong.yml:ro
       - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml:ro
       - ../config/barong/management_api.yml:/home/app/config/management_api.yml:ro
+    command: "./barong api -p 3000"
 
   finex-api:
     image: "<%= @utils['images']['finex'] %>"

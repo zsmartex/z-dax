@@ -5,11 +5,8 @@ keychain:
   peatio:
     algorithm: RS256
     value: "<%= @jwt_public_key %>"
-  applogic:
-    algorithm: RS256
-    value: "<%= @jwt_public_key %>"
 
-exchanges:
+topics:
   barong_system:
     name: barong.events.system
     signer: barong
@@ -19,79 +16,15 @@ exchanges:
   peatio:
     name: peatio.events.model
     signer: peatio
-  applogic_system:
-    name: applogic.events.system
-    signer: applogic
 
 events:
-  - name: Registration Confirmation
-    key: user.email.confirmation.code
-    exchange: applogic_system
-    templates:
-      en:
-        subject: Registration Confirmation
-        template_path: email_confirmation.en.html.erb
-
-  - name: Password Reset
-    key: user.password.reset.code
-    exchange: applogic_system
-    templates:
-      en:
-        subject: Password Reset
-        template_path: password_reset.en.html.erb
-
-  - name: Session Create
-    key: session.create
-    exchange: barong_system
-    templates:
-      en:
-        subject: New Login
-        template_path: session_create.en.html.erb
-
-  - name: Deposit Accepted
-    key: deposit.updated
-    exchange: peatio
-    templates:
-      en:
-        subject: Deposit Accepted
-        template_path: deposit_accepted.en.html.erb
-
-  - name: Withdrawal Confirmation
-    key: withdraw.confirmation.code
-    exchange: applogic_system
-    templates:
-      en:
-        subject: Withdrawal Confirmation
-        template_path: withdrawal_confirmation.en.html.erb
-  
-  - name: New Beneficiary
-    key: beneficiary.created
-    exchange: peatio
-    templates:
-      en:
-        subject: New Beneficiary
-        template_path: new_beneficiary.en.html.erb
-
-  - name: Resend beneficiary
-    key: beneficiary.updated
-    exchange: peatio
-    expression:
-      and:
-        record.state: 'pending'
-    templates:
-      en:
-        subject: Resend Beneficiary
-        template_path: new_beneficiary.en.html.erb
-
-  # expression example
-  # - name: Session Create
-  #   key: session.create
-  #   expression:
-  #     and:                          # need to use and/or/not operator here
-  #       record.user_ip: '::1'       # full patch to key
-  #       record.user.role: 'member'
-  #   exchange: barong_system
-  #   templates:
-  #     en:
-  #       subject: New Login
-  #       template_path: session_create.en.html.erb
+- name: Email Confirmation
+  key: codes.email.confirmation.code
+  topic: barong_system
+  templates:
+    en:
+      subject: Registration Confirmation
+      template_path: templates/en/email_confirmation.tpl
+    vi:
+      subject: Xác nhận đăng ký
+      template_path: templates/vi/email_confirmation.tpl

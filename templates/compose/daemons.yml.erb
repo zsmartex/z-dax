@@ -25,12 +25,12 @@ services:
     command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
 <% end -%>
 
-<% if @config['daemons']['peatio_cron_job'] -%>
-  peatio_cron_job:
+<% if @config['daemons']['cron_jobs'] -%>
+  cron_jobs:
     << : *peatio-daemon
     environment:
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb cron_job"
+    command: "./cron_jobs"
 <% end -%>
 
 <% if @config['daemons']['finex_cron_job'] -%>
@@ -71,22 +71,24 @@ services:
 
 <% if @config['daemons']['trade_executor'] -%>
   trade_executor:
-    << : *finex-daemon
-    command: "./finex-engine trade_executor"
+    << : *peatio-daemon
+    command: "./trade_executor -p 9000"
 <% end %>
 
 <% if @config['daemons']['matching'] -%>
   matching:
-    << : *finex-daemon
-    command: "./finex-matching-engine"
+    << : *peatio-daemon
+    depends_on:
+      - trade_executor
+    command: "./matching -p 9000"
 <% end %>
 
 <% if @config['daemons']['order_processor'] -%>
   order_processor:
-    << : *finex-daemon
+    << : *peatio-daemon
     depends_on:
       - matching
-    command: "./finex-engine order_processor"
+    command: "./order_processor -p 9000"
 <% end %>
 
 <% if @config['daemons']['ieo_order_processor'] -%>
@@ -113,25 +115,8 @@ services:
 
   mailer:
     restart: always
-    image: "<%= @config['images']['barong'] %>"
+    image: mailer
     env_file:
-      - ../config/barong.env
+      - ../config/mailer.env
     volumes:
-      -  ../config/secrets:/secrets:ro
-      -  ../config/mailer/layouts/mailer.html.erb:/home/app/app/views/layouts/mailer.html.erb
-      -  ../config/mailer/postmaster:/home/app/app/views/postmaster
-      -  ../config/mailer.yml:/home/app/config/mailer.yml
-    command: bash -c "bin/mailer run"
-
-  sidekiq:
-    restart: always
-    image: "<%= @config['images']['barong'] %>"
-    env_file:
-      - ../config/barong.env
-    volumes:
-      - ../config/secrets:/secrets
-      - ../config/barong/seeds.yml:/home/app/config/seeds.yml
-      - ../config/barong/barong.yml:/home/app/config/barong.yml
-      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml
-      - ../config/barong/management_api.yml:/home/app/config/management_api.yml
-    command: bash -c "bundle exec sidekiq"
+      -  ../config/mailer.yml:/app/config/mailer.yml

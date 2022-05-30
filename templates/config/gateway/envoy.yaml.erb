@@ -103,11 +103,17 @@ static_resources:
                     - exact: proxy-authenticate
                     - exact: www-authenticate
                     - exact: location
+                    - exact: content-type
+                    - exact: x-xss-protection
+                    - exact: x-content-type-options
+                    - exact: x-frame-options
+                    - exact: x-request-id
+
                 path_prefix: "/api/v2/auth"
                 server_uri:
                   cluster: barong
                   timeout: 1.000s
-                  uri: http://barong:8001
+                  uri: http://barong:3000
           - name: envoy.filters.http.router
             typed_config: {}
     perConnectionBufferLimitBytes: 10000000
@@ -117,33 +123,33 @@ static_resources:
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: rango
+      cluster_name: barong
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
                 address: barong
-                port_value: 8001
+                port_value: 3000
   - name: peatio
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: rango
+      cluster_name: peatio
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
                 address: peatio
-                port_value: 8000
+                port_value: 3000
   - name: applogic
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: rango
+      cluster_name: applogic
       endpoints:
       - lb_endpoints:
         - endpoint:
@@ -156,7 +162,7 @@ static_resources:
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: rango
+      cluster_name: finex-api
       endpoints:
       - lb_endpoints:
         - endpoint:
@@ -169,7 +175,7 @@ static_resources:
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: rango
+      cluster_name: quantex-api
       endpoints:
       - lb_endpoints:
         - endpoint:

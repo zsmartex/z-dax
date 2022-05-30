@@ -32,22 +32,28 @@ namespace :service do
 
   desc 'Run backend'
   task :backend, [:command] do |task, args|
-    @backend_services = %w[zookeeper kafka elasticsearch kafka-schema-registry kafka-rest-proxy kafka-connect ksqldb-server control-center kibana db redis influxdb vault]
+    @database_services = %w[yb-master-0 yb-tserver-0 yb-master-1 yb-tserver-1 yb-master-2 yb-tserver-2 yb-tserver-3 yb-tserver-4 yb-tserver-5 yb-tserver-6 yb-tserver-7]
+    @streams_services = %w[redpanda-0 redpanda-1]
+    @backend_services = %w[elasticsearch kibana redis questdb vault]
+    @connect_services = %w[debezium kowl]
 
     args.with_defaults(:command => 'start')
 
     def start
       puts '----- Starting dependencies -----'
+      sh "docker-compose up -d #{@database_services.join(' ')}"
+      sh "docker-compose up -d #{@streams_services.join(' ')}"
       sh "docker-compose up -d #{@backend_services.join(' ')}"
-      puts 'Wait 60 second for backend'
-      sleep 60
-
-      # sh "docker-compose run --rm curl sh -c 'curl --location --request POST http://kafka-connect:8083/connectors/ --header \'Content-Type: application/json\' --data-raw  \'#{JSON.parse(File.read('config/kafka-connect/connector_barong_postgresql_config.json')).to_json}\''"
+      sleep 30
+      sh "docker-compose up -d #{@connect_services.join(' ')}"
     end
 
     def stop
       puts '----- Stopping dependencies -----'
+      sh "docker-compose rm -fs #{@database_services.join(' ')}"
+      sh "docker-compose rm -fs #{@streams_services.join(' ')}"
       sh "docker-compose rm -fs #{@backend_services.join(' ')}"
+      sh "docker-compose rm -fs #{@connect_services.join(' ')}"
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -76,12 +82,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d peatio barong finex-api quantex-api rango applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose up -d barong peatio rango coverapp envoy'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio barong finex-api quantex-api rango applogic envoy coverapp castle assets-currency'
+      sh 'docker-compose rm -fs barong peatio rango coverapp envoy'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -149,14 +155,14 @@ namespace :service do
       Rake::Task["service:backend"].invoke('start')
       Rake::Task["vault:unseal"].invoke('start')
       Rake::Task["service:app"].invoke('start')
-      Rake::Task["service:daemons"].invoke('start')
+      # Rake::Task["service:daemons"].invoke('start')
     end
 
     def stop
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
       Rake::Task["service:app"].invoke('stop')
-      Rake::Task["service:daemons"].invoke('stop')
+      # Rake::Task["service:daemons"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))

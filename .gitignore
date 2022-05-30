@@ -12,8 +12,6 @@ config/gateway/*
 
 !config/secrets/.gitkeep
 
-config/nginx/*
-!config/nginx/.gitkeep
 config/traefik/*
 !config/traefik/.gitkeep
 config/applogic/*
@@ -27,8 +25,6 @@ config/quantex/*
 !config/quantex/.gitkeep
 config/vault/*
 !config/vault/.gitkeep
-config/kafka-connect/*
-!config/kafka-connect/.gitkeep
 
 vendor/*
 !vendor/.gitkeep
@@ -42,8 +38,8 @@ data/coverapp/*
 data/castle/*
 !data/castle/.gitkeep
 data/db
-data/influxdb/*
-!data/influxdb/.gitkeep
+data/questdb/*
+!data/questdb/.gitkeep
 data/redis/*
 !data/redis/.gitkeep
 data/ssl/*
@@ -56,14 +52,6 @@ data/cryptonodes/bitcoin/*
 !data/cryptonodes/bitcoin/.gitkeep
 data/elasticsearch/*
 !data/elasticsearch/.gitkeep
-data/kafka/*
-!data/kafka/.gitkeep
-data/zookeeper/data/*
-!data/zookeeper/data/.gitkeep
-data/zookeeper/log/*
-!data/zookeeper/log/.gitkeep
-data/mongodb/log/*
-!data/mongodb/log/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

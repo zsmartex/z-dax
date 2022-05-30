@@ -1,4 +1,4 @@
 images:
-  quantex: zsmartex/quantex
+  quantex: quantex
   applogic: zsmartex/applogic
-  finex: zsmartex/finex
+  finex: finex

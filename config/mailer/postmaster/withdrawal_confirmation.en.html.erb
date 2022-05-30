@@ -7,7 +7,7 @@
   <div class="content">
     <h2 class="title">Withdrawal Request</h2>
     <p>
-      You've requested to withdraw <%= @record.amount %> <%= @record.currency %>
+      You've requested to withdraw <%= @record.data.amount %> <%= @record.data.currency %>
       <br>
       <br>
       Before going further with the withdrawal, please <strong>check carefully the target address.</strong> Be aware that if you confirm an incorrect address, we won't be able to assist you to recover your assets.
@@ -20,7 +20,7 @@
       <br>
       The verification code will be valid for 30 minutes. Please do not share this code with anyone.
       <br>
-      If you do not receive this activity, please immediately disable your account, contact us at <a target="_blank" href="#">https://www.zsmart.tech/vn/support</a> and <a clicktracking=off target="_blank" href="<%= @record.domain %>/confirmation/withdrawal?tid=<%= @record.tid %>&confirmation_code=<%= @record.code %>&action=cancel">click here</a> to cancel.
+      If you do not receive this activity, please immediately disable your account, contact us at <a target="_blank" href="#">https://www.zsmart.tech/vn/support</a>
       <br>
       <br>
       <br>

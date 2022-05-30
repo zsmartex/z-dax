@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  redpanda-0:
+    image: vectorized/redpanda:v22.1.3
+    ports:
+      - "8081:8081"
+    volumes:
+      - redpanda-0:/var/lib/redpanda/data
+    environment:
+      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092
+    command:
+      - redpanda
+      - start
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '0'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda-0:29092,OUTSIDE://localhost:9092
+
+  redpanda-1:
+    image: vectorized/redpanda:v22.1.3
+    volumes:
+      - redpanda-1:/var/lib/redpanda/data
+    environment:
+      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092
+    command:
+      - redpanda
+      - start
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '1'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda-1:29092,OUTSIDE
+
+  debezium:
+    image: quay.io/yugabyte/debezium-connector:1.3.6-BETA
+    hostname: debezium
+    depends_on:
+      - redpanda-0
+      - redpanda-1
+    ports:
+      - "8083:8083"
+    volumes:
+      - ../config/debezium/connect/kafka-connect-jdbc:/kafka/connect/kafka-connect-jdbc
+    environment:
+      BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092"
+      GROUP_ID: kafka-connect
+      CONFIG_STORAGE_TOPIC: connect.configs
+      OFFSET_STORAGE_TOPIC: connect.offsets
+      STATUS_STORAGE_TOPIC: connect.status
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda-0:8081'
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda-0:8081'
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+
+  kowl:
+    image: quay.io/cloudhut/kowl
+    depends_on:
+      - redpanda-0
+      - redpanda-1
+      - debezium
+    ports:
+      - "8084:8080"
+    environment:
+      CONFIG_FILEPATH: /tmp/config.yml
+      KOWL_CONFIG_FILE: |
+        kafka:
+          brokers: ["redpanda-0:29092", "redpanda-1:29092"]
+          schemaRegistry:
+            enabled: true
+            urls: ["http://redpanda-0:8081"]
+        connect:
+          enabled: true
+          clusters:
+            - name: kafka-connect
+              url: http://debezium:8083
+              tls:
+                enabled: false
+    entrypoint: /bin/sh
+    command: -c "echo \"$$KOWL_CONFIG_FILE\" > /tmp/config.yml; /app/kowl"
+
+volumes:
+  redpanda-0:
+  redpanda-1:

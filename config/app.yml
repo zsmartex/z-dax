@@ -7,10 +7,10 @@ render_protect: false
 ssl:
   enabled: true
 images:
-  barong: zsmartex/barong
-  peatio: zsmartex/peatio
-  rango: zsmartex/rango
-  coverapp: zsmartex/coverapp
+  barong: barong
+  peatio: peatio
+  rango: rango
+  coverapp: zsmartex/coverapp:next
   castle: zsmartex/castle
 storage:
   provider: AWS
@@ -24,17 +24,17 @@ twilio:
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
   root_token: s.yUjD7teE9xaUHty2IR8OGX7u
-  peatio_rails_token: s.f6qGfmXjwvSNi5dR49sF9KYV
-  peatio_crypto_token: s.PW4b8l60bD3DJFWMcbCJwYFf
-  peatio_upstream_token: s.QABqySqMEUGc7QfxMsl71CMx
-  peatio_matching_token: s.1gKn89hCNKkzzsQU56hZDj3a
-  barong_token: s.l8nI4mWi50iIN0bXHyuT79MM
-  finex_engine_token: s.MzQ9noXNBI1x3vzTRyCUTmcP
+  peatio_rails_token: s.6JLC7sadFoq3e7nKf8kieGiB
+  peatio_crypto_token: s.7SA5PdiloPUyZgWh8WkrdFo0
+  peatio_upstream_token: s.CvgPqK5SqscQqhc0VWUlL1Gb
+  peatio_matching_token: s.U9hLyUEAnJ3WWSW4j954GfMY
+  barong_token: s.SOjsDJ79SHG244P4quz84dTk
+  finex_engine_token: s.UNbqujRwArVxS7XG0DgZQIJt
 database:
-  host: db
-  port: 5432
-  user: root
-  password: djtdjtdjtdjt
+  host: yb-tserver-0
+  port: 5433
+  user: yugabyte
+  password: yugabyte
 recaptcha:
   siteKey: changeme
   secretKey: changeme
@@ -47,16 +47,15 @@ smtp:
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
-  blockchain: true
-  deposit: true
-  deposit_coin_address: true
-  withdraw_coin: true
+  blockchain: false
+  deposit: false
+  deposit_coin_address: false
+  withdraw_coin: false
   upstream: false
-  peatio_cron_job: true
-  finex_cron_job: true
+  cron_jobs: true
   matching: true
   order_processor: true
   trade_executor: true
-  mailer: true
-  ieo_order_processor: true
-  ieo_order_executor: true
+  mailer: false
+  ieo_order_processor: false
+  ieo_order_executor: false
