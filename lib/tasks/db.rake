@@ -2,9 +2,9 @@ namespace :db do
   task :create, [:command] do |task, args|
     Rake::Task["render:config"].execute
     puts '----- Running create database -----'
-    sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:create"'
-    sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:create"'
-    sh 'docker-compose run --rm applogic sh -c "lucky db.create"'
+    sh 'docker-compose run --rm barong sh -c "./barong createdb"'
+    sh 'docker-compose run --rm peatio sh -c "./peatio createdb"'
+    sh 'docker-compose run --rm kouda sh -c "./kouda createdb"'
   end
 
   task :migrate, [:command] do |task, args|
