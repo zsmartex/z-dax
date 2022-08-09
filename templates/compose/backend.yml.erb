@@ -15,11 +15,13 @@ services:
   redis:
     image: redis:4.0.10
     restart: always
+    ports:
+      - "6344:6379"
     volumes:
       - ../data/redis:/data
 
   questdb:
-    image: questdb/questdb:6.3
+    image: questdb/questdb:latest
     restart: always
     ports:
       - "8812:8812"
@@ -31,6 +33,8 @@ services:
   vault:
     image: vault:1.3.0
     restart: always
+    ports:
+      - "8200:8200"
     volumes:
       - ../data/vault:/vault/data
       - ../config/vault:/tmp/policies

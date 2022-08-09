@@ -1,6 +1,12 @@
 version: '3.8'
 
-x-daemon: &peatio-daemon
+x-barong-daemon: &barong-daemon
+  image: "<%= @config['images']['barong'] %>"
+  restart: always
+  env_file:
+    - ../config/barong.env
+
+x-peatio-daemon: &peatio-daemon
   image: "<%= @config['images']['peatio'] %>"
   restart: always
   env_file:
@@ -17,14 +23,6 @@ x-finex-daemon: &finex-daemon
     - ../config/finex/config.yaml:/app/config/config.yaml
 
 services:
-<% if @config['daemons']['blockchain'] -%>
-  blockchain:
-    << : *peatio-daemon
-    environment:
-      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb blockchain"
-<% end -%>
-
 <% if @config['daemons']['cron_jobs'] -%>
   cron_jobs:
     << : *peatio-daemon
@@ -33,34 +31,12 @@ services:
     command: "./cron_jobs"
 <% end -%>
 
-<% if @config['daemons']['finex_cron_job'] -%>
-  finex_cron_job:
-    << : *finex-daemon
-    command: "./finex-daemon cron_job"
-<% end -%>
-
-<% if @config['daemons']['deposit'] -%>
-  deposit:
+<% if @config['daemons']['deposit_address'] -%>
+  deposit_address:
     << : *peatio-daemon
     environment:
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb deposit"
-<% end -%>
-
-<% if @config['daemons']['upstream'] -%>
-  upstream:
-    << : *peatio-daemon
-    environment:
-      - VAULT_TOKEN=<%= @config['vault']['peatio_upstream_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/daemons.rb upstream"
-<% end -%>
-
-<% if @config['daemons']['deposit_coin_address'] -%>
-  deposit_coin_address:
-    << : *peatio-daemon
-    environment:
-      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb deposit_coin_address"
+    command: "./deposit_address -p 9000"
 <% end -%>
 
 <% if @config['daemons']['market_ticker'] -%>
@@ -75,43 +51,46 @@ services:
     command: "./trade_executor -p 9000"
 <% end %>
 
+<% if @config['daemons']['peatio_system_notify'] -%>
+  peatio_system_notify:
+    << : *peatio-daemon
+    command: "./system_notify"
+<% end %>
+
+<% if @config['daemons']['barong_system_notify'] -%>
+  barong_system_notify:
+    << : *barong-daemon
+    command: "./system_notify"
+<% end %>
+
+<% if @config['daemons']['code'] -%>
+  code:
+    << : *barong-daemon
+    command: "./code -p 9008"
+<% end %>
+
 <% if @config['daemons']['matching'] -%>
   matching:
     << : *peatio-daemon
     depends_on:
       - trade_executor
+      - order_processor
     command: "./matching -p 9000"
 <% end %>
 
 <% if @config['daemons']['order_processor'] -%>
   order_processor:
     << : *peatio-daemon
-    depends_on:
-      - matching
     command: "./order_processor -p 9000"
 <% end %>
 
-<% if @config['daemons']['ieo_order_processor'] -%>
-  ieo_order_processor:
-    << : *finex-daemon
-    depends_on:
-      - ieo_order_executor
-    command: "./finex-engine ieo_order_processor"
-<% end %>
-
-<% if @config['daemons']['ieo_order_executor'] -%>
-  ieo_order_executor:
-    << : *finex-daemon
-    command: "./finex-engine ieo_order_executor"
-<% end %>
-
-<% if @config['daemons']['withdraw_coin'] -%>
-  withdraw_coin:
+<% if @config['daemons']['withdraw'] -%>
+  withdraw:
     << : *peatio-daemon
     environment:
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb withdraw_coin"
-<% end -%>
+    command: "./withdraw -p 9000"
+<% end %>
 
   mailer:
     restart: always

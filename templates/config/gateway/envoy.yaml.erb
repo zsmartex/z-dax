@@ -23,7 +23,7 @@ static_resources:
                     google_re2: {}
                     regex: \*
                 allow_methods: "PUT, GET, POST"
-                allow_headers: "content-type, x-grpc-web"
+                allow_headers: "content-type, x-grpc-web, set-cookie"
                 filter_enabled:
                   default_value:
                     numerator: 100
@@ -39,6 +39,11 @@ static_resources:
                   prefix: "/api/v2/trade"
                 route:
                   cluster: peatio
+                  prefix_rewrite: "/api/v2"
+              - match:
+                  prefix: "/api/v2/kouda"
+                route:
+                  cluster: kouda
                   prefix_rewrite: "/api/v2"
               - match:
                   prefix: "/api/v2/applogic"
@@ -182,6 +187,19 @@ static_resources:
             address:
               socket_address:
                 address: quantex-api
+                port_value: 3000
+  - name: kouda
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: kouda
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: kouda
                 port_value: 3000
   - name: rango
     connect_timeout: 0.25s

@@ -29,14 +29,8 @@ config/vault/*
 vendor/*
 !vendor/.gitkeep
 
-data/applogic/*
-!data/applogic/.gitkeep
 data/assets-currency/*
 !data/assets-currency/.gitkeep
-data/coverapp/*
-!data/coverapp/.gitkeep
-data/castle/*
-!data/castle/.gitkeep
 data/db/*
 !data/db/.gitkeep
 data/questdb/*
@@ -47,12 +41,10 @@ data/ssl/*
 !data/ssl/.gitkeep
 data/vault/*
 !data/vault/.gitkeep
-data/cryptonodes/parity/*
-!data/cryptonodes/parity/.gitkeep
-data/cryptonodes/bitcoin/*
-!data/cryptonodes/bitcoin/.gitkeep
 data/elasticsearch/*
 !data/elasticsearch/.gitkeep
+data/materialize/*
+!data/materialize/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

@@ -3,11 +3,11 @@ path "transit/keys/<%= @config['app']['name'].downcase %>_*" {
   capabilities = ["create", "read", "list"]
 }
 # Encrypt Payment Addresses secrets
-path "transit/encrypt/<%= @config['app']['name'].downcase %>_payment_addresses_*" {
+path "transit/encrypt/<%= @config['app']['name'].downcase %>_deposit_addresses_*" {
   capabilities = ["create", "read", "update"]
 }
 # Decrypt Payment Addresses secrets
-path "transit/decrypt/<%= @config['app']['name'].downcase %>_payment_addresses_*" {
+path "transit/decrypt/<%= @config['app']['name'].downcase %>_deposit_addresses_*" {
   capabilities = ["create", "read", "update"]
 }
 # Decrypt wallets secrets

@@ -16,6 +16,7 @@ namespace :db do
     # sh 'docker-compose run --rm quantex-api sh -c "./quantex-migrator"'
     sh 'docker-compose run --rm barong sh -c "./barong migration"'
     sh 'docker-compose run --rm peatio sh -c "./peatio migration"'
+    sh 'docker-compose run --rm kouda sh -c "./kouda migration"'
   end
 
   task :seed, [:command] do |task, args|

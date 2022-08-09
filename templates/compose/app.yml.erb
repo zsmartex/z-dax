@@ -10,7 +10,6 @@ services:
       - ../config/peatio.env
     volumes:
       - ../config/peatio/seed:/home/app/config/seed:ro
-      - ../config/peatio/management_api.yml:/home/app/config/management_api.yml:ro
     command: "./peatio api -p 3000"
 
   barong:
@@ -19,36 +18,22 @@ services:
       - ../config/barong.env
     volumes:
       - ../config/secrets:/secrets:ro
-      - ../config/barong/seeds.yml:/home/app/config/seeds.yml:ro
-      - ../config/barong/barong.yml:/home/app/config/barong.yml:ro
-      - ../config/barong/authz_rules.yml:/home/app/config/authz_rules.yml:ro
-      - ../config/barong/management_api.yml:/home/app/config/management_api.yml:ro
+      - ../config/barong/seeds.yml:/app/config/seeds.yml:ro
+      - ../config/barong/barong.yml:/app/config/barong.yml:ro
+      - ../config/barong/authz_rules.yml:/app/config/authz_rules.yml:ro
     command: "./barong api -p 3000"
 
-  finex-api:
-    image: "<%= @utils['images']['finex'] %>"
-    restart: always
+  kouda:
+    image: "<%= @config['images']['kouda'] %>"
     env_file:
-      - ../config/finex.env
-    volumes:
-      - ../config/finex/config.yaml:/app/config/config.yaml
-    command: "./finex-api"
+      - ../config/kouda.env
+    command: "./kouda api -p 3000"
 
   rango:
     image: "<%= @config['images']['rango'] %>"
     restart: always
     env_file:
       - ../config/rango.env
-
-  applogic:
-    image: "<%= @utils['images']['applogic'] %>"
-    restart: always
-    volumes:
-      - ../config/applogic/management_api.yml:/home/app/config/management_api.yml:ro
-      - ../data/applogic/banners:/home/app/banners
-    env_file:
-      - ../config/applogic.env
-    command: "./bin/applogic-api"
 
   coverapp:
     image: "<%= @config['images']['coverapp'] %>"

@@ -32,10 +32,10 @@ namespace :service do
 
   desc 'Run backend'
   task :backend, [:command] do |task, args|
-    @database_services = %w[yb-master-0 yb-tserver-0 yb-master-1 yb-tserver-1 yb-master-2 yb-tserver-2 yb-tserver-3 yb-tserver-4 yb-tserver-5 yb-tserver-6 yb-tserver-7]
-    @streams_services = %w[redpanda-0 redpanda-1]
-    @backend_services = %w[elasticsearch kibana redis questdb vault]
-    @connect_services = %w[debezium kowl]
+    @database_services = %w[db materialize questdb]
+    @streams_services = %w[redpanda-de redpanda-0 redpanda-1]
+    @backend_services = %w[elasticsearch kibana redis vault]
+    @connect_services = %w[debezium redpanda-console-data redpanda-console-sync]
 
     args.with_defaults(:command => 'start')
 
@@ -82,12 +82,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d barong peatio rango coverapp envoy'
+      sh 'docker-compose up -d barong peatio kouda rango coverapp envoy'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs barong peatio rango coverapp envoy'
+      sh 'docker-compose rm -fs barong peatio kouda rango coverapp envoy'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -153,16 +153,17 @@ namespace :service do
     def start
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:backend"].invoke('start')
+      Rake::Task["service:adminer"].invoke('start')
       Rake::Task["vault:unseal"].invoke('start')
       Rake::Task["service:app"].invoke('start')
-      # Rake::Task["service:daemons"].invoke('start')
+      Rake::Task["service:daemons"].invoke('start')
     end
 
     def stop
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
       Rake::Task["service:app"].invoke('stop')
-      # Rake::Task["service:daemons"].invoke('stop')
+      Rake::Task["service:daemons"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))

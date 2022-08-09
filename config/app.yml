@@ -1,8 +1,8 @@
 ---
 app:
   name: Z-Dax
-  domain: zsmartex.tech
-  subdomain: test
+  domain: zsmartex.com
+  subdomain: www
 render_protect: false
 ssl:
   enabled: true
@@ -10,6 +10,7 @@ images:
   barong: barong
   peatio: peatio
   rango: rango
+  kouda: kouda
   coverapp: zsmartex/coverapp:next
   castle: zsmartex/castle
 storage:
@@ -23,18 +24,18 @@ twilio:
   auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
-  root_token: s.yUjD7teE9xaUHty2IR8OGX7u
-  peatio_rails_token: s.6JLC7sadFoq3e7nKf8kieGiB
-  peatio_crypto_token: s.7SA5PdiloPUyZgWh8WkrdFo0
-  peatio_upstream_token: s.CvgPqK5SqscQqhc0VWUlL1Gb
-  peatio_matching_token: s.U9hLyUEAnJ3WWSW4j954GfMY
-  barong_token: s.SOjsDJ79SHG244P4quz84dTk
-  finex_engine_token: s.UNbqujRwArVxS7XG0DgZQIJt
+  root_token: s.hWSGlSrCPEXnMHe6AxUeI8G4
+  peatio_rails_token: s.UsUJQYHtXbSxHgiPfVMDhehT
+  peatio_crypto_token: s.AeNg2tAMCjG3j9C9llwWd96f
+  peatio_upstream_token: s.4Sr5U0J4KlxFcxIuaVj85VDJ
+  peatio_matching_token: s.EGHfcpUkVg5hQLzxdP6PJiUU
+  barong_token: s.piBgaaUhEn8AYeaDYbqnaQqJ
+  finex_engine_token: s.CDjv40McCqB1KCh6c108Vnow
 database:
-  host: yb-tserver-0
-  port: 5433
-  user: yugabyte
-  password: yugabyte
+  host: db
+  port: 5432
+  user: zsmartex
+  password: zsmartex
 recaptcha:
   siteKey: changeme
   secretKey: changeme
@@ -48,14 +49,13 @@ smtp:
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
   blockchain: false
-  deposit: false
-  deposit_coin_address: false
-  withdraw_coin: false
-  upstream: false
+  deposit_address: true
+  withdraw: false
   cron_jobs: true
   matching: true
   order_processor: true
   trade_executor: true
   mailer: false
-  ieo_order_processor: false
-  ieo_order_executor: false
+  peatio_system_notify: true
+  barong_system_notify: true
+  code: true
