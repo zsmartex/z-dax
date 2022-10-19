@@ -2,7 +2,7 @@
 app:
   name: Z-Dax
   domain: zsmartex.com
-  subdomain: www
+  subdomain: demo
 render_protect: false
 ssl:
   enabled: true
@@ -11,26 +11,24 @@ images:
   peatio: peatio
   rango: rango
   kouda: kouda
-  coverapp: zsmartex/coverapp:next
-  castle: zsmartex/castle
-storage:
-  provider: AWS
-  bucketName: zsmartex
-  accessKey: changeme
-  secretKey: changeme
+  quantex: quantex
+  coverapp: coverapp
+  castle: castle
 twilio:
   phone_number: "+14159153078"
   account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
   auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
-  root_token: s.hWSGlSrCPEXnMHe6AxUeI8G4
-  peatio_rails_token: s.UsUJQYHtXbSxHgiPfVMDhehT
-  peatio_crypto_token: s.AeNg2tAMCjG3j9C9llwWd96f
-  peatio_upstream_token: s.4Sr5U0J4KlxFcxIuaVj85VDJ
-  peatio_matching_token: s.EGHfcpUkVg5hQLzxdP6PJiUU
-  barong_token: s.piBgaaUhEn8AYeaDYbqnaQqJ
-  finex_engine_token: s.CDjv40McCqB1KCh6c108Vnow
+  root_token: s.K7Y2CI8bmBi0XbWr0uZo4GxU
+  peatio_rails_token: s.X3oJR19cDaGxWJZHtZmhtuGX
+  peatio_crypto_token: s.CkDhrRtU1MnGZ9U3tggDNCNX
+  peatio_upstream_token: s.L1cvnRBlR1UNHLjituEpJ3IB
+  peatio_matching_token: s.G57MS47E4H8k0bEkOEkwnyGq
+  barong_token: s.w7RH4Vr5wwpanWLc0KMBMlQd
+  finex_engine_token: s.CVGDsKY1CFZZ48Cdc8SVK75z
+  quantex_token: s.h9HnXzNvmZuzV4zBEhbKkWav
+  quantex_runner_token: s.lPPHWX3vTIo4YgKKr5deGgwV
 database:
   host: db
   port: 5432
@@ -40,22 +38,24 @@ recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: smtp.zoho.com
+  host: smtp.zeptomail.com
   port: 587
-  user: business@zsmart.tech
-  password: zEH1WA4gZf9Y
-  sender_email: business@zsmart.tech
+  user: emailapikey
+  password: wSsVR612qxCkDf0plD2pIu9uzF4EVVzzFh902FP1636uSK3B88c/xUaaU1WkGfMaE2VqEWAUrLognR9WgWULh9R4nwwJXiiF9mqRe1U4J3x17qnvhDzJXWtUmxqNLYkKwQ5tnGFpFsgq+g==
+  sender_email: no-reply@zsmartex.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
-  blockchain: false
   deposit_address: true
-  withdraw: false
+  withdraw: true
   cron_jobs: true
   matching: true
   order_processor: true
   trade_executor: true
-  mailer: false
+  mailer: true
   peatio_system_notify: true
   barong_system_notify: true
   code: true
+  quantex_runner: true
+  peatio_grpc: true
+  activity_recorder: true

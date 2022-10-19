@@ -46,6 +46,9 @@ data/elasticsearch/*
 data/materialize/*
 !data/materialize/.gitkeep
 
+data/cryptonodes/*
+!data/cryptonodes/.gitkeep
+
 vendor/*
 !vendor/.gitkeep
 

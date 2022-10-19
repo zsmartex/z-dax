@@ -5,25 +5,21 @@ namespace :db do
     sh 'docker-compose run --rm barong sh -c "./barong createdb"'
     sh 'docker-compose run --rm peatio sh -c "./peatio createdb"'
     sh 'docker-compose run --rm kouda sh -c "./kouda createdb"'
+    sh 'docker-compose run --rm quantex sh -c "./quantex createdb"'
   end
 
   task :migrate, [:command] do |task, args|
     Rake::Task["render:config"].execute
     puts '----- Running migrate database -----'
-    # sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:migrate"'
-    # sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:migrate"'
-    # sh 'docker-compose run --rm applogic sh -c "lucky db.migrate"'
-    # sh 'docker-compose run --rm quantex-api sh -c "./quantex-migrator"'
     sh 'docker-compose run --rm barong sh -c "./barong migration"'
     sh 'docker-compose run --rm peatio sh -c "./peatio migration"'
     sh 'docker-compose run --rm kouda sh -c "./kouda migration"'
+    sh 'docker-compose run --rm quantex sh -c "./quantex migration"'
   end
 
   task :seed, [:command] do |task, args|
     Rake::Task["render:config"].execute
     puts '----- Running seed database -----'
-    # sh 'docker-compose run --rm barong bash -c "./bin/link_config && bundle exec rake db:seed"'
-    # sh 'docker-compose run --rm peatio bash -c "./bin/link_config && bundle exec rake db:seed"'
     sh 'docker-compose run --rm barong sh -c "./barong seed"'
     sh 'docker-compose run --rm peatio sh -c "./peatio seed"'
   end
@@ -35,11 +31,5 @@ namespace :db do
     Rake::Task["db:create"].execute
     Rake::Task["db:migrate"].execute
     Rake::Task["db:seed"].execute
-    Rake::Task["db:influx"].execute
-  end
-
-  task :influx, [:command] do |task, args|
-    sh 'docker-compose up -d influxdb'
-    sh 'docker-compose exec influxdb bash -c "cat influxdb.sql | influx"'
   end
 end

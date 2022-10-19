@@ -33,9 +33,9 @@ namespace :service do
   desc 'Run backend'
   task :backend, [:command] do |task, args|
     @database_services = %w[db materialize questdb]
-    @streams_services = %w[redpanda-de redpanda-0 redpanda-1]
+    @streams_services = %w[redpanda-0 redpanda-1 redpanda-2 redpanda-3 redpanda-4]
     @backend_services = %w[elasticsearch kibana redis vault]
-    @connect_services = %w[debezium redpanda-console-data redpanda-console-sync]
+    @connect_services = %w[debezium console]
 
     args.with_defaults(:command => 'start')
 
@@ -44,7 +44,7 @@ namespace :service do
       sh "docker-compose up -d #{@database_services.join(' ')}"
       sh "docker-compose up -d #{@streams_services.join(' ')}"
       sh "docker-compose up -d #{@backend_services.join(' ')}"
-      sleep 30
+      sleep 5
       sh "docker-compose up -d #{@connect_services.join(' ')}"
     end
 
@@ -82,12 +82,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d barong peatio kouda rango coverapp envoy'
+      sh 'docker-compose up -d barong peatio kouda rango quantex coverapp castle envoy'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs barong peatio kouda rango coverapp envoy'
+      sh 'docker-compose rm -fs barong peatio kouda rango quantex coverapp castle envoy'
     end
 
     @switch.call(args, method(:start), method(:stop))
