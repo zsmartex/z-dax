@@ -92,6 +92,29 @@ services:
     command: "./withdraw -p 9000"
 <% end %>
 
+<% if @config['daemons']['peatio_grpc'] -%>
+  peatio_grpc:
+    << : *peatio-daemon
+    command: "./peatio grpc -p 9000"
+<% end %>
+
+<% if @config['daemons']['quantex_runner'] -%>
+  quantex_runner:
+    image: "<%= @config['images']['quantex'] %>"
+    env_file:
+      - ../config/quantex.env
+    environment:
+      - VAULT_TOKEN=<%= @config['vault']['quantex_runner_token'] %>
+    command: "./runner -p 9000"
+<% end %>
+
+<% if @config['daemons']['activity_recorder'] -%>
+  activity_recorder:
+    << : *barong-daemon
+    command: "./activity_recorder -p 9001"
+<% end %>
+
+
   mailer:
     restart: always
     image: mailer

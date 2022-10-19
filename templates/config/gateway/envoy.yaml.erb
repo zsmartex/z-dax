@@ -58,7 +58,7 @@ static_resources:
               - match:
                   prefix: "/api/v2/quantex"
                 route:
-                  cluster: quantex-api
+                  cluster: quantex
                   prefix_rewrite: "/api/v2"
               - match:
                   prefix: "/api/v2/websocket/public"
@@ -175,18 +175,18 @@ static_resources:
               socket_address:
                 address: finex-api
                 port_value: 3000
-  - name: quantex-api
+  - name: quantex
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: quantex-api
+      cluster_name: quantex
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: quantex-api
+                address: quantex
                 port_value: 3000
   - name: kouda
     connect_timeout: 0.25s

@@ -18,13 +18,66 @@ topics:
     signer: peatio
 
 events:
-- name: Email Confirmation
-  key: codes.email.confirmation.code
-  topic: barong_system
-  templates:
-    en:
-      subject: Registration Confirmation
-      template_path: templates/en/email_confirmation.tpl
-    vi:
-      subject: Xác nhận đăng ký
-      template_path: templates/vi/email_confirmation.tpl
+  - name: Registration Confirmation
+    key: codes.email.register.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Registration Confirmation
+        template_path: templates/en/register_confirmation.tpl
+  - name: Login Confirmation
+    key: codes.email.login.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Login Confirmation
+        template_path: templates/en/login_confirmation.tpl
+  - name: Reset Password Confirmation
+    key: codes.email.reset_password.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Reset Password Confirmation
+        template_path: templates/en/reset_passwword_confirmation.tpl
+  - name: OTP Verification Confirmation
+    key: codes.email.otp.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: OTP Verification Confirmation
+        template_path: templates/en/otp_confirmation.tpl
+  - name: Phone Verification Confirmation
+    key: codes.email.phone_verification.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Phone Verification Confirmation
+        template_path: templates/en/phone_verification_confirmation.tpl
+  - name: Change Password Confirmation
+    key: codes.email.change_password.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Change Password Confirmation
+        template_path: templates/en/change_password_confirmation.tpl
+  - name: Unbind OTP Confirmation
+    key: codes.email.unbind_otp.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Unbind OTP Confirmation
+        template_path: templates/en/unbind_otp_confirmation.tpl
+  - name: Unbind Phone Confirmation
+    key: codes.email.unbind_phone.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Unbind Phone Confirmation
+        template_path: templates/en/unbind_phone_confirmation.tpl
+  - name: Withdraw Confirmation
+    key: codes.email.withdrawal.confirmation.code
+    topic: barong_system
+    templates:
+      en:
+        subject: Withdraw Confirmation
+        template_path: templates/en/withdrawal_confirmation.tpl

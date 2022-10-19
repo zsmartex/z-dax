@@ -35,6 +35,14 @@ services:
     env_file:
       - ../config/rango.env
 
+  quantex:
+    image: "<%= @config['images']['quantex'] %>"
+    env_file:
+      - ../config/quantex.env
+    environment:
+      - VAULT_TOKEN=<%= @config['vault']['quantex_token'] %>
+    command: "./quantex api -p 3000"
+
   coverapp:
     image: "<%= @config['images']['coverapp'] %>"
     restart: always
@@ -54,7 +62,7 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
-      - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=3000"
       - "traefik.enable=true"
       <%- if @config['ssl']['enabled'] -%>
       - "traefik.http.routers.castle-<%= @name %>.entrypoints=websecure"
