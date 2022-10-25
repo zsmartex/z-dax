@@ -7,13 +7,13 @@ render_protect: false
 ssl:
   enabled: true
 images:
-  barong: barong
-  peatio: peatio
-  rango: rango
-  kouda: kouda
-  quantex: quantex
-  coverapp: coverapp
-  castle: castle
+  barong: zsmartex/barong
+  peatio: zsmartex/peatio
+  rango: zsmartex/rango
+  kouda: zsmartex/kouda
+  quantex: zsmartex/quantex
+  coverapp: zsmartex/coverapp
+  castle: zsmartex/castle
 twilio:
   phone_number: "+14159153078"
   account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
