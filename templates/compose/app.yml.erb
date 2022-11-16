@@ -46,6 +46,11 @@ services:
   coverapp:
     image: "<%= @config['images']['coverapp'] %>"
     restart: always
+    environment:
+      STORAGE: "true"
+      REDIS_HOST: redis
+    env_file:
+      - ../config/coverapp.env
     labels:
       - "traefik.http.routers.coverapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
       - "traefik.http.services.coverapp-<%= @name %>.loadbalancer.server.port=3000"
@@ -55,6 +60,20 @@ services:
       - "traefik.http.routers.coverapp-<%= @name %>.tls=true"
       <%- else -%>
       - "traefik.http.routers.coverapp-<%= @name %>.entrypoints=web"
+      <%- end -%>
+
+  mobiapp:
+    image: "huuhait/mobiapp"
+    restart: always
+    labels:
+      - "traefik.http.routers.mobiapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/m`)"
+      - "traefik.http.services.mobiapp-<%= @name %>.loadbalancer.server.port=80"
+      - "traefik.enable=true"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.mobiapp-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.mobiapp-<%= @name %>.tls=true"
+      <%- else -%>
+      - "traefik.http.routers.mobiapp-<%= @name %>.entrypoints=web"
       <%- end -%>
 
   castle:
