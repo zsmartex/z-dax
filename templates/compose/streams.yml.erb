@@ -165,6 +165,7 @@ services:
       CONNECT_OFFSET_STORAGE_PARTITIONS: 100
       CONNECT_STATUS_STORAGE_PARTITIONS: 100
       CONNECT_PLUGIN_PATH: /usr/share/java,/connectors,/usr/share/confluent-hub-components/
+      CONNECT_OFFSET_FLUSH_INTERVAL_MS: 1000
     command:
       - bash
       - -c
@@ -174,6 +175,43 @@ services:
         confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:latest
         confluent-hub install --no-prompt confluentinc/connect-transforms:latest
         /etc/confluent/docker/run
+
+  ksql-server:
+    image: confluentinc/cp-ksql-server
+    ports:
+      - 8088:8088
+    depends_on:
+      - redpanda-0
+      - redpanda-1
+      - redpanda-2
+      - redpanda-3
+      - redpanda-4
+      - debezium
+    environment:
+      KSQL_BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092"
+      KSQL_LISTENERS: http://ksql-server:8088
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
+
+  control-center:
+    image: confluentinc/cp-enterprise-control-center
+    depends_on:
+      - redpanda-0
+      - redpanda-1
+      - redpanda-2
+      - redpanda-3
+      - redpanda-4
+      - debezium
+      - ksql-server
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_CONNECT_CONNECT1_CLUSTER: http://debezium:8083
+      CONTROL_CENTER_CONFLUENT_CONTROLCENTER_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
+      CONTROL_CENTER_KSQL_URL: "http://ksql-server:8088"
+      CONTROL_CENTER_KSQL_ADVERTISED_URL: "http://ksql-server:8088"
 
   console:
     image: vectorized/console:latest
