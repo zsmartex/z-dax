@@ -71,10 +71,10 @@ Insert in file `/etc/hosts`
 0.0.0.0 adminer.app.local
 ```
 
-#### 4.2 Setup Postgresql and Vault
+#### 4.2 Setup Database and Vault
 
 ```bash
-rake service:proxy service:backend db:setup
+rake render:config service:proxy service:backend db:setup
 ```
 
 #### 4.3 Setup Kafka Connect
