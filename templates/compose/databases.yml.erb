@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: debezium/postgres
+    image: debezium/postgres:13
     ports:
       - "5432:5432"
     volumes:
@@ -11,13 +11,27 @@ services:
      - POSTGRES_USER=zsmartex
      - POSTGRES_PASSWORD=zsmartex
 
+  questdb:
+    image: questdb/questdb:6.5.5
+    restart: always
+    ports:
+      - "8812:8812"
+      - "9009:9009"
+      - "8041:9000"
+      - "9003:9003"
+    volumes:
+      - ../data/questdb:/root/.questdb/db
+    environment:
+      QDB_CAIRO_COMMIT_LAG: 1000
+      QDB_METRICS_ENABLED: "true"
+      QDB_DEBUG: "true"
+
   materialize:
-    image: materialize/materialized
+    image: materialize/materialized:v0.26.5
     ports:
       - "6875:6875"
     volumes:
       - ../data/materialize:/mzdata
-    command: --logical-compaction-window 10s
 
   adminer:
     image: adminer
