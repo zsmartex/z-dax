@@ -5,8 +5,7 @@ Z-Dax is an project template deployment ZSmartex Exchange in `docker-compose` wr
 Demo exchange running: [ZSmartex Demo](https://demo.zsmartex.com/)
 
 ## Architecture
-
-![alt text for screen readers](docs/images/architecture.svg "Text to show on mouseover")
+![Architecture](docs/images/architecture.svg "Text to show on mouseover")
 
 ## Getting started with ZSmartex
 
