@@ -17,29 +17,29 @@ images:
   mobiapp: zsmartex/mobiapp:dev
 twilio:
   phone_number: "+14159153078"
-  account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
-  auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
-  service_id: MG093ddefd24da33eb3f93ba1834981a61
+  account_sid: changeme
+  auth_token: changeme
+  service_id: changeme
 vault:
-  root_token: s.K7Y2CI8bmBi0XbWr0uZo4GxU
-  peatio_token: s.3duQI5lTr8ItkomiOBWMaNFf
-  peatio_crypto_token: s.mbhJDMRY2PxBe7LFuG2KLj6J
-  barong_token: s.8wq5VSSgGzrERF4wWaQYmg3V
-  quantex_token: s.DXWjgap5YyxwaH5YZWblMMP8
-  quantex_runner_token: s.Jvugj4hIujLp3T6Dg00BKFd1
+  root_token: changeme
+  peatio_token: changeme
+  peatio_crypto_token: changeme
+  barong_token: changeme
+  quantex_token: changeme
+  quantex_runner_token: changeme
 database:
   host: db
   port: 5432
   user: zsmartex
-  password: zsmartex
+  password: changeme
 recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: smtpout.secureserver.net
+  host: example.com
   port: 587
   user: business@zsmartex.com
-  password: z6e#xG6YObV9
+  password: changeme
   sender_email: business@zsmartex.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
