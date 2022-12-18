@@ -5,7 +5,7 @@ services:
     image: "<%= @config['images']['peatio'] %>"
     restart: always
     environment:
-      - VAULT_TOKEN=<%= @config['vault']['peatio_rails_token'] %>
+      - VAULT_TOKEN=<%= @config['vault']['peatio_token'] %>
     env_file:
       - ../config/peatio.env
     volumes:

@@ -22,7 +22,7 @@ twilio:
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
   root_token: s.K7Y2CI8bmBi0XbWr0uZo4GxU
-  peatio_rails_token: s.3duQI5lTr8ItkomiOBWMaNFf
+  peatio_token: s.3duQI5lTr8ItkomiOBWMaNFf
   peatio_crypto_token: s.mbhJDMRY2PxBe7LFuG2KLj6J
   barong_token: s.8wq5VSSgGzrERF4wWaQYmg3V
   quantex_token: s.DXWjgap5YyxwaH5YZWblMMP8
