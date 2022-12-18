@@ -63,10 +63,10 @@ services:
       <%- end -%>
 
   mobiapp:
-    image: "huuhait/mobiapp"
+    image: "<%= @config['images']['mobiapp'] %>"
     restart: always
     labels:
-      - "traefik.http.routers.mobiapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/m`)"
+      - "traefik.http.routers.mobiapp-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/m/`)"
       - "traefik.http.services.mobiapp-<%= @name %>.loadbalancer.server.port=80"
       - "traefik.enable=true"
       <%- if @config['ssl']['enabled'] -%>

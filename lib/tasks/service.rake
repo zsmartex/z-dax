@@ -44,7 +44,7 @@ namespace :service do
       sh "docker-compose up -d #{@database_services.join(' ')}"
       sh "docker-compose up -d #{@streams_services.join(' ')}"
       sh "docker-compose up -d #{@backend_services.join(' ')}"
-      sleep 5
+      sleep 30
       sh "docker-compose up -d #{@connect_services.join(' ')}"
     end
 
@@ -82,12 +82,12 @@ namespace :service do
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d barong peatio kouda rango quantex coverapp castle envoy'
+      sh 'docker-compose up -d barong peatio kouda rango quantex coverapp castle mobiapp envoy'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs barong peatio kouda rango quantex coverapp castle envoy'
+      sh 'docker-compose rm -fs barong peatio kouda rango quantex coverapp castle mobiapp envoy'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -112,18 +112,18 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc '[Optional] Run Z-Maker'
+  desc 'Run quantex runner'
   task :bot, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      puts '----- Starting Bot -----'
-      sh 'docker-compose up -d quantex-engine'
+      puts '----- Starting app -----'
+      sh 'docker-compose up -d quantex_runner'
     end
 
     def stop
-      puts '----- Stopping Bot -----'
-      sh 'docker-compose rm -fs quantex-engine'
+      puts '----- Stopping app -----'
+      sh 'docker-compose rm -fs quantex_runner'
     end
 
     @switch.call(args, method(:start), method(:stop))

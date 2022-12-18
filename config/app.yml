@@ -12,8 +12,9 @@ images:
   rango: zsmartex/rango
   kouda: zsmartex/kouda
   quantex: zsmartex/quantex
-  coverapp: zsmartex/coverapp
-  castle: zsmartex/castle
+  coverapp: zsmartex/coverapp:dev
+  castle: zsmartex/castle:dev
+  mobiapp: zsmartex/mobiapp:dev
 twilio:
   phone_number: "+14159153078"
   account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
@@ -21,14 +22,11 @@ twilio:
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
   root_token: s.K7Y2CI8bmBi0XbWr0uZo4GxU
-  peatio_rails_token: s.X3oJR19cDaGxWJZHtZmhtuGX
-  peatio_crypto_token: s.CkDhrRtU1MnGZ9U3tggDNCNX
-  peatio_upstream_token: s.L1cvnRBlR1UNHLjituEpJ3IB
-  peatio_matching_token: s.G57MS47E4H8k0bEkOEkwnyGq
-  barong_token: s.w7RH4Vr5wwpanWLc0KMBMlQd
-  finex_engine_token: s.CVGDsKY1CFZZ48Cdc8SVK75z
-  quantex_token: s.h9HnXzNvmZuzV4zBEhbKkWav
-  quantex_runner_token: s.lPPHWX3vTIo4YgKKr5deGgwV
+  peatio_rails_token: s.3duQI5lTr8ItkomiOBWMaNFf
+  peatio_crypto_token: s.mbhJDMRY2PxBe7LFuG2KLj6J
+  barong_token: s.8wq5VSSgGzrERF4wWaQYmg3V
+  quantex_token: s.DXWjgap5YyxwaH5YZWblMMP8
+  quantex_runner_token: s.Jvugj4hIujLp3T6Dg00BKFd1
 database:
   host: db
   port: 5432
@@ -38,11 +36,11 @@ recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: smtp.zeptomail.com
+  host: smtpout.secureserver.net
   port: 587
-  user: emailapikey
-  password: wSsVR612qxCkDf0plD2pIu9uzF4EVVzzFh902FP1636uSK3B88c/xUaaU1WkGfMaE2VqEWAUrLognR9WgWULh9R4nwwJXiiF9mqRe1U4J3x17qnvhDzJXWtUmxqNLYkKwQ5tnGFpFsgq+g==
-  sender_email: no-reply@zsmartex.com
+  user: business@zsmartex.com
+  password: z6e#xG6YObV9
+  sender_email: business@zsmartex.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
@@ -56,6 +54,5 @@ daemons:
   peatio_system_notify: true
   barong_system_notify: true
   code: true
-  quantex_runner: true
   peatio_grpc: true
   activity_recorder: true
