@@ -46,16 +46,6 @@ static_resources:
                   cluster: kouda
                   prefix_rewrite: "/api/v2"
               - match:
-                  prefix: "/api/v2/applogic"
-                route:
-                  cluster: applogic
-                  prefix_rewrite: "/api"
-              - match:
-                  prefix: "/api/v2/finex"
-                route:
-                  cluster: finex-api
-                  prefix_rewrite: "/api/v2"
-              - match:
                   prefix: "/api/v2/quantex"
                 route:
                   cluster: quantex
@@ -148,32 +138,6 @@ static_resources:
             address:
               socket_address:
                 address: peatio
-                port_value: 3000
-  - name: applogic
-    connect_timeout: 0.25s
-    type: strict_dns
-    lb_policy: round_robin
-    load_assignment:
-      cluster_name: applogic
-      endpoints:
-      - lb_endpoints:
-        - endpoint:
-            address:
-              socket_address:
-                address: applogic
-                port_value: 3000
-  - name: finex-api
-    connect_timeout: 0.25s
-    type: strict_dns
-    lb_policy: round_robin
-    load_assignment:
-      cluster_name: finex-api
-      endpoints:
-      - lb_endpoints:
-        - endpoint:
-            address:
-              socket_address:
-                address: finex-api
                 port_value: 3000
   - name: quantex
     connect_timeout: 0.25s

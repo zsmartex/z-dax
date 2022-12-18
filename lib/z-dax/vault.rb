@@ -2,7 +2,7 @@
 
 module ZDax
   class Vault
-    POLICIES_NAMES = ["barong", "finex_engine", "peatio_rails", "peatio_crypto", "peatio_upstream", "peatio_matching", "quantex", "quantex_runner"]
+    POLICIES_NAMES = ["barong", "peatio", "peatio_crypto", "quantex", "quantex_runner"]
 
     def vault_secrets_path
       'config/vault-secrets.yml'

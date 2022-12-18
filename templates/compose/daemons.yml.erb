@@ -14,14 +14,6 @@ x-peatio-daemon: &peatio-daemon
   volumes:
     - ../config/peatio/seed:/home/app/config/seed
 
-x-finex-daemon: &finex-daemon
-  image: "<%= @utils['images']['finex'] %>"
-  restart: always
-  env_file:
-    - ../config/finex.env
-  volumes:
-    - ../config/finex/config.yaml:/app/config/config.yaml
-
 services:
 <% if @config['daemons']['cron_jobs'] -%>
   cron_jobs:
