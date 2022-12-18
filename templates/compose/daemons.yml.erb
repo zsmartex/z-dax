@@ -98,7 +98,6 @@ services:
     command: "./peatio grpc -p 9000"
 <% end %>
 
-<% if @config['daemons']['quantex_runner'] -%>
   quantex_runner:
     image: "<%= @config['images']['quantex'] %>"
     env_file:
@@ -106,7 +105,6 @@ services:
     environment:
       - VAULT_TOKEN=<%= @config['vault']['quantex_runner_token'] %>
     command: "./runner -p 9000"
-<% end %>
 
 <% if @config['daemons']['activity_recorder'] -%>
   activity_recorder:
