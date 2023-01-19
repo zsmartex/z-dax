@@ -33,7 +33,7 @@ namespace :service do
   desc 'Run backend'
   task :backend, [:command] do |task, args|
     @database_services = %w[db materialize questdb]
-    @streams_services = %w[redpanda-0 redpanda-1 redpanda-2 redpanda-3 redpanda-4]
+    @streams_services = %w[redpanda]
     @backend_services = %w[elasticsearch kibana redis vault]
     @connect_services = %w[debezium console]
 

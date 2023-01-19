@@ -27,8 +27,8 @@ namespace :db do
   task :views, [:command] do |task, args|
     Rake::Task["render:config"].execute
     puts '----- Running create views -----'
-    sh 'docker-compose run --rm barong sh -c "./barong create_views --schema_registry_addr http://redpanda-0:8081"'
-    sh 'docker-compose run --rm peatio sh -c "./peatio create_views --schema_registry_addr http://redpanda-0:8081"'
+    sh 'docker-compose run --rm barong sh -c "./barong create_views --schema_registry_addr http://redpanda:8081"'
+    sh 'docker-compose run --rm peatio sh -c "./peatio create_views --schema_registry_addr http://redpanda:8081"'
   end
 
   task :setup, [:command] do |task, args|
