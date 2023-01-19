@@ -1,12 +1,14 @@
 version: '3.8'
 
 services:
-  redpanda-0:
+  redpanda:
     image: vectorized/redpanda:latest
+    ports:
+      - "8088:8081"
     environment:
-      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092
+      REDPANDA_BROKERS: redpanda:29092
     volumes:
-      - redpanda-0:/var/lib/redpanda/data
+      - redpanda:/var/lib/redpanda/data
     command:
       - redpanda
       - start
@@ -20,215 +22,57 @@ services:
       - --set redpanda.enable_transactions=true
       - --set redpanda.enable_idempotence=true
       - --set redpanda.auto_create_topics_enabled=true
-      - --set redpanda.default_topic_replications=1
-      - --set redpanda.default_topic_partitions=100
       - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
-      - --advertise-kafka-addr PLAINTEXT://redpanda-0:29092,OUTSIDE://localhost:9092
+      - --advertise-kafka-addr PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
       - --rpc-addr 0.0.0.0:33145
-      - --advertise-rpc-addr redpanda-0:33145
-
-  redpanda-1:
-    image: vectorized/redpanda:latest
-    environment:
-      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092
-    volumes:
-      - redpanda-1:/var/lib/redpanda/data
-    command:
-      - redpanda
-      - start
-      - --smp
-      - '1'
-      - --reserve-memory
-      - 0M
-      - --overprovisioned
-      - --node-id
-      - '1'
-      - --seeds "redpanda-0:33145"
-      - --set redpanda.enable_transactions=true
-      - --set redpanda.enable_idempotence=true
-      - --set redpanda.auto_create_topics_enabled=true
-      - --set redpanda.default_topic_replications=1
-      - --set redpanda.default_topic_partitions=100
-      - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
-      - --advertise-kafka-addr PLAINTEXT://redpanda-1:29092,OUTSIDE://localhost:9092
-      - --rpc-addr 0.0.0.0:33145
-      - --advertise-rpc-addr redpanda-1:33145
-
-  redpanda-2:
-    image: vectorized/redpanda:latest
-    environment:
-      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092
-    volumes:
-      - redpanda-2:/var/lib/redpanda/data
-    command:
-      - redpanda
-      - start
-      - --smp
-      - '1'
-      - --reserve-memory
-      - 0M
-      - --overprovisioned
-      - --node-id
-      - '2'
-      - --seeds "redpanda-0:33145"
-      - --set redpanda.enable_transactions=true
-      - --set redpanda.enable_idempotence=true
-      - --set redpanda.auto_create_topics_enabled=true
-      - --set redpanda.default_topic_replications=1
-      - --set redpanda.default_topic_partitions=100
-      - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
-      - --advertise-kafka-addr PLAINTEXT://redpanda-2:29092,OUTSIDE://localhost:9092
-      - --rpc-addr 0.0.0.0:33145
-      - --advertise-rpc-addr redpanda-2:33145
-
-  redpanda-3:
-    image: vectorized/redpanda:latest
-    environment:
-      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092
-    volumes:
-      - redpanda-3:/var/lib/redpanda/data
-    command:
-      - redpanda
-      - start
-      - --smp
-      - '1'
-      - --reserve-memory
-      - 0M
-      - --overprovisioned
-      - --node-id
-      - '3'
-      - --seeds "redpanda-0:33145"
-      - --set redpanda.enable_transactions=true
-      - --set redpanda.enable_idempotence=true
-      - --set redpanda.auto_create_topics_enabled=true
-      - --set redpanda.default_topic_replications=1
-      - --set redpanda.default_topic_partitions=100
-      - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
-      - --advertise-kafka-addr PLAINTEXT://redpanda-3:29092,OUTSIDE://localhost:9092
-      - --rpc-addr 0.0.0.0:33145
-      - --advertise-rpc-addr redpanda-3:33145
-
-  redpanda-4:
-    image: vectorized/redpanda:latest
-    environment:
-      REDPANDA_BROKERS: redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092
-    volumes:
-      - redpanda-4:/var/lib/redpanda/data
-    command:
-      - redpanda
-      - start
-      - --smp
-      - '1'
-      - --reserve-memory
-      - 0M
-      - --overprovisioned
-      - --node-id
-      - '4'
-      - --seeds "redpanda-0:33145"
-      - --set redpanda.enable_transactions=true
-      - --set redpanda.enable_idempotence=true
-      - --set redpanda.auto_create_topics_enabled=true
-      - --set redpanda.default_topic_replications=1
-      - --set redpanda.default_topic_partitions=100
-      - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
-      - --advertise-kafka-addr PLAINTEXT://redpanda-4:29092,OUTSIDE://localhost:9092
-      - --rpc-addr 0.0.0.0:33145
-      - --advertise-rpc-addr redpanda-4:33145
+      - --advertise-rpc-addr redpanda:33145
 
   debezium:
     image: confluentinc/cp-kafka-connect:7.2.2
     depends_on:
-      - redpanda-0
-      - redpanda-1
-      - redpanda-2
-      - redpanda-3
-      - redpanda-4
+      - redpanda
     volumes:
       - ../config/debezium/connectors:/connectors
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092"
+      CONNECT_BOOTSTRAP_SERVERS: "redpanda:29092"
       CONNECT_GROUP_ID: kafka-connect
       CONNECT_CONFIG_STORAGE_TOPIC: connect.configs
       CONNECT_OFFSET_STORAGE_TOPIC: connect.offsets
       CONNECT_STATUS_STORAGE_TOPIC: connect.status
       CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda-0:8081'
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda:8081'
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda-0:8081'
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://redpanda:8081'
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_REST_ADVERTISED_HOST_NAME: "debezium"
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_CONFIG_STORAGE_PARTITIONS: 100
-      CONNECT_OFFSET_STORAGE_PARTITIONS: 100
-      CONNECT_STATUS_STORAGE_PARTITIONS: 100
+      CONNECT_CONFIG_STORAGE_PARTITIONS: 1
+      CONNECT_OFFSET_STORAGE_PARTITIONS: 1
+      CONNECT_STATUS_STORAGE_PARTITIONS: 1
       CONNECT_PLUGIN_PATH: /usr/share/java,/connectors,/usr/share/confluent-hub-components/
     command:
       - bash
       - -c
       - |
-        confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:latest
-        confluent-hub install --no-prompt debezium/debezium-connector-postgresql:latest
-        confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:latest
         confluent-hub install --no-prompt confluentinc/connect-transforms:latest
         /etc/confluent/docker/run
-
-  ksql-server:
-    image: confluentinc/cp-ksql-server
-    ports:
-      - 8088:8088
-    depends_on:
-      - redpanda-0
-      - redpanda-1
-      - redpanda-2
-      - redpanda-3
-      - redpanda-4
-      - debezium
-    environment:
-      KSQL_BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092"
-      KSQL_LISTENERS: http://ksql-server:8088
-      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
-
-  control-center:
-    image: confluentinc/cp-enterprise-control-center
-    depends_on:
-      - redpanda-0
-      - redpanda-1
-      - redpanda-2
-      - redpanda-3
-      - redpanda-4
-      - debezium
-      - ksql-server
-    ports:
-      - "9021:9021"
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: "redpanda-0:29092,redpanda-1:29092,redpanda-2:29092,redpanda-3:29092,redpanda-4:29092"
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      CONTROL_CENTER_CONNECT_CONNECT1_CLUSTER: http://debezium:8083
-      CONTROL_CENTER_CONFLUENT_CONTROLCENTER_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
-      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://redpanda-0:8081
-      CONTROL_CENTER_KSQL_URL: "http://ksql-server:8088"
-      CONTROL_CENTER_KSQL_ADVERTISED_URL: "http://ksql-server:8088"
 
   console:
     image: vectorized/console:latest
     depends_on:
-      - redpanda-0
-      - redpanda-1
-      - redpanda-2
-      - redpanda-3
-      - redpanda-4
+      - redpanda
       - debezium
     environment:
       CONFIG_FILEPATH: /tmp/config.yml
       CONSOLE_CONFIG_FILE: |
         kafka:
-          brokers: ["redpanda-0:29092", "redpanda-1:29092", "redpanda-2:29092", "redpanda-3:29092", "redpanda-4:29092"]
+          brokers: ["redpanda:29092"]
           schemaRegistry:
             enabled: true
-            urls: ["http://redpanda-0:8081"]
+            urls: ["http://redpanda:8081"]
         connect:
           enabled: true
           clusters:
@@ -250,8 +94,4 @@ services:
       <%- end -%>
 
 volumes:
-  redpanda-0:
-  redpanda-1:
-  redpanda-2:
-  redpanda-3:
-  redpanda-4:
+  redpanda:

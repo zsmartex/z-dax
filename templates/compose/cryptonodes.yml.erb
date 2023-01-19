@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   lighthouse:
-    image: sigp/lighthouse:latest-modern
+    image: sigp/lighthouse:latest
     command: >
       lighthouse beacon_node
       --network prater
@@ -14,8 +14,6 @@ services:
     volumes:
       - ../data/cryptonodes/eth/jwtsecret:/jwtsecret
       - ../data/cryptonodes/eth/lighthouse:/root/.lighthouse
-    ports:
-      - "9000:9000"
 
   bitcoin:
     image: truecharts/bitcoind
@@ -44,8 +42,6 @@ services:
     volumes:
       - ../data/cryptonodes/eth/data:/home/erigon/.local/share/erigon
       - ../data/cryptonodes/eth/jwtsecret:/jwtsecret
-    ports:
-      - "30303:30303"
 
   bsc:
     image: thorax/erigon:v2.31.0
