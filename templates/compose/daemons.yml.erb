@@ -12,7 +12,8 @@ x-peatio-daemon: &peatio-daemon
   env_file:
     - ../config/peatio.env
   volumes:
-    - ../config/peatio/seed:/home/app/config/seed
+    - ../config/peatio/seed:/app/config/seed:ro
+    - ../config/peatio/abilities.yml:/app/config/abilities.yml:ro
 
 services:
 <% if @config['daemons']['cron_jobs'] -%>

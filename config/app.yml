@@ -22,11 +22,11 @@ twilio:
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
   root_token: s.BEhOs13brODPCBOlVuvqhYfN
-  peatio_token: s.wC4Pk5AnDaCtaBaAioXTIaRd
-  peatio_crypto_token: s.YTWxZlAcV2phliiK3x0GaR90
-  barong_token: s.f119kEJjloPKuq15wXqfpJ8J
-  quantex_token: s.z2PSSaLxYiEfI2E5Vkj7d3F4
-  quantex_runner_token: s.0gxrm7ZQWYTIVrNVNPMJpPmI
+  peatio_token: s.2v4yQS8BTV64UxWNEYB8wnHh
+  peatio_crypto_token: s.Agi4aQpo7QRqYlYpqsYWvzOD
+  barong_token: s.A9HUNRu4BMZyBGZxpX8BjCt3
+  quantex_token: s.oEjuqE5MwTiD750IbVyLssKN
+  quantex_runner_token: s.fHD3avYFOfELlEgqCUgIdEnD
 database:
   host: db
   port: 5432
