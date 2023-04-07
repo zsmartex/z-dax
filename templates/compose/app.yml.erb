@@ -9,7 +9,8 @@ services:
     env_file:
       - ../config/peatio.env
     volumes:
-      - ../config/peatio/seed:/home/app/config/seed:ro
+      - ../config/peatio/seed:/app/config/seed:ro
+      - ../config/peatio/abilities.yml:/app/config/abilities.yml:ro
     command: "./peatio api -p 3000"
 
   barong:
