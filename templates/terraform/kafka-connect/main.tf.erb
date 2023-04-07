@@ -1,9 +1,8 @@
-
-
 resource "kafka-connect_connector" "pg-peatio-connector" {
   name = "pg-peatio-connector"
 
   config = {
+    name                                 = "pg-peatio-connector"
     "connector.class"                    = "io.debezium.connector.postgresql.PostgresConnector"
     "database.server.name"               = "pg"
     "decimal.handling.mode"              = "double"
@@ -35,6 +34,7 @@ resource "kafka-connect_connector" "pg-barong-connector" {
   name = "pg-barong-connector"
 
   config = {
+    name                                         = "pg-barong-connector"
     "column.exclude.list"                        = "public.users.password_digest,public.users.data"
     "connector.class"                            = "io.debezium.connector.postgresql.PostgresConnector"
     "database.server.name"                       = "pg"
@@ -68,6 +68,7 @@ resource "kafka-connect_connector" "es-orders-sink" {
   name = "es-orders-sink"
 
   config = {
+    name                                                   = "es-orders-sink"
     "behavior.on.null.values"                              = "DELETE"
     "connector.class"                                      = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
     "errors.log.enable"                                    = "true"
@@ -109,6 +110,7 @@ resource "kafka-connect_connector" "es-normal-sink" {
   name = "es-normal-sink"
 
   config = {
+    name                                                 = "es-normal-sink"
     "behavior.on.null.values"                            = "DELETE"
     "connector.class"                                    = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
     "key.converter.schemas.enable"                       = "true"
@@ -142,6 +144,7 @@ resource "kafka-connect_connector" "es-deposits-withdraws-sink" {
   name = "es-deposits-withdraws-sink"
 
   config = {
+    name                                                   = "es-deposits-withdraws-sink"
     "behavior.on.null.values"                              = "DELETE"
     "connector.class"                                      = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
     "key.converter.schemas.enable"                         = "true"
@@ -179,6 +182,7 @@ resource "kafka-connect_connector" "es-asset_statistics-pnl_statistics-sink" {
   name = "es-asset_statistics-pnl_statistics-sink"
 
   config = {
+    name                                                  = "es-asset_statistics-pnl_statistics-sink"
     "behavior.on.null.values"                             = "DELETE"
     "connector.class"                                     = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
     "key.converter.schemas.enable"                        = "true"
@@ -216,6 +220,7 @@ resource "kafka-connect_connector" "questdb-ilp-sink" {
   name = "questdb-ilp-sink"
 
   config = {
+    name                                                 = "questdb-ilp-sink"
     "connector.class"                                    = "io.questdb.kafka.QuestDBSinkConnector"
     "host"                                               = "questdb:9009"
     "include.key"                                        = "false"

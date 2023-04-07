@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   terraform:
+    image: hashicorp/terraform
     volumes:
       - ../terraform/kafka-connect:/terraform
     working_dir: /terraform

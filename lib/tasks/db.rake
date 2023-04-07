@@ -24,12 +24,6 @@ namespace :db do
     sh 'docker-compose run --rm peatio sh -c "./peatio seed"'
   end
 
-  task :terraform, [:command] do |task, args|
-    Rake::Task["render:config"].execute
-    puts '----- Running terraform -----'
-    sh 'docker-compose run --rm terraform init'
-  end
-
   task :setup, [:command] do |task, args|
     Rake::Task["vault:setup"].execute
     Rake::Task["render:config"].execute
@@ -37,5 +31,6 @@ namespace :db do
     Rake::Task["db:create"].execute
     Rake::Task["db:migrate"].execute
     Rake::Task["db:seed"].execute
+    Rake::Task["utils:terraform"].execute
   end
 end
