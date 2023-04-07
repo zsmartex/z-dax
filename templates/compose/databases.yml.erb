@@ -8,8 +8,8 @@ services:
     volumes:
       - ../data/db/postgres:/var/lib/postgresql/data
     environment:
-     - POSTGRES_USER=zsmartex
-     - POSTGRES_PASSWORD=zsmartex
+     - POSTGRES_USER=<%= @config['database']['user'] %>
+     - POSTGRES_PASSWORD=<%= @config['database']['password'] %>
 
   questdb:
     image: questdb/questdb:7.1

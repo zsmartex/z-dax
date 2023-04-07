@@ -1,0 +1,35 @@
+- id: usdt
+  name: Tether
+  status: enabled
+  precision: 2
+  position: 1
+
+- id: eth
+  name: Ethereum
+  status: enabled
+  precision: 8
+  position: 2
+
+- id: btc
+  name: Bitcoin
+  status: enabled
+  precision: 8
+  position: 3
+
+- id: bnb
+  name: Binance Coin
+  status: enabled
+  precision: 8
+  position: 4
+
+- id: trx
+  name: Tron
+  status: enabled
+  precision: 8
+  position: 5
+
+- id: doge
+  name: Dogecoin
+  status: enabled
+  precision: 8
+  position: 6

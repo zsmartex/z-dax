@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  terraform:
+    volumes:
+      - ../terraform/kafka-connect:/terraform
+    working_dir: /terraform

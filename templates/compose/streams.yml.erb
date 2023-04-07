@@ -28,7 +28,7 @@ services:
       - --advertise-rpc-addr redpanda:33145
 
   debezium:
-    image: confluentinc/cp-kafka-connect:7.2.2
+    image: confluentinc/cp-kafka-connect:7.3.3
     depends_on:
       - redpanda
     volumes:

@@ -4,8 +4,10 @@
 config/*.env
 config/mailer.yml
 config/secrets/*
-config/compose/*
-!config/compose/.gitkeep
+compose/*
+!compose/.gitkeep
+terraform/*
+!terraform/.gitkeep
 
 config/gateway/*
 !config/gateway/.gitkeep

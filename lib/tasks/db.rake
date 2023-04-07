@@ -24,11 +24,10 @@ namespace :db do
     sh 'docker-compose run --rm peatio sh -c "./peatio seed"'
   end
 
-  task :views, [:command] do |task, args|
+  task :terraform, [:command] do |task, args|
     Rake::Task["render:config"].execute
-    puts '----- Running create views -----'
-    sh 'docker-compose run --rm barong sh -c "./barong create_views --schema_registry_addr http://redpanda:8081"'
-    sh 'docker-compose run --rm peatio sh -c "./peatio create_views --schema_registry_addr http://redpanda:8081"'
+    puts '----- Running terraform -----'
+    sh 'docker-compose run --rm terraform init'
   end
 
   task :setup, [:command] do |task, args|

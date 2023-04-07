@@ -1,0 +1,246 @@
+
+
+resource "kafka-connect_connector" "pg-peatio-connector" {
+  name = "pg-peatio-connector"
+
+  config = {
+    "connector.class"                    = "io.debezium.connector.postgresql.PostgresConnector"
+    "database.server.name"               = "pg"
+    "decimal.handling.mode"              = "double"
+    "key.converter.schemas.enable"       = "true"
+    "slot.name"                          = "peatio_connector"
+    "table.include.list"                 = "public.trades,public.orders,public.deposits,public.withdraws,public.beneficiaries,public.commissions,public.invite_links,public.asset_statistics,public.pnl_statistics,public.operations_assets,public.operations_expenses,public.operations_liabilities,public.operations_revenues"
+    "time.precision.mode"                = "connect"
+    "topic.prefix"                       = "pg"
+    "transforms"                         = "dropPrefix, filter"
+    "transforms.dropPrefix.regex"        = "pg.public.(.*)"
+    "transforms.dropPrefix.replacement"  = "pg.$1"
+    "transforms.dropPrefix.type"         = "org.apache.kafka.connect.transforms.RegexRouter"
+    "transforms.filter.filter.condition" = "$[?(@.op != 'c' && @.op != 'r' && @.source.table in ['operations_assets', 'operations_expenses', 'operations_liabilities', 'operations_revenues', 'trades'])]"
+    "transforms.filter.filter.type"      = "exclude"
+    "transforms.filter.type"             = "io.confluent.connect.transforms.Filter$Value"
+    "value.converter.schemas.enable"     = "true"
+  }
+
+  config_sensitive = {
+    "database.dbname"   = "peatio_production"
+    "database.hostname" = "<%= @config['database']['host'] %>"
+    "database.port"     = "<%= @config['database']['port'] %>"
+    "database.user"     = "<%= @config['database']['user'] %>"
+    "database.password" = "<%= @config['database']['password'] %>"
+  }
+}
+
+resource "kafka-connect_connector" "pg-barong-connector" {
+  name = "pg-barong-connector"
+
+  config = {
+    "column.exclude.list"                        = "public.users.password_digest,public.users.data"
+    "connector.class"                            = "io.debezium.connector.postgresql.PostgresConnector"
+    "database.server.name"                       = "pg"
+    "decimal.handling.mode"                      = "double"
+    "key.converter.schemas.enable"               = "true"
+    "slot.name"                                  = "barong_connector"
+    "table.include.list"                         = "public.activities,public.api_keys,public.profiles,public.attachments,public.users"
+    "time.precision.mode"                        = "connect"
+    "topic.prefix"                               = "pg"
+    "transforms"                                 = "dropPrefix, filter"
+    "transforms.dropPrefix.regex"                = "pg.public.(.*)"
+    "transforms.dropPrefix.replacement"          = "pg.$1"
+    "transforms.dropPrefix.type"                 = "org.apache.kafka.connect.transforms.RegexRouter"
+    "transforms.filter.filter.condition"         = "$[?(@.op != 'c' && @.op != 'r' && @.source.table == 'activities')]"
+    "transforms.filter.filter.type"              = "exclude"
+    "transforms.filter.missing.or.null.behavior" = "exclude"
+    "transforms.filter.type"                     = "io.confluent.connect.transforms.Filter$Value"
+    "value.converter.schemas.enable"             = "true"
+  }
+
+  config_sensitive = {
+    "database.dbname"   = "barong_production"
+    "database.hostname" = "<%= @config['database']['host'] %>"
+    "database.port"     = "<%= @config['database']['port'] %>"
+    "database.user"     = "<%= @config['database']['user'] %>"
+    "database.password" = "<%= @config['database']['password'] %>"
+  }
+}
+
+resource "kafka-connect_connector" "es-orders-sink" {
+  name = "es-orders-sink"
+
+  config = {
+    "behavior.on.null.values"                              = "DELETE"
+    "connector.class"                                      = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
+    "errors.log.enable"                                    = "true"
+    "errors.log.include.messages"                          = "true"
+    "errors.tolerance"                                     = "all"
+    "flush.synchronously"                                  = "true"
+    "key.converter.schemas.enable"                         = "true"
+    "key.ignore"                                           = "false"
+    "schema.ignore"                                        = "true"
+    "tasks.max"                                            = "5"
+    "topics"                                               = "pg.orders"
+    "transforms"                                           = "unwrap,extractKey,triggeredAtTimestampConverter,createdAtTimestampConverter,updatedAtTimestampConverter"
+    "transforms.createdAtTimestampConverter.field"         = "created_at"
+    "transforms.createdAtTimestampConverter.format"        = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.createdAtTimestampConverter.target.type"   = "string"
+    "transforms.createdAtTimestampConverter.type"          = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.extractKey.field"                          = "id"
+    "transforms.extractKey.type"                           = "org.apache.kafka.connect.transforms.ExtractField$Key"
+    "transforms.triggeredAtTimestampConverter.field"       = "triggered_at"
+    "transforms.triggeredAtTimestampConverter.format"      = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.triggeredAtTimestampConverter.target.type" = "string"
+    "transforms.triggeredAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.unwrap.drop.tombstones"                    = "false"
+    "transforms.unwrap.type"                               = "io.debezium.transforms.ExtractNewRecordState"
+    "transforms.updatedAtTimestampConverter.field"         = "updated_at"
+    "transforms.updatedAtTimestampConverter.format"        = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.updatedAtTimestampConverter.target.type"   = "string"
+    "transforms.updatedAtTimestampConverter.type"          = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "value.converter.schemas.enable"                       = "true"
+    "write.method"                                         = "UPSERT"
+  }
+
+  config_sensitive = {
+    "connection.url" = "http://elasticsearch:9200"
+  }
+}
+
+resource "kafka-connect_connector" "es-normal-sink" {
+  name = "es-normal-sink"
+
+  config = {
+    "behavior.on.null.values"                            = "DELETE"
+    "connector.class"                                    = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
+    "key.converter.schemas.enable"                       = "true"
+    "key.ignore"                                         = "false"
+    "schema.ignore"                                      = "true"
+    "tasks.max"                                          = "3"
+    "topics"                                             = "pg.trades,pg.deposit_addresses,pg.transactions,pg.beneficiaries,pg.users,pg.activities,pg.api_keys,pg.profiles,pg.attachments,pg.operations_assets,pg.operations_expenses,pg.operations_liabilities,pg.operations_revenues,,pg.commissions,pg.invite_links"
+    "transforms"                                         = "unwrap,extractKey,createdAtTimestampConverter,updatedAtTimestampConverter"
+    "transforms.createdAtTimestampConverter.field"       = "created_at"
+    "transforms.createdAtTimestampConverter.format"      = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.createdAtTimestampConverter.target.type" = "string"
+    "transforms.createdAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.extractKey.field"                        = "id"
+    "transforms.extractKey.type"                         = "org.apache.kafka.connect.transforms.ExtractField$Key"
+    "transforms.unwrap.drop.tombstones"                  = "false"
+    "transforms.unwrap.type"                             = "io.debezium.transforms.ExtractNewRecordState"
+    "transforms.updatedAtTimestampConverter.field"       = "updated_at"
+    "transforms.updatedAtTimestampConverter.format"      = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.updatedAtTimestampConverter.target.type" = "string"
+    "transforms.updatedAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "value.converter.schemas.enable"                     = "true"
+    "write.method"                                       = "UPSERT"
+  }
+
+  config_sensitive = {
+    "connection.url" = "http://elasticsearch:9200"
+  }
+}
+
+resource "kafka-connect_connector" "es-deposits-withdraws-sink" {
+  name = "es-deposits-withdraws-sink"
+
+  config = {
+    "behavior.on.null.values"                              = "DELETE"
+    "connector.class"                                      = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
+    "key.converter.schemas.enable"                         = "true"
+    "key.ignore"                                           = "false"
+    "schema.ignore"                                        = "true"
+    "tasks.max"                                            = "3"
+    "topics"                                               = "pg.deposits,pg.withdraws"
+    "transforms"                                           = "unwrap,extractKey,createdAtTimestampConverter,updatedAtTimestampConverter,completedAtTimestampConverter"
+    "transforms.completedAtTimestampConverter.field"       = "completed_at"
+    "transforms.completedAtTimestampConverter.format"      = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.completedAtTimestampConverter.target.type" = "string"
+    "transforms.completedAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.createdAtTimestampConverter.field"         = "created_at"
+    "transforms.createdAtTimestampConverter.format"        = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.createdAtTimestampConverter.target.type"   = "string"
+    "transforms.createdAtTimestampConverter.type"          = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.extractKey.field"                          = "id"
+    "transforms.extractKey.type"                           = "org.apache.kafka.connect.transforms.ExtractField$Key"
+    "transforms.unwrap.drop.tombstones"                    = "false"
+    "transforms.unwrap.type"                               = "io.debezium.transforms.ExtractNewRecordState"
+    "transforms.updatedAtTimestampConverter.field"         = "updated_at"
+    "transforms.updatedAtTimestampConverter.format"        = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.updatedAtTimestampConverter.target.type"   = "string"
+    "transforms.updatedAtTimestampConverter.type"          = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "value.converter.schemas.enable"                       = "true"
+    "write.method"                                         = "UPSERT"
+  }
+
+  config_sensitive = {
+    "connection.url" = "http://elasticsearch:9200"
+  }
+}
+
+resource "kafka-connect_connector" "es-asset_statistics-pnl_statistics-sink" {
+  name = "es-asset_statistics-pnl_statistics-sink"
+
+  config = {
+    "behavior.on.null.values"                             = "DELETE"
+    "connector.class"                                     = "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector"
+    "key.converter.schemas.enable"                        = "true"
+    "key.ignore"                                          = "false"
+    "schema.ignore"                                       = "true"
+    "tasks.max"                                           = "3"
+    "topics"                                              = "pg.asset_statistics,pg.pnl_statistics"
+    "transforms"                                          = "unwrap,extractKey,createdAtTimestampConverter,updatedAtTimestampConverter,recordedAtTimestampConverter"
+    "transforms.createdAtTimestampConverter.field"        = "created_at"
+    "transforms.createdAtTimestampConverter.format"       = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.createdAtTimestampConverter.target.type"  = "string"
+    "transforms.createdAtTimestampConverter.type"         = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.extractKey.field"                         = "id"
+    "transforms.extractKey.type"                          = "org.apache.kafka.connect.transforms.ExtractField$Key"
+    "transforms.recordedAtTimestampConverter.field"       = "recorded_at"
+    "transforms.recordedAtTimestampConverter.format"      = "yyyy-MM-dd"
+    "transforms.recordedAtTimestampConverter.target.type" = "string"
+    "transforms.recordedAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.unwrap.drop.tombstones"                   = "false"
+    "transforms.unwrap.type"                              = "io.debezium.transforms.ExtractNewRecordState"
+    "transforms.updatedAtTimestampConverter.field"        = "updated_at"
+    "transforms.updatedAtTimestampConverter.format"       = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    "transforms.updatedAtTimestampConverter.target.type"  = "string"
+    "transforms.updatedAtTimestampConverter.type"         = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "value.converter.schemas.enable"                      = "true"
+    "write.method"                                        = "UPSERT"
+  }
+
+  config_sensitive = {
+    "connection.url" = "http://elasticsearch:9200"
+  }
+}
+
+resource "kafka-connect_connector" "questdb-ilp-sink" {
+  name = "questdb-ilp-sink"
+
+  config = {
+    "connector.class"                                    = "io.questdb.kafka.QuestDBSinkConnector"
+    "host"                                               = "questdb:9009"
+    "include.key"                                        = "false"
+    "key.converter.schemas.enable"                       = "true"
+    "symbols"                                            = "market_id,currency_id"
+    "tasks.max"                                          = "5"
+    "timestamp.field.name"                               = "created_at"
+    "topics"                                             = "pg.trades,pg.activities,pg.operations_assets,pg.operations_expenses,pg.operations_liabilities,pg.operations_revenues"
+    "transforms"                                         = "unwrap,dropPrefix, addPrefix, createdAtTimestampConverter, updatedAtTimestampConverter"
+    "transforms.addPrefix.regex"                         = ".*"
+    "transforms.addPrefix.replacement"                   = "$0"
+    "transforms.addPrefix.type"                          = "org.apache.kafka.connect.transforms.RegexRouter"
+    "transforms.createdAtTimestampConverter.field"       = "created_at"
+    "transforms.createdAtTimestampConverter.format"      = "yyyy-MM-dd HH:mm:ss.SSS"
+    "transforms.createdAtTimestampConverter.target.type" = "unix"
+    "transforms.createdAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "transforms.dropPrefix.regex"                        = "pg.(.*)"
+    "transforms.dropPrefix.replacement"                  = "$1"
+    "transforms.dropPrefix.type"                         = "org.apache.kafka.connect.transforms.RegexRouter"
+    "transforms.unwrap.drop.tombstones"                  = "false"
+    "transforms.unwrap.type"                             = "io.debezium.transforms.ExtractNewRecordState"
+    "transforms.updatedAtTimestampConverter.field"       = "updated_at"
+    "transforms.updatedAtTimestampConverter.format"      = "yyyy-MM-dd HH:mm:ss.SSS"
+    "transforms.updatedAtTimestampConverter.target.type" = "Timestamp"
+    "transforms.updatedAtTimestampConverter.type"        = "org.apache.kafka.connect.transforms.TimestampConverter$Value"
+    "value.converter.schemas.enable"                     = "true"
+  }
+}

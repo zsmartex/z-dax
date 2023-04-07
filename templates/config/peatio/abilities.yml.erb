@@ -1,15 +1,11 @@
 roles:
   - superadmin
   - admin
-  - manager
+  - technical
   - accountant
   - compliance
   - support
-  - technical
   - member
-  - broker
-  - trader
-  - maker
 
 admin_permissions:
   superadmin:
@@ -19,59 +15,75 @@ admin_permissions:
       - Operations::Expense
       - Operations::Liability
       - Operations::Revenue
+      - Member
+      - Account
+      - Beneficiary
+      - DepositAddress
       - Deposit
       - Withdraw
-      - Account
-      - PaymentAddress
-      - Member
+      - WithdrawLimit
+      - Blockchain
+      - Currency
+      - BlockchainCurrency
       - Engine
       - Market
-      - Currency
-      - Blockchain
       - TradingFee
       - Wallet
       - Adjustment
-      - Beneficiary
+      - InternalTransfer
+      - WhitelistedSmartContract
+      - Order
     read:
       - Trade
-      - Order
-    update:
-      - Order
+      - Statistic
   admin:
-    read:
-      - Trade
-      - Account
-      - PaymentAddress
-      - Member
-      - Order
-      - Currency
-      - Blockchain
-    update:
-      - Order
-      - Member
-      - Currency:
-        - name
-        - symbol
-        - position
-        - icon_url
-      - Blockchain:
-        - name
-        - explorer_address
-        - explorer_transaction
     manage:
-      - Beneficiary
       - Operations::Account
       - Operations::Asset
       - Operations::Expense
       - Operations::Liability
       - Operations::Revenue
-      - Engine
-      - Market
-      - Wallet
-      - TradingFee
-      - Adjustment
+      - Member
+      - Account
+      - Beneficiary
+      - PaymentAddress
       - Deposit
       - Withdraw
+      - WithdrawLimit
+      - Blockchain
+      - Currency
+      - BlockchainCurrency
+      - Engine
+      - Market
+      - TradingFee
+      - Wallet
+      - Adjustment
+      - InternalTransfer
+      - WhitelistedSmartContract
+      - Order
+    read:
+      - Trade
+      - Statistic
+  technical:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Trade
+      - Order
+      - Member
+      - InternalTransfer
+    manage:
+      - WithdrawLimit
+      - Blockchain
+      - Currency
+      - BlockchainCurrency
+      - Engine
+      - Market
+      - TradingFee
+      - Wallet
+      - Statistic
   accountant:
     read:
       - Operations::Account
@@ -80,15 +92,24 @@ admin_permissions:
       - Operations::Liability
       - Operations::Revenue
       - Member
-      - Deposit
-      - Withdraw
       - Account
-      - PaymentAddress
       - Beneficiary
-    update:
+      - PaymentAddress
       - Deposit
       - Withdraw
-    create:
+      - WithdrawLimit
+      - Blockchain
+      - Currency
+      - BlockchainCurrency
+      - Engine
+      - Market
+      - TradingFee
+      - Wallet
+      - Trade
+      - Order
+      - Adjustment
+      - InternalTransfer
+    manage:
       - Deposits::Fiat
       - Adjustment
   compliance:
@@ -97,57 +118,47 @@ admin_permissions:
       - Operations::Asset
       - Operations::Expense
       - Operations::Liability
-      - Operations::Revenue
       - Member
-      - Deposit
-      - Withdraw
       - Account
-      - PaymentAddress
       - Beneficiary
-    update:
+      - PaymentAddress
       - Deposit
       - Withdraw
-  manager:
-    read:
-      - Operations::Account
-      - Operations::Asset
-      - Operations::Expense
-      - Operations::Liability
-      - Operations::Revenue
-      - Deposit
-      - Withdraw
-      - Account
-      - PaymentAddress
-      - Beneficiary
-      - Member
-      - Trade
-      - Order
-    manage:
       - Currency
-      - Blockchain
-  support:
-    read:
-      - Deposit
-      - Withdraw
-      - Account
-      - Member
-  technical:
-    read:
-      - Operations::Account
-      - Operations::Asset
-      - Operations::Expense
-      - Operations::Liability
-      - Operations::Revenue
-      - Deposit
-      - Withdraw
-      - Account
-      - PaymentAddress
-      - Beneficiary
-      - Member
-    manage:
+      - BlockchainCurrency
       - Engine
       - Market
+      - Trade
+      - Order
+  support:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Member
+      - Account
+      - Beneficiary
+      - PaymentAddress
+      - Deposit
+      - Withdraw
       - Currency
-      - Blockchain
-      - TradingFee
+      - BlockchainCurrency
+      - Engine
+      - Market
+      - Trade
+      - Order
+      - InternalTransfer
+  reporter:
+    read:
+      - Operations::Revenue
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Deposit
+      - Withdraw
+      - Currency
+      - BlockchainCurrency
       - Wallet
+      - Blockchain

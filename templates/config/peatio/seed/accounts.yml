@@ -1,0 +1,41 @@
+- code:           102
+  type:           asset
+  kind:           main
+  description:    Main Digital Assets Account
+  scope:          platform
+
+- code:           202
+  type:           liability
+  kind:           main
+  description:    Main Digital Asset Spot Liabilities Account
+  scope:          member
+
+- code:           212
+  type:           liability
+  kind:           locked
+  description:    Locked Digital Asset Spot Liabilities Account
+  scope:          member
+
+- code:           222
+  type:           liability
+  kind:           main
+  description:    Main Digital Asset P2P Liabilities Account
+  scope:          member
+
+- code:           232
+  type:           liability
+  kind:           locked
+  description:    Locked Digital Asset P2P Liabilities Account
+  scope:          member
+
+- code:           302
+  type:           revenue
+  kind:           main
+  description:    Main Digital Asset Revenues Account
+  scope:          platform
+
+- code:           402
+  type:           expense
+  kind:           main
+  description:    Main Digital Asset Expenses Account
+  scope:          platform
