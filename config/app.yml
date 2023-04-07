@@ -17,30 +17,30 @@ images:
   mobiapp: zsmartex/mobiapp:dev
 twilio:
   phone_number: "+14159153078"
-  account_sid: changeme
-  auth_token: changeme
-  service_id: changeme
+  account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
+  auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
+  service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
-  root_token: changeme
-  peatio_token: changeme
-  peatio_crypto_token: changeme
-  barong_token: changeme
-  quantex_token: changeme
-  quantex_runner_token: changeme
+  root_token: s.PC8FlJjkl56KY34lIcIiUPIF
+  peatio_token: s.tHUISLh40Yd9DWFr18VNSOCu
+  peatio_crypto_token: s.8tIlM2OH7HG3pVr9nzfve4OZ
+  barong_token: s.ze9Aw8QjE17QEQWiXEanyR5a
+  quantex_token: s.tleIRKs4UIya13GBGYpbFtk5
+  quantex_runner_token: s.oS0aR2m6mUGP7DWGzBd8PCnN
 database:
   host: db
   port: 5432
   user: zsmartex
-  password: changeme
+  password: zsmartex
 recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: example.com
+  host: smtpout.secureserver.net
   port: 587
-  user: business@zsmartex.com
-  password: changeme
-  sender_email: business@zsmartex.com
+  user: business@system.zsmartex.com
+  password: gdx_?3XM.B5?QSD
+  sender_email: business@system.zsmartex.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
@@ -55,4 +55,7 @@ daemons:
   barong_system_notify: true
   code: true
   peatio_grpc: true
+  p2p: true
+  conversation: true
+  notify: true
   activity_recorder: true

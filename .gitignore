@@ -4,8 +4,8 @@
 config/*.env
 config/mailer.yml
 config/secrets/*
-compose/*
-!compose/.gitkeep
+config/compose/*
+!config/compose/.gitkeep
 
 config/gateway/*
 !config/gateway/.gitkeep

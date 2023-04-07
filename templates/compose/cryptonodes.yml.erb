@@ -44,20 +44,20 @@ services:
       - ../data/cryptonodes/eth/jwtsecret:/jwtsecret
 
   bsc:
-    image: thorax/erigon:v2.31.0
+    image: thorax/erigon:v2.38.1
     ports:
       - 8575:8575
     command: |
       erigon --chain=chapel --http
       --http.port=8575 --http.addr=0.0.0.0 --http.vhosts=demo.zsmartex.com --http.corsdomain=* --http.api=eth,net,web3
-      --prune.h.older=23100000 --prune.r.older=23100000 --prune.t.older=23100000 --prune.c.older=23100000
+      --prune.h.older=27100000 --prune.r.older=27100000 --prune.t.older=27100000 --prune.c.older=27100000
       --pprof --pprof.addr=0.0.0.0 --pprof.port=6061
       --datadir=/home/erigon/.local/share/erigon
     volumes:
       - ../data/cryptonodes/bsc:/home/erigon/.local/share/erigon
 
   tron:
-    image: zsmartex/tron-java:4.6.0
+    image: zsmartex/tron-java:4.7.0.1
     ports:
       - 8090:8090
       - 18888:18888

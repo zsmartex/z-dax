@@ -5,17 +5,17 @@
   },
   "components" : {
     "schemas" : {
-      "debezium-postgres-1.9.7.Final" : {
+      "debezium-postgres-2.1.4.Final" : {
         "title" : "Debezium PostgreSQL Connector",
-        "required" : [ "database.server.name", "database.hostname", "database.user", "database.dbname" ],
+        "required" : [ "topic.prefix", "database.hostname", "database.user", "database.dbname" ],
         "type" : "object",
         "properties" : {
-          "database.server.name" : {
-            "title" : "Namespace",
-            "description" : "Unique name that identifies the database server and all recorded offsets, and that is used as a prefix for all schemas and topics. Each distinct installation should have a separate namespace and be monitored by at most one Debezium connector.",
+          "topic.prefix" : {
+            "title" : "Topic prefix",
+            "description" : "Topic prefix that identifies and provides a namespace for the particular database server/cluster is capturing changes. The topic prefix should be unique across all other connectors, since it is used as a prefix for all Kafka topic names that receive events emitted by this connector. Only alphanumeric characters, hyphens, dots and underscores must be accepted.",
             "type" : "string",
             "nullable" : false,
-            "x-name" : "database.server.name",
+            "x-name" : "topic.prefix",
             "x-category" : "CONNECTION"
           },
           "database.hostname" : {
@@ -61,7 +61,7 @@
           },
           "database.sslmode" : {
             "title" : "SSL mode",
-            "description" : "Whether to use an encrypted connection to Postgres. Options include'disable' (the default) to use an unencrypted connection; 'require' to use a secure (encrypted) connection, and fail if one cannot be established; 'verify-ca' like 'required' but additionally verify the server TLS certificate against the configured Certificate Authority (CA) certificates, or fail if no valid matching CA certificates are found; or'verify-full' like 'verify-ca' but additionally verify that the server certificate matches the host to which the connection is attempted.",
+            "description" : "Whether to use an encrypted connection to Postgres. Options include: 'disable' (the default) to use an unencrypted connection; 'require' to use a secure (encrypted) connection, and fail if one cannot be established; 'verify-ca' like 'required' but additionally verify the server TLS certificate against the configured Certificate Authority (CA) certificates, or fail if no valid matching CA certificates are found; or 'verify-full' like 'verify-ca' but additionally verify that the server certificate matches the host to which the connection is attempted.",
             "default" : "disable",
             "enum" : [ "disable", "verify-ca", "require", "verify-full" ],
             "type" : "string",
@@ -114,7 +114,7 @@
           },
           "database.initial.statements" : {
             "title" : "Initial statements",
-            "description" : "A semicolon separated list of SQL statements to be executed when a JDBC connection to the database is established. Note that the connector may establish JDBC connections at its own discretion, so this should typically be used for configurationof session parameters only, but not for executing DML statements. Use doubled semicolon (';;') to use a semicolon as a character and not as a delimiter.",
+            "description" : "A semicolon separated list of SQL statements to be executed when a JDBC connection to the database is established. Note that the connector may establish JDBC connections at its own discretion, so this should typically be used for configuration of session parameters only, but not for executing DML statements. Use doubled semicolon (';;') to use a semicolon as a character and not as a delimiter.",
             "type" : "string",
             "x-name" : "database.initial.statements",
             "x-category" : "CONNECTION_ADVANCED"
@@ -123,14 +123,14 @@
             "title" : "Plugin",
             "description" : "The name of the Postgres logical decoding plugin installed on the server. Supported values are 'decoderbufs' and 'pgoutput'. Defaults to 'decoderbufs'.",
             "default" : "decoderbufs",
-            "enum" : [ "decoderbufs", "wal2json_streaming", "wal2json_rds", "pgoutput", "wal2json", "wal2json_rds_streaming" ],
+            "enum" : [ "decoderbufs", "pgoutput" ],
             "type" : "string",
             "x-name" : "plugin.name",
             "x-category" : "CONNECTION_ADVANCED_REPLICATION"
           },
           "slot.name" : {
             "title" : "Slot",
-            "description" : "The name of the Postgres logical decoding slot created for streaming changes from a plugin.Defaults to 'debezium",
+            "description" : "The name of the Postgres logical decoding slot created for streaming changes from a plugin. Defaults to 'debezium",
             "default" : "debezium",
             "type" : "string",
             "x-name" : "slot.name",
@@ -145,7 +145,7 @@
           },
           "slot.drop.on.stop" : {
             "title" : "Drop slot on stop",
-            "description" : "Whether or not to drop the logical replication slot when the connector finishes orderlyBy default the replication is kept so that on restart progress can resume from the last recorded location",
+            "description" : "Whether or not to drop the logical replication slot when the connector finishes orderly. By default the replication is kept so that on restart progress can resume from the last recorded location",
             "default" : false,
             "type" : "boolean",
             "x-name" : "slot.drop.on.stop",
@@ -189,7 +189,7 @@
           },
           "publication.name" : {
             "title" : "Publication",
-            "description" : "The name of the Postgres 10+ publication used for streaming changes from a plugin.Defaults to 'dbz_publication'",
+            "description" : "The name of the Postgres 10+ publication used for streaming changes from a plugin. Defaults to 'dbz_publication'",
             "default" : "dbz_publication",
             "type" : "string",
             "x-name" : "publication.name",
@@ -264,7 +264,7 @@
             "title" : "Snapshot mode",
             "description" : "The criteria for running a snapshot upon startup of the connector. Options include: 'always' to specify that the connector run a snapshot each time it starts up; 'initial' (the default) to specify the connector can run a snapshot only when no offsets are available for the logical server name; 'initial_only' same as 'initial' except the connector should stop after completing the snapshot and before it would normally start emitting changes;'never' to specify the connector should never run a snapshot and that upon first startup the connector should read from the last position (LSN) recorded by the server; and'exported' deprecated, use 'initial' instead; 'custom' to specify a custom class with 'snapshot.custom_class' which will be loaded and used to determine the snapshot, see docs for more details.",
             "default" : "initial",
-            "enum" : [ "always", "exported", "never", "initial_only", "initial", "custom" ],
+            "enum" : [ "always", "never", "initial_only", "initial", "custom" ],
             "type" : "string",
             "x-name" : "snapshot.mode",
             "x-category" : "CONNECTOR_SNAPSHOT"
@@ -272,7 +272,7 @@
           "snapshot.include.collection.list" : {
             "format" : "list,regex",
             "title" : "Snapshot mode include data collection",
-            "description" : "this setting must be set to specify a list of tables/collections whose snapshot must be taken on creating or restarting the connector.",
+            "description" : "This setting must be set to specify a list of tables/collections whose snapshot must be taken on creating or restarting the connector.",
             "type" : "string",
             "x-name" : "snapshot.include.collection.list",
             "x-category" : "CONNECTOR_SNAPSHOT"
@@ -280,7 +280,7 @@
           "snapshot.fetch.size" : {
             "format" : "int32",
             "title" : "Snapshot fetch size",
-            "description" : "The maximum number of records that should be loaded into memory while performing a snapshot",
+            "description" : "The maximum number of records that should be loaded into memory while performing a snapshot.",
             "type" : "integer",
             "x-name" : "snapshot.fetch.size",
             "x-category" : "CONNECTOR_SNAPSHOT"
@@ -306,7 +306,7 @@
           "snapshot.max.threads" : {
             "format" : "int32",
             "title" : "Snapshot maximum threads",
-            "description" : "The maximum number of threads used to perform the snapshot.  Defaults to 1.",
+            "description" : "The maximum number of threads used to perform the snapshot. Defaults to 1.",
             "default" : 1,
             "type" : "integer",
             "x-name" : "snapshot.max.threads",
@@ -314,21 +314,21 @@
           },
           "snapshot.select.statement.overrides" : {
             "title" : "List of tables where the default select statement used during snapshotting should be overridden.",
-            "description" : " This property contains a comma-separated list of fully-qualified tables (DB_NAME.TABLE_NAME) or (SCHEMA_NAME.TABLE_NAME), depending on thespecific connectors. Select statements for the individual tables are specified in further configuration properties, one for each table, identified by the id 'snapshot.select.statement.overrides.[DB_NAME].[TABLE_NAME]' or 'snapshot.select.statement.overrides.[SCHEMA_NAME].[TABLE_NAME]', respectively. The value of those properties is the select statement to use when retrieving data from the specific table during snapshotting. A possible use case for large append-only tables is setting a specific point where to start (resume) snapshotting, in case a previous snapshotting was interrupted.",
+            "description" : " This property contains a comma-separated list of fully-qualified tables (DB_NAME.TABLE_NAME) or (SCHEMA_NAME.TABLE_NAME), depending on the specific connectors. Select statements for the individual tables are specified in further configuration properties, one for each table, identified by the id 'snapshot.select.statement.overrides.[DB_NAME].[TABLE_NAME]' or 'snapshot.select.statement.overrides.[SCHEMA_NAME].[TABLE_NAME]', respectively. The value of those properties is the select statement to use when retrieving data from the specific table during snapshotting. A possible use case for large append-only tables is setting a specific point where to start (resume) snapshotting, in case a previous snapshotting was interrupted.",
             "type" : "string",
             "x-name" : "snapshot.select.statement.overrides",
             "x-category" : "CONNECTOR_SNAPSHOT"
           },
           "snapshot.custom.class" : {
             "title" : "Snapshot Mode Custom Class",
-            "description" : "When 'snapshot.mode' is set as custom, this setting must be set to specify a fully qualified class name to load (via the default class loader).This class must implement the 'Snapshotter' interface and is called on each app boot to determine whether to do a snapshot and how to build queries.",
+            "description" : "When 'snapshot.mode' is set as custom, this setting must be set to specify a fully qualified class name to load (via the default class loader). This class must implement the 'Snapshotter' interface and is called on each app boot to determine whether to do a snapshot and how to build queries.",
             "type" : "string",
             "x-name" : "snapshot.custom.class",
             "x-category" : "CONNECTOR_SNAPSHOT"
           },
           "tombstones.on.delete" : {
             "title" : "Change the behaviour of Debezium with regards to delete operations",
-            "description" : "Whether delete operations should be represented by a delete event and a subsquenttombstone event (true) or only by a delete event (false). Emitting the tombstone event (the default behavior) allows Kafka to completely delete all events pertaining to the given key once the source record got deleted.",
+            "description" : "Whether delete operations should be represented by a delete event and a subsequent tombstone event (true) or only by a delete event (false). Emitting the tombstone event (the default behavior) allows Kafka to completely delete all events pertaining to the given key once the source record got deleted.",
             "default" : true,
             "type" : "boolean",
             "x-name" : "tombstones.on.delete",
@@ -336,7 +336,7 @@
           },
           "decimal.handling.mode" : {
             "title" : "Decimal Handling",
-            "description" : "Specify how DECIMAL and NUMERIC columns should be represented in change events, including:'precise' (the default) uses java.math.BigDecimal to represent values, which are encoded in the change events using a binary representation and Kafka Connect's 'org.apache.kafka.connect.data.Decimal' type; 'string' uses string to represent values; 'double' represents values using Java's 'double', which may not offer the precision but will be far easier to use in consumers.",
+            "description" : "Specify how DECIMAL and NUMERIC columns should be represented in change events, including: 'precise' (the default) uses java.math.BigDecimal to represent values, which are encoded in the change events using a binary representation and Kafka Connect's 'org.apache.kafka.connect.data.Decimal' type; 'string' uses string to represent values; 'double' represents values using Java's 'double', which may not offer the precision but will be far easier to use in consumers.",
             "default" : "precise",
             "enum" : [ "string", "double", "precise" ],
             "type" : "string",
@@ -345,16 +345,16 @@
           },
           "binary.handling.mode" : {
             "title" : "Binary Handling",
-            "description" : "Specify how binary (blob, binary, etc.) columns should be represented in change events, including:'bytes' represents binary data as byte array (default)'base64' represents binary data as base64-encoded string'hex' represents binary data as hex-encoded (base16) string",
+            "description" : "Specify how binary (blob, binary, etc.) columns should be represented in change events, including: 'bytes' represents binary data as byte array (default); 'base64' represents binary data as base64-encoded string; 'base64-url-safe' represents binary data as base64-url-safe-encoded string; 'hex' represents binary data as hex-encoded (base16) string",
             "default" : "bytes",
-            "enum" : [ "bytes", "base64", "hex" ],
+            "enum" : [ "bytes", "base64", "hex", "base64-url-safe" ],
             "type" : "string",
             "x-name" : "binary.handling.mode",
             "x-category" : "CONNECTOR"
           },
           "time.precision.mode" : {
             "title" : "Time Precision",
-            "description" : "Time, date, and timestamps can be represented with different kinds of precisions, including:'adaptive' (the default) bases the precision of time, date, and timestamp values on the database column's precision; 'adaptive_time_microseconds' like 'adaptive' mode, but TIME fields always use microseconds precision;'connect' always represents time, date, and timestamp values using Kafka Connect's built-in representations for Time, Date, and Timestamp, which uses millisecond precision regardless of the database columns' precision .",
+            "description" : "Time, date, and timestamps can be represented with different kinds of precisions, including: 'adaptive' (the default) bases the precision of time, date, and timestamp values on the database column's precision; 'adaptive_time_microseconds' like 'adaptive' mode, but TIME fields always use microseconds precision; 'connect' always represents time, date, and timestamp values using Kafka Connect's built-in representations for Time, Date, and Timestamp, which uses millisecond precision regardless of the database columns' precision.",
             "default" : "adaptive",
             "enum" : [ "adaptive", "adaptive_time_microseconds", "connect" ],
             "type" : "string",
@@ -363,7 +363,7 @@
           },
           "include.schema.comments" : {
             "title" : "Include Table and Column Comments",
-            "description" : "Whether the connector parse table and column's comment to metadata object.Note: Enable this option will bring the implications on memory usage. The number and size of ColumnImpl objects is what largely impacts how much memory is consumed by the Debezium connectors, and adding a String to each of them can potentially be quite heavy. The default is 'false'.",
+            "description" : "Whether the connector parse table and column's comment to metadata object. Note: Enable this option will bring the implications on memory usage. The number and size of ColumnImpl objects is what largely impacts how much memory is consumed by the Debezium connectors, and adding a String to each of them can potentially be quite heavy. The default is 'false'.",
             "default" : false,
             "type" : "boolean",
             "x-name" : "include.schema.comments",
@@ -371,8 +371,8 @@
           },
           "schema.name.adjustment.mode" : {
             "title" : "Schema Name Adjustment",
-            "description" : "Specify how schema names should be adjusted for compatibility with the message converter used by the connector, including:'avro' replaces the characters that cannot be used in the Avro type name with underscore (default)'none' does not apply any adjustment",
-            "default" : "avro",
+            "description" : "Specify how schema names should be adjusted for compatibility with the message converter used by the connector, including: 'avro' replaces the characters that cannot be used in the Avro type name with underscore; 'none' does not apply any adjustment (default)",
+            "default" : "none",
             "enum" : [ "none", "avro" ],
             "type" : "string",
             "x-name" : "schema.name.adjustment.mode",
@@ -380,7 +380,7 @@
           },
           "interval.handling.mode" : {
             "title" : "Interval Handling",
-            "description" : "Specify how INTERVAL columns should be represented in change events, including:'string' represents values as an exact ISO formatted string'numeric' (default) represents values using the inexact conversion into microseconds",
+            "description" : "Specify how INTERVAL columns should be represented in change events, including: 'string' represents values as an exact ISO formatted string; 'numeric' (default) represents values using the inexact conversion into microseconds",
             "default" : "numeric",
             "enum" : [ "string", "numeric" ],
             "type" : "string",
@@ -389,20 +389,11 @@
           },
           "hstore.handling.mode" : {
             "title" : "HStore Handling",
-            "description" : "Specify how HSTORE columns should be represented in change events, including:'json' represents values as string-ified JSON (default)'map' represents values as a key/value map",
+            "description" : "Specify how HSTORE columns should be represented in change events, including: 'json' represents values as string-ified JSON (default); 'map' represents values as a key/value map",
             "default" : "json",
             "enum" : [ "json", "map" ],
             "type" : "string",
             "x-name" : "hstore.handling.mode",
-            "x-category" : "CONNECTOR"
-          },
-          "truncate.handling.mode" : {
-            "title" : "Truncate handling mode",
-            "description" : "(Deprecated) Specify how TRUNCATE operations are handled for change events (supported only on pg11+ pgoutput plugin), including: 'skip' to skip / ignore TRUNCATE events (default), 'include' to handle and include TRUNCATE events. Use 'skipped.operations' instead.",
-            "default" : "skip",
-            "enum" : [ "include", "skip" ],
-            "type" : "string",
-            "x-name" : "truncate.handling.mode",
             "x-category" : "CONNECTOR"
           },
           "message.prefix.include.list" : {
@@ -419,6 +410,14 @@
             "description" : "A comma-separated list of regular expressions that match the logical decoding message prefixes to be excluded from monitoring.",
             "type" : "string",
             "x-name" : "message.prefix.exclude.list",
+            "x-category" : "CONNECTOR"
+          },
+          "flush.lsn.source" : {
+            "title" : "Boolean to determine if Debezium should flush LSN in the source database",
+            "description" : "Boolean to determine if Debezium should flush LSN in the source postgres database. If set to false, user will have to flush the LSN manually outside Debezium.",
+            "default" : true,
+            "type" : "boolean",
+            "x-name" : "flush.lsn.source",
             "x-category" : "CONNECTOR"
           },
           "heartbeat.interval.ms" : {
@@ -456,18 +455,10 @@
           },
           "include.unknown.datatypes" : {
             "title" : "Include unknown datatypes",
-            "description" : "Specify whether the fields of data type not supported by Debezium should be processed:'false' (the default) omits the fields; 'true' converts the field into an implementation dependent binary representation.",
+            "description" : "Specify whether the fields of data type not supported by Debezium should be processed: 'false' (the default) omits the fields; 'true' converts the field into an implementation dependent binary representation.",
             "default" : false,
             "type" : "boolean",
             "x-name" : "include.unknown.datatypes",
-            "x-category" : "CONNECTOR_ADVANCED"
-          },
-          "toasted.value.placeholder" : {
-            "title" : "Toasted value placeholder",
-            "description" : "Specify the constant that will be provided by Debezium to indicate that the original value is a toasted value not provided by the database. If starts with 'hex:' prefix it is expected that the rest of the string represents hexadecimal encoded octets.Deprecated, use 'unavailable.value.placeholder' instead.",
-            "default" : "__debezium_unavailable_value",
-            "type" : "string",
-            "x-name" : "toasted.value.placeholder",
             "x-category" : "CONNECTOR_ADVANCED"
           },
           "converters" : {
@@ -510,14 +501,14 @@
           "column.propagate.source.type" : {
             "format" : "list,regex",
             "title" : "Propagate Source Types by Columns",
-            "description" : "A comma-separated list of regular expressions matching fully-qualified names of columns that  adds the column’s original type and original length as parameters to the corresponding field schemas in the emitted change records.",
+            "description" : "A comma-separated list of regular expressions matching fully-qualified names of columns that adds the column’s original type and original length as parameters to the corresponding field schemas in the emitted change records.",
             "type" : "string",
             "x-name" : "column.propagate.source.type",
             "x-category" : "CONNECTOR_ADVANCED"
           },
           "message.key.columns" : {
             "title" : "Columns PK mapping",
-            "description" : "A semicolon-separated list of expressions that match fully-qualified tables and column(s) to be used as message key. Each expression must match the pattern '<fully-qualified table name>:<key columns>',where the table names could be defined as (DB_NAME.TABLE_NAME) or (SCHEMA_NAME.TABLE_NAME), depending on the specific connector,and the key columns are a comma-separated list of columns representing the custom key. For any table without an explicit key configuration the table's primary key column(s) will be used as message key.Example: dbserver1.inventory.orderlines:orderId,orderLineId;dbserver1.inventory.orders:id",
+            "description" : "A semicolon-separated list of expressions that match fully-qualified tables and column(s) to be used as message key. Each expression must match the pattern '<fully-qualified table name>:<key columns>', where the table names could be defined as (DB_NAME.TABLE_NAME) or (SCHEMA_NAME.TABLE_NAME), depending on the specific connector, and the key columns are a comma-separated list of columns representing the custom key. For any table without an explicit key configuration the table's primary key column(s) will be used as message key. Example: dbserver1.inventory.orderlines:orderId,orderLineId;dbserver1.inventory.orders:id",
             "type" : "string",
             "x-name" : "message.key.columns",
             "x-category" : "CONNECTOR_ADVANCED"
@@ -548,8 +539,8 @@
           },
           "skipped.operations" : {
             "format" : "list,regex",
-            "title" : "skipped Operations",
-            "description" : "The comma-separated list of operations to skip during streaming, defined as: 'c' for inserts/create; 'u' for updates; 'd' for deletes, 't' for truncates, and 'none' to indicate nothing skipped. By default, no operations will be skipped.",
+            "title" : "Skipped Operations",
+            "description" : "The comma-separated list of operations to skip during streaming, defined as: 'c' for inserts/create; 'u' for updates; 'd' for deletes, 't' for truncates, and 'none' to indicate nothing skipped. By default, only truncate operations will be skipped.",
             "default" : "t",
             "type" : "string",
             "x-name" : "skipped.operations",
@@ -557,7 +548,7 @@
           },
           "event.processing.failure.handling.mode" : {
             "title" : "Event deserialization failure handling",
-            "description" : "Specify how failures during processing of events (i.e. when encountering a corrupted event) should be handled, including:'fail' (the default) an exception indicating the problematic event and its position is raised, causing the connector to be stopped; 'warn' the problematic event and its position will be logged and the event will be skipped;'ignore' the problematic event will be skipped.",
+            "description" : "Specify how failures during processing of events (i.e. when encountering a corrupted event) should be handled, including: 'fail' (the default) an exception indicating the problematic event and its position is raised, causing the connector to be stopped; 'warn' the problematic event and its position will be logged and the event will be skipped; 'ignore' the problematic event will be skipped.",
             "default" : "fail",
             "enum" : [ "warn", "fail", "ignore", "skip" ],
             "type" : "string",
@@ -567,7 +558,7 @@
           "query.fetch.size" : {
             "format" : "int32",
             "title" : "Query fetch size",
-            "description" : "The maximum number of records that should be loaded into memory while streaming.  A value of `0` uses the default JDBC fetch size.",
+            "description" : "The maximum number of records that should be loaded into memory while streaming. A value of '0' uses the default JDBC fetch size.",
             "default" : 0,
             "type" : "integer",
             "x-name" : "query.fetch.size",
@@ -618,15 +609,6 @@
             "x-name" : "retriable.restart.connector.wait.ms",
             "x-category" : "ADVANCED"
           },
-          "source.struct.version" : {
-            "title" : "Source struct maker version",
-            "description" : "A version of the format of the publicly visible source part in the message",
-            "default" : "v2",
-            "enum" : [ "v1", "v2" ],
-            "type" : "string",
-            "x-name" : "source.struct.version",
-            "x-category" : "ADVANCED"
-          },
           "signal.data.collection" : {
             "title" : "Signaling data collection",
             "description" : "The name of the data collection that is used to send signals/commands to Debezium. Signaling is disabled when not set.",
@@ -634,12 +616,13 @@
             "x-name" : "signal.data.collection",
             "x-category" : "ADVANCED"
           },
-          "transaction.topic" : {
-            "title" : "Transaction topic name",
-            "description" : "The name of the transaction metadata topic. The placeholder ${database.server.name} can be used for referring to the connector's logical name; defaults to ${database.server.name}.transaction.",
-            "default" : "${database.server.name}.transaction",
+          "topic.naming.strategy" : {
+            "format" : "class",
+            "title" : "Topic naming strategy class",
+            "description" : "The name of the TopicNamingStrategy class that should be used to determine the topic name for data change, schema change, transaction, heartbeat event etc.",
+            "default" : "io.debezium.schema.SchemaTopicNamingStrategy",
             "type" : "string",
-            "x-name" : "transaction.topic",
+            "x-name" : "topic.naming.strategy",
             "x-category" : "ADVANCED"
           },
           "incremental.snapshot.chunk.size" : {
@@ -654,7 +637,7 @@
         },
         "additionalProperties" : true,
         "x-connector-id" : "postgres",
-        "x-version" : "1.9.7.Final",
+        "x-version" : "2.1.4.Final",
         "x-className" : "io.debezium.connector.postgresql.PostgresConnector"
       }
     }

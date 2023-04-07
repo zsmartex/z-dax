@@ -76,6 +76,24 @@ services:
     command: "./order_processor -p 9000"
 <% end %>
 
+<% if @config['daemons']['p2p'] -%>
+  p2p:
+    << : *peatio-daemon
+    command: "./p2p -p 9000"
+<% end %>
+
+<% if @config['daemons']['conversation'] -%>
+  conversation:
+    << : *peatio-daemon
+    command: "./conversation -p 9000"
+<% end %>
+
+<% if @config['daemons']['notify'] -%>
+  notify:
+    << : *peatio-daemon
+    command: "./notify -p 9000"
+<% end %>
+
 <% if @config['daemons']['withdraw'] -%>
   withdraw:
     << : *peatio-daemon

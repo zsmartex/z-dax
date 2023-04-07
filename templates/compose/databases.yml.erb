@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: debezium/postgres:14
+    image: debezium/postgres:15
     ports:
       - "5432:5432"
     volumes:
@@ -12,7 +12,7 @@ services:
      - POSTGRES_PASSWORD=zsmartex
 
   questdb:
-    image: questdb/questdb:6.6.1
+    image: questdb/questdb:7.1
     restart: always
     ports:
       - "8812:8812"
