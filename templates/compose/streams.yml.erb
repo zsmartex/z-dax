@@ -83,14 +83,14 @@ services:
     entrypoint: /bin/sh
     command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"
     labels:
-      - "traefik.http.routers.sync-<%= @name %>.rule=Host(`sync.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
-      - "traefik.http.services.sync-<%= @name %>.loadbalancer.server.port=8080"
+      - "traefik.http.routers.console-<%= @name %>.rule=Host(`console.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
+      - "traefik.http.services.console-<%= @name %>.loadbalancer.server.port=8080"
       - "traefik.enable=true"
       <%- if @config['ssl']['enabled'] -%>
-      - "traefik.http.routers.sync-<%= @name %>.entrypoints=websecure"
-      - "traefik.http.routers.sync-<%= @name %>.tls=true"
+      - "traefik.http.routers.console-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.console-<%= @name %>.tls=true"
       <%- else -%>
-      - "traefik.http.routers.sync-<%= @name %>.entrypoints=web"
+      - "traefik.http.routers.console-<%= @name %>.entrypoints=web"
       <%- end -%>
 
 volumes:

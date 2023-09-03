@@ -1,8 +1,8 @@
 ---
 app:
   name: Z-Dax
-  domain: zsmartex.com
-  subdomain: demo
+  domain: zsmartex.io
+  subdomain: www
 render_protect: false
 ssl:
   enabled: true
@@ -12,21 +12,22 @@ images:
   rango: zsmartex/rango
   kouda: zsmartex/kouda
   quantex: zsmartex/quantex
-  coverapp: zsmartex/coverapp:dev
+  coverapp: zsmartex/coverapp
   castle: zsmartex/castle:dev
   mobiapp: zsmartex/mobiapp:dev
+  mailer: zsmartex/mailer
 twilio:
   phone_number: "+14159153078"
   account_sid: AC7901e689bbbf1ad92409186ac9ef6f71
   auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
-  root_token: s.BEhOs13brODPCBOlVuvqhYfN
-  peatio_token: s.2v4yQS8BTV64UxWNEYB8wnHh
-  peatio_crypto_token: s.Agi4aQpo7QRqYlYpqsYWvzOD
-  barong_token: s.A9HUNRu4BMZyBGZxpX8BjCt3
-  quantex_token: s.oEjuqE5MwTiD750IbVyLssKN
-  quantex_runner_token: s.fHD3avYFOfELlEgqCUgIdEnD
+  root_token: s.rw3Uy3Q7Nwgsj5GEdus9k70w
+  peatio_token: s.spuLSaTvbmRiohcaxCKLgAOx
+  peatio_crypto_token: s.bQxuqcEWRRKVfPRJd233N1Bi
+  barong_token: s.6zHYkkfwVtWkcorcSSJkUIwW
+  quantex_token: s.tSgOkyVGSgeNanKEZZeqLu34
+  quantex_runner_token: s.dLLKQIRAIKKh7vca4ddvBzxm
 database:
   host: db
   port: 5432
@@ -36,11 +37,11 @@ recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: smtpout.secureserver.net
-  port: 587
-  user: business@system.zsmartex.com
-  password: gdx_?3XM.B5?QSD
-  sender_email: business@system.zsmartex.com
+  host: mail.spacemail.com
+  port: 465
+  user: business@zsmartex.io
+  password: 79c7952F-50E5-412c-a63f-350dA2F40FA3
+  sender_email: business@zsmartex.io
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:

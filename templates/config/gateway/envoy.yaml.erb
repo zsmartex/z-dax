@@ -34,7 +34,7 @@ static_resources:
                   prefix: "/api/v2/auth"
                 route:
                   cluster: barong
-                  prefix_rewrite: "/api/v2"
+                  prefix_rewrite: "/api"
               - match:
                   prefix: "/api/v2/trade"
                 route:
@@ -44,7 +44,7 @@ static_resources:
                   prefix: "/api/v2/kouda"
                 route:
                   cluster: kouda
-                  prefix_rewrite: "/api/v2"
+                  prefix_rewrite: "/api"
               - match:
                   prefix: "/api/v2/quantex"
                 route:
@@ -104,7 +104,7 @@ static_resources:
                     - exact: x-frame-options
                     - exact: x-request-id
                     - exact: x-cache
-                path_prefix: "/api/v2/auth"
+                path_prefix: "/api/auth"
                 server_uri:
                   cluster: barong
                   timeout: 1.000s

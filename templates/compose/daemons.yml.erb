@@ -126,7 +126,7 @@ services:
 
   mailer:
     restart: always
-    image: mailer
+    image: "<%= @config['images']['mailer'] %>"
     env_file:
       - ../config/mailer.env
     volumes:
