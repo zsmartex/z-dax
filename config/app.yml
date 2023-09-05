@@ -13,7 +13,7 @@ images:
   kouda: zsmartex/kouda
   quantex: zsmartex/quantex
   coverapp: zsmartex/coverapp
-  castle: zsmartex/castle:dev
+  castle: zsmartex/castle
   mobiapp: zsmartex/mobiapp:dev
   mailer: zsmartex/mailer
 twilio:

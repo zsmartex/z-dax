@@ -80,6 +80,8 @@ services:
   castle:
     image: "<%= @config['images']['castle'] %>"
     restart: always
+    env_file:
+      - ../config/castle.env
     labels:
       - "traefik.http.routers.castle-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/castle`)"
       - "traefik.http.services.castle-<%= @name %>.loadbalancer.server.port=3000"

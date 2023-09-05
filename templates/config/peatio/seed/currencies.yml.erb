@@ -1,7 +1,7 @@
-- id: usdt
-  name: Tether
+- id: btc
+  name: Bitcoin
   status: enabled
-  precision: 2
+  precision: 8
   position: 1
 
 - id: eth
@@ -9,24 +9,74 @@
   status: enabled
   precision: 8
   position: 2
-
-- id: btc
-  name: Bitcoin
-  status: enabled
-  precision: 8
-  position: 3
+  networks:
+    - blockchain_key: eth-testnet
+      deposit_enabled: true
+      withdraw_enabled: true
+      withdraw_fee: 0.00087
+      min_withdraw_amount: 0.0098
+      min_collection_amount: 0
+      subunits: 18
+      status: active
 
 - id: bnb
   name: Binance Coin
   status: enabled
   precision: 8
-  position: 4
+  position: 3
+  networks:
+    - blockchain_key: bsc-testnet
+      deposit_enabled: true
+      withdraw_enabled: true
+      withdraw_fee: 0.0005
+      min_withdraw_amount: 0.01
+      min_collection_amount: 0
+      subunits: 18
+      status: active
 
 - id: trx
   name: Tron
   status: enabled
   precision: 8
+  position: 4
+  networks:
+    - blockchain_key: tron-testnet
+      deposit_enabled: true
+      withdraw_enabled: true
+      withdraw_fee: 1
+      min_withdraw_amount: 15
+      min_collection_amount: 0
+      subunits: 6
+      status: active
+
+- id: usdt
+  name: Tether
+  status: enabled
+  precision: 2
   position: 5
+  networks:
+    - blockchain_key: bsc-testnet
+      parent_id: bnb
+      deposit_enabled: true
+      withdraw_enabled: true
+      withdraw_fee: 0.3
+      min_withdraw_amount: 6
+      min_collection_amount: 0
+      subunits: 18
+      status: active
+      options:
+        erc20_contract_address: 0x337610d27c682e347c9cd60bd4b3b107c9d34ddd
+    - blockchain_key: tron-testnet
+      parent_id: trx
+      deposit_enabled: true
+      withdraw_enabled: true
+      withdraw_fee: 1
+      min_withdraw_amount: 10
+      min_collection_amount: 0
+      subunits: 6
+      status: active
+      options:
+        trc20_contract_address: TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj
 
 - id: doge
   name: Dogecoin

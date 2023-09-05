@@ -1,0 +1,35 @@
+- name: Ethereum Testnet
+  key: eth-testnet
+  client: evm
+  server: https://rpc.ankr.com/eth_goerli
+  height: 9633693
+  min_confirmations: 3
+  status: active
+  explorer:
+    address: https://goerli.etherscan.io/address/#{address}
+    transaction: https://goerli.etherscan.io/tx/#{txid}
+  protocol: ERC20
+
+- name: Binance Smart Chain Testnet
+  key: bsc-testnet
+  client: evm
+  server: https://data-seed-prebsc-1-s1.binance.org:8545/
+  height: 33035743
+  min_confirmations: 3
+  status: active
+  explorer:
+    address: https://testnet.bscscan.com/address/#{address}
+    transaction: https://testnet.bscscan.com/tx/#{txid}
+  protocol: BEP20
+
+- name: Tron Nile Testnet
+  key: tron-testnet
+  client: tron
+  server: https://api.nileex.io/
+  height: 39865712
+  min_confirmations: 3
+  status: active
+  explorer:
+    address: https://nile.tronscan.org/#/address/#{address}
+    transaction: https://nile.tronscan.org/#/transaction/#{txid}
+  protocol: TRC20
