@@ -57,11 +57,10 @@ services:
       - ../data/cryptonodes/bsc:/home/erigon/.local/share/erigon
 
   tron:
-    image: zsmartex/tron-java:4.7.0.1
+    image: zsmartex/tron-java:v4.7.2
+    cpus: "1"
     ports:
       - 8090:8090
-      - 18888:18888
-      - 8091:8091
     volumes:
       - ../data/cryptonodes/tron:/data
     environment:

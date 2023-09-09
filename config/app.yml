@@ -22,12 +22,12 @@ twilio:
   auth_token: 4c352b45d1e5dc5af8335e97f16fff7e
   service_id: MG093ddefd24da33eb3f93ba1834981a61
 vault:
-  root_token: s.rw3Uy3Q7Nwgsj5GEdus9k70w
-  peatio_token: s.spuLSaTvbmRiohcaxCKLgAOx
-  peatio_crypto_token: s.bQxuqcEWRRKVfPRJd233N1Bi
-  barong_token: s.6zHYkkfwVtWkcorcSSJkUIwW
-  quantex_token: s.tSgOkyVGSgeNanKEZZeqLu34
-  quantex_runner_token: s.dLLKQIRAIKKh7vca4ddvBzxm
+  root_token: s.KJcTVhs76z9dEnf98DsFnHy4
+  peatio_token: s.6KoBxS4PBg4tZbZzofcSctJv
+  peatio_crypto_token: s.uQNB7EZiRNQoEwOytBYXg8vo
+  barong_token: s.2XapJXXzMoWJhSQmx3os5jOB
+  quantex_token: s.W2Vze3bC80G5S5FsWrLLv2jD
+  quantex_runner_token: s.VaVIB2eoElI7GcV35T3vere9
 database:
   host: db
   port: 5432
@@ -45,6 +45,8 @@ smtp:
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
+  deposit: true
+  blockchain: true
   deposit_address: true
   withdraw: true
   cron_jobs: true

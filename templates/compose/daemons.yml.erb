@@ -16,6 +16,22 @@ x-peatio-daemon: &peatio-daemon
     - ../config/peatio/abilities.yml:/app/config/abilities.yml:ro
 
 services:
+<% if @config['daemons']['deposit'] -%>
+  deposit:
+    << : *peatio-daemon
+    environment:
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
+    command: "./deposit"
+<% end -%>
+
+<% if @config['daemons']['blockchain'] -%>
+  blockchain:
+    << : *peatio-daemon
+    environment:
+      - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
+    command: "./blockchain"
+<% end -%>
+
 <% if @config['daemons']['cron_jobs'] -%>
   cron_jobs:
     << : *peatio-daemon
