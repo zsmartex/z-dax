@@ -37,11 +37,11 @@ recaptcha:
   siteKey: changeme
   secretKey: changeme
 smtp:
-  host: mail.spacemail.com
-  port: 465
-  user: business@zsmartex.io
-  password: 79c7952F-50E5-412c-a63f-350dA2F40FA3
-  sender_email: business@zsmartex.io
+  host: smtp.zoho.com
+  port: 587
+  user: admin@coincooper.com
+  password: NgEX9b23xmry
+  sender_email: admin@coincooper.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
 daemons:
