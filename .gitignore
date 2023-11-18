@@ -55,3 +55,4 @@ vendor/*
 !vendor/.gitkeep
 
 config/vault-secrets.yml
+.vscode
