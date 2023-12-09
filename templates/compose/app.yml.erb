@@ -19,7 +19,7 @@ services:
       - ../config/barong.env
     volumes:
       - ../config/secrets:/secrets:ro
-      - ../config/barong/seeds.yml:/app/config/seeds.yml:ro
+      - ../config/barong/seed:/app/config/seed:ro
       - ../config/barong/barong.yml:/app/config/barong.yml:ro
       - ../config/barong/authz_rules.yml:/app/config/authz_rules.yml:ro
     command: "./barong api -p 3000"
