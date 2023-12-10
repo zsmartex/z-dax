@@ -44,19 +44,18 @@ services:
   deposit_address:
     << : *peatio-daemon
     environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: "./deposit_address -p 9000"
-<% end -%>
-
-<% if @config['daemons']['market_ticker'] -%>
-  market_ticker:
-    << : *peatio-daemon
-    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/stream_daemon.rb market_ticker"
+    command: "./deposit_address"
 <% end -%>
 
 <% if @config['daemons']['trade_executor'] -%>
   trade_executor:
     << : *peatio-daemon
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
     command: "./trade_executor -p 9000"
 <% end %>
 
@@ -75,7 +74,10 @@ services:
 <% if @config['daemons']['code'] -%>
   code:
     << : *barong-daemon
-    command: "./code -p 9008"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9008
+    command: "./code"
 <% end %>
 
 <% if @config['daemons']['matching'] -%>
@@ -84,45 +86,65 @@ services:
     depends_on:
       - trade_executor
       - order_processor
-    command: "./matching -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./matching"
 <% end %>
 
 <% if @config['daemons']['order_processor'] -%>
   order_processor:
     << : *peatio-daemon
-    command: "./order_processor -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./order_processor"
 <% end %>
 
 <% if @config['daemons']['p2p'] -%>
   p2p:
     << : *peatio-daemon
-    command: "./p2p -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./p2p"
 <% end %>
 
 <% if @config['daemons']['conversation'] -%>
   conversation:
     << : *peatio-daemon
-    command: "./conversation -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./conversation"
 <% end %>
 
 <% if @config['daemons']['notify'] -%>
   notify:
     << : *peatio-daemon
-    command: "./notify -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./notify"
 <% end %>
 
 <% if @config['daemons']['withdraw'] -%>
   withdraw:
     << : *peatio-daemon
     environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
       - VAULT_TOKEN=<%= @config['vault']['peatio_crypto_token'] %>
-    command: "./withdraw -p 9000"
+    command: "./withdraw"
 <% end %>
 
 <% if @config['daemons']['peatio_grpc'] -%>
   peatio_grpc:
     << : *peatio-daemon
-    command: "./peatio grpc -p 9000"
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=9000
+    command: "./peatio grpc"
 <% end %>
 
   quantex_runner:
@@ -146,4 +168,5 @@ services:
     env_file:
       - ../config/mailer.env
     volumes:
-      -  ../config/mailer.yml:/app/config/mailer.yml
+      - ../config/mailer.yml:/app/config/mailer.yml
+      - ../config/mailer/templates:/app/templates

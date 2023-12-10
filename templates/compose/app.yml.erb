@@ -5,16 +5,21 @@ services:
     image: "<%= @config['images']['peatio'] %>"
     restart: always
     environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=3000
       - VAULT_TOKEN=<%= @config['vault']['peatio_token'] %>
     env_file:
       - ../config/peatio.env
     volumes:
       - ../config/peatio/seed:/app/config/seed:ro
       - ../config/peatio/abilities.yml:/app/config/abilities.yml:ro
-    command: "./peatio api -p 3000"
+    command: "./peatio api"
 
   barong:
     image: "<%= @config['images']['barong'] %>"
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=3000
     env_file:
       - ../config/barong.env
     volumes:
@@ -22,13 +27,13 @@ services:
       - ../config/barong/seed:/app/config/seed:ro
       - ../config/barong/barong.yml:/app/config/barong.yml:ro
       - ../config/barong/authz_rules.yml:/app/config/authz_rules.yml:ro
-    command: "./barong api -p 3000"
+    command: "./barong api"
 
   kouda:
     image: "<%= @config['images']['kouda'] %>"
     env_file:
       - ../config/kouda.env
-    command: "./kouda api -p 3000"
+    command: "./kouda api"
 
   rango:
     image: "<%= @config['images']['rango'] %>"
