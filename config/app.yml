@@ -44,6 +44,13 @@ smtp:
   sender_email: admin@coincooper.com
   sender_name: ZSmartex
   sender_logo: https://i.imgur.com/hPhSOgu.png
+object_storage:
+  bucket: zsmartex
+  endpoint: sgp1.digitaloceanspaces.com
+  region: sg1
+  access_key: DO00KNY6QY9WY74X3ULM
+  access_secret: 1oRKb2zH8H2VcgR4goLnC6r4DNQr7TfeSWsUKUCRQbo
+  version: 1
 daemons:
   deposit: true
   blockchain: true
